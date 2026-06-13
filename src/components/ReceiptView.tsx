@@ -57,6 +57,22 @@ export const ReceiptView: React.FC<ReceiptViewProps> = ({
     });
   };
 
+  const formatStampDate = (dateStr: string) => {
+    try {
+      const d = new Date(dateStr);
+      if (!isNaN(d.getTime())) {
+        const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+        const day = String(d.getDate()).padStart(2, '0');
+        const month = months[d.getMonth()];
+        const year = d.getFullYear();
+        return `${day} ${month} ${year}`;
+      }
+    } catch (e) {
+      // ignore
+    }
+    return dateStr;
+  };
+
   // Build simulated tax URL
   const kraVerificationUrl = buildVerificationUrl({
     kraPin: receipt.kraPin,
@@ -442,94 +458,111 @@ export const ReceiptView: React.FC<ReceiptViewProps> = ({
 
       {/* --- STAMP & SIGNATURE AUTOPLACEMENT PANELS --- */}
       {(receipt.showStamp || receipt.showSignatures) && (
-        <div className="mt-8 border-t border-gray-100 pt-6 relative min-h-[160px]">
-          
-          {/* Dynamic Vector Circular / Institutional Uploaded Stamp */}
-          {receipt.showStamp && (
-            <div className="absolute top-2 left-6 mix-blend-multiply opacity-90 pointer-events-none select-none rotate-2 transform transition-transform hover:rotate-6 duration-200">
-              {schoolConfig.schoolStampUrl || receipt.schoolStampUrl ? (
+        <div className="mt-8 border-t border-gray-100 pt-6 flex flex-col items-center justify-center">
+          <div className="relative select-none text-center transform hover:rotate-1 duration-200 transition-all">
+            {schoolConfig.schoolStampUrl || receipt.schoolStampUrl ? (
+              <div className="flex flex-col items-center">
                 <img 
                   src={schoolConfig.schoolStampUrl || receipt.schoolStampUrl || ''} 
                   alt="Official Compliance Stamp" 
-                  className="w-44 h-auto object-contain"
+                  className="w-56 h-auto object-contain mix-blend-multiply opacity-95 rotate-1 transform"
                   referrerPolicy="no-referrer"
                 />
-              ) : (
-                <svg width="120" height="120" viewBox="0 0 100 100" className="text-rose-600/90 fill-rose-600">
-                  <circle cx="50" cy="50" r="42" fill="none" stroke="currentColor" strokeWidth="3" strokeDasharray="90 2" />
-                  <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" strokeWidth="1" />
-                  <circle cx="50" cy="50" r="28" fill="none" stroke="currentColor" strokeWidth="1.5" />
-                  
-                  {/* Curved Stamp text */}
-                  <path id="stampPath" d="M 18,50 A 32,32 0 1,1 82,50" fill="none" />
-                  <path id="stampPath2" d="M 82,50 A 32,32 0 1,1 18,50" fill="none" />
-                  
-                  <text fill="currentColor" fontSize="6.5" fontWeight="bold" letterSpacing="0.4">
-                    <textPath href="#stampPath" startOffset="50%" textAnchor="middle">
-                      ROCKSIDE ACADEMY * NAIROBI
-                    </textPath>
-                  </text>
+                {receipt.showSignatures && (
+                  <div className="mt-2 font-serif text-[11px] font-bold text-slate-500 uppercase tracking-widest">
+                    Authorized Signatory
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="flex flex-col items-center select-none pointer-events-none">
+                <svg width="285" height="215" viewBox="0 0 280 210" className="mix-blend-multiply opacity-95">
+                  <defs>
+                    <filter id="rubberStampBleed" x="-10%" y="-10%" width="120%" height="120%">
+                      <feTurbulence type="fractalNoise" baseFrequency="0.14" numOctaves="3" result="noise" />
+                      <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.4" xChannelSelector="R" yChannelSelector="G" result="displaced" />
+                      <feGaussianBlur in="displaced" stdDeviation="0.15" result="blurred" />
+                      <feMerge>
+                        <feMergeNode in="blurred" />
+                        <feMergeNode in="SourceGraphic" opacity="0.3" />
+                      </feMerge>
+                    </filter>
+                  </defs>
 
-                  <text fill="currentColor" fontSize="6.5" fontWeight="bold" letterSpacing="0.4">
-                    <textPath href="#stampPath2" startOffset="50%" textAnchor="middle">
-                      {layoutMode === 'receipt' ? 'OFFICIAL CASH RECEIPT' : 'FEE INVOICE STATEMENT'}
-                    </textPath>
-                  </text>
+                  {/* Stamp box logo, borders and text */}
+                  {receipt.showStamp && (
+                    <g filter="url(#rubberStampBleed)">
+                      {/* Outer boundary blue ink box */}
+                      <rect x="10" y="10" width="260" height="145" rx="2" fill="none" stroke="#2563EB" strokeWidth="2.5" strokeOpacity="0.95" />
+                      
+                      {/* Left-side shield crest badge */}
+                      <g transform="translate(18, 22)" stroke="#2563EB" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none">
+                        <path d="M 0,0 L 22,0 C 22,0 22,14 22,19 C 22,27 11,35 11,35 C 11,35 0,27 0,19 C 0,14 0,0 0,0 Z" />
+                        <line x1="11" y1="0" x2="11" y2="35" strokeWidth="1" strokeDasharray="1.5 1.5" />
+                        <line x1="0" y1="16" x2="22" y2="16" strokeWidth="1" strokeDasharray="1.5 1.5" />
+                        <circle cx="11" cy="7" r="2.5" />
+                        <path d="M 3,24 Q 11,28 19,24" />
+                      </g>
 
-                  {/* Center of stamp */}
-                  <text x="50" y="44" textAnchor="middle" fill="currentColor" fontSize="7.5" fontWeight="black" letterSpacing="0.2">
-                    {layoutMode === 'receipt' ? 'APPROVED' : 'BILLED / DUE'}
-                  </text>
-                  <text x="50" y="53" textAnchor="middle" fill="currentColor" fontSize="7" fontWeight="bold" letterSpacing="0.1">
-                    {layoutMode === 'receipt' ? 'CASH OFFICE' : 'ACCOUNTS DEPT'}
-                  </text>
-                  
-                  {/* Simulated dynamic stamp audit date */}
-                  <text x="50" y="62" textAnchor="middle" fill="currentColor" fontSize="5.5" fontWeight="medium" fontStyle="italic">
-                    {receipt.date}
-                  </text>
+                      {/* Header lines inside rubber seal */}
+                      <g fontFamily="system-ui, -apple-system, sans-serif" textAnchor="middle" fill="#2563EB">
+                        <text x="150" y="28" fontSize="12.5" fontWeight="950" letterSpacing="0.4">ROCKSIDE ACADEMY</text>
+                        <text x="150" y="42" fontSize="7.5" fontWeight="bold" letterSpacing="0.1">P.O. Box 3735 - 00200, NAIROBI</text>
+                        <text x="150" y="52" fontSize="7" fontWeight="bold" letterSpacing="0.05">Tel: 0718 164141, 0734 808355</text>
+                      </g>
+
+                      {/* Red Dater Seal (Drawn rotated for authentic physical realism) */}
+                      <g transform="translate(136, 85) rotate(-0.5)" textAnchor="middle">
+                        <text fontFamily="'Courier New', Courier, monospace" fontSize="17.5" fontWeight="950" fill="#E11D48" letterSpacing="1.2" fillOpacity="0.95">
+                          {formatStampDate(receipt.date)}
+                        </text>
+                      </g>
+
+                      {/* Bottom designation credentials */}
+                      <g fontFamily="system-ui, -apple-system, sans-serif" textAnchor="middle" fill="#2563EB">
+                        <text x="140" y="118" fontSize="10" fontWeight="900" letterSpacing="0.4">ADMINISTRATION MANAGER</text>
+                        <text x="140" y="130" fontSize="7.5" fontWeight="bold">info@rocksideacademy.sc.ke</text>
+                      </g>
+                    </g>
+                  )}
+
+                  {/* Scribbled black ink cursive authorization signature passing through bottom border */}
+                  {receipt.showSignatures && (
+                    <g filter="url(#rubberStampBleed)">
+                      <path 
+                        d="M 35,178 
+                           Q 65,168 85,160 
+                           Q 98,150 108,162 
+                           Q 115,178 102,185 
+                           C 92,190 80,172 95,155 
+                           L 215,155 
+                           M 120,150 L 148,150" 
+                        fill="none" 
+                        stroke="#0F172A" 
+                        strokeWidth="2.5" 
+                        strokeLinecap="round" 
+                        strokeLinejoin="round" 
+                        opacity="0.92" 
+                      />
+                      
+                      <text 
+                        x="132" 
+                        y="196" 
+                        fontFamily="system-ui, -apple-system, sans-serif" 
+                        fontSize="8" 
+                        fontWeight="bold" 
+                        fill="#475569" 
+                        textAnchor="middle" 
+                        letterSpacing="0.2"
+                      >
+                        Authorized Signature
+                      </text>
+                    </g>
+                  )}
                 </svg>
-              )}
-            </div>
-          )}
-
-          {/* Handwriting Signatures lines */}
-          {receipt.showSignatures && (
-            <div className="grid grid-cols-3 gap-6 text-center text-xs mt-10">
-              
-              <div className="space-y-1">
-                <div className="h-8 font-serif italic text-primary-700/80 text-base font-bold flex items-end justify-center">
-                  {receipt.bursarSignature || '—'}
-                </div>
-                <div className="border-t border-gray-300 pt-1 font-semibold text-gray-500 uppercase tracking-widest text-[9px]">
-                  Bursar Signatory
-                </div>
-                <div className="text-[9px] text-gray-400 font-mono">Date: {receipt.date}</div>
               </div>
-
-              <div className="space-y-1">
-                <div className="h-8 font-serif italic text-primary-700/80 text-base font-bold flex items-end justify-center">
-                  {receipt.accountantSignature || '—'}
-                </div>
-                <div className="border-t border-gray-300 pt-1 font-semibold text-gray-500 uppercase tracking-widest text-[9px]">
-                  Lead Accountant
-                </div>
-                <div className="text-[9px] text-gray-400 font-mono">Date: {receipt.date}</div>
-              </div>
-
-              <div className="space-y-1">
-                <div className="h-8 font-serif italic text-rose-700/85 text-base font-bold flex items-end justify-center">
-                  {receipt.principalSignature || '—'}
-                </div>
-                <div className="border-t border-gray-300 pt-1 font-semibold text-gray-500 uppercase tracking-widest text-[9px]">
-                  Principal Approval
-                </div>
-                <div className="text-[9px] text-gray-400 font-mono">Status: Verified</div>
-              </div>
-
-            </div>
-          )}
-
+            )}
+          </div>
         </div>
       )}
 
