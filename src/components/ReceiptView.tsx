@@ -271,11 +271,19 @@ export const ReceiptView: React.FC<ReceiptViewProps> = ({
             Student / Parent Profile
           </h3>
           <div className="grid grid-cols-3 gap-y-1.5 gap-x-2">
-            <span className="font-semibold text-gray-500">Student:</span>
-            <span className="col-span-2 font-bold text-gray-900">{receipt.studentName || 'Not Set'}</span>
+            {receipt.studentName && (
+              <>
+                <span className="font-semibold text-gray-500">Student:</span>
+                <span className="col-span-2 font-bold text-gray-900">{receipt.studentName}</span>
+              </>
+            )}
 
-            <span className="font-semibold text-gray-500">Adm No:</span>
-            <span className="col-span-2 font-semibold font-mono text-primary-600">{receipt.admissionNo || 'Not Set'}</span>
+            {receipt.admissionNo && (
+              <>
+                <span className="font-semibold text-gray-500">Adm No:</span>
+                <span className="col-span-2 font-semibold font-mono text-primary-600">{receipt.admissionNo}</span>
+              </>
+            )}
 
             <span className="font-semibold text-gray-500">Class Block:</span>
             <span className="col-span-2 font-semibold text-gray-800">{receipt.studentClass}</span>

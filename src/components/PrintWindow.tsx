@@ -303,8 +303,8 @@ export const PrintWindow: React.FC<PrintWindowProps> = ({
       
       <div class="meta-card">
         <div class="meta-title">Student Profile</div>
-        <div class="meta-row"><span class="meta-label">Student:</span><span class="meta-val">${receipt.studentName}</span></div>
-        <div class="meta-row"><span class="meta-label">Adm No:</span><span class="meta-val">${receipt.admissionNo}</span></div>
+        ${receipt.studentName ? `<div class="meta-row"><span class="meta-label">Student:</span><span class="meta-val">${receipt.studentName}</span></div>` : ''}
+        ${receipt.admissionNo ? `<div class="meta-row"><span class="meta-label">Adm No:</span><span class="meta-val">${receipt.admissionNo}</span></div>` : ''}
         <div class="meta-row"><span class="meta-label">Class:</span><span class="meta-val">${receipt.studentClass}</span></div>
         <div class="meta-row"><span class="meta-label">Payment:</span><span class="meta-val">${receipt.paymentMode} (${receipt.paymentRef || 'N/A'})</span></div>
       </div>
@@ -540,8 +540,7 @@ Invoice No: ${receipt.invoiceNo}
 Date: ${formatETRDate(receipt.date)}
 Time: ${receipt.time}
 
-Student Name: ${receipt.studentName || 'Not Specified'}
-Grade: ${receipt.studentGrade || receipt.studentClass || '5'}
+${receipt.studentName ? `Student Name: ${receipt.studentName}\n` : ''}${receipt.admissionNo ? `Adm No: ${receipt.admissionNo}\n` : ''}Grade: ${receipt.studentGrade || receipt.studentClass || '5'}
 Parent/Guardian: ${receipt.parentName || 'Not Specified'}
 
 ----------------------------------------------------------
