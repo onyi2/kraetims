@@ -1,0 +1,6 @@
+{
+  "name": "Kenya eTIMS School Receipt Generator",
+  "description": "Professional School Billing, Receipt Generator, KRA eTIMS Tax Compliance Simulator, and High-Resolution PDF Printing System.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
