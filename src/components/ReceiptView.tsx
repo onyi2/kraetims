@@ -361,8 +361,7 @@ export const ReceiptView: React.FC<ReceiptViewProps> = ({
               </div>
             )}
             <div className="pt-2 text-[10px] text-gray-400 font-mono">
-              MOE License: {schoolConfig.schoolRegNo}<br />
-              Generated via Active Bursar Node {receipt.generatedBy}
+              MOE License: {schoolConfig.schoolRegNo}
             </div>
           </div>
         </div>
@@ -668,8 +667,7 @@ export const ReceiptView: React.FC<ReceiptViewProps> = ({
 
       {/* --- REASSURING TAX COMPLIANCE DISCLAIMER --- */}
       <div className="mt-8 border-t border-gray-100 pt-4 text-[10px] text-gray-400 text-center leading-relaxed">
-        This is a fully verified electronic KRA tax invoice digital statement secure copy.<br />
-        Powering Kenyan general education institutions billing networks with digital excellence and transparent fiscal auditing.
+        This is a fully verified electronic KRA tax invoice digital statement secure copy.
       </div>
 
     </div>

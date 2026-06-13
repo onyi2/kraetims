@@ -496,7 +496,7 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
                     setReceipt(prev => ({ 
                       ...prev, 
                       studentGrade: gr,
-                      studentClass: `${gr} ${prev.studentStream}`
+                      studentClass: prev.studentStream === 'N/A' ? gr : `${gr} ${prev.studentStream}`
                     }));
                   }}
                   className="w-full text-xs px-3 py-2 bg-gray-50 rounded-xl border border-gray-200 focus:bg-white"
@@ -523,7 +523,7 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
                     setReceipt(prev => ({ 
                       ...prev, 
                       studentStream: st,
-                      studentClass: `${prev.studentGrade} ${st}`
+                      studentClass: st === 'N/A' ? prev.studentGrade : `${prev.studentGrade} ${st}`
                     }));
                   }}
                   className="w-full text-xs px-3 py-2 bg-gray-50 rounded-xl border border-gray-200 focus:bg-white"
@@ -532,6 +532,7 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
                   <option value="East">East</option>
                   <option value="North">North</option>
                   <option value="South">South</option>
+                  <option value="N/A">N/A</option>
                 </select>
               </div>
 

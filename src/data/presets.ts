@@ -24,40 +24,40 @@ export const defaultSchoolConfig: SchoolConfig = {
 // Complete product and fees catalogs loaded from Rockside Academy specs
 export const productPresets: ProductPreset[] = [
   // --- GRADE 2 UNIFORMS ---
-  { id: 'g2u-dress', description: 'G2 Uniform Dress', category: 'Uniforms', unitPrice: 700, grade: 'Grade 2' },
-  { id: 'g2u-sweater', description: 'G2 Uniform Sweater', category: 'Uniforms', unitPrice: 900, grade: 'Grade 2' },
-  { id: 'g2u-shirt', description: 'G2 Uniform Shirt', category: 'Uniforms', unitPrice: 500, grade: 'Grade 2' },
-  { id: 'g2u-socks', description: 'G2 Uniform Socks (Pair)', category: 'Uniforms', unitPrice: 200, grade: 'Grade 2' },
-  { id: 'g2u-fleece', description: 'G2 Fleece Jacket', category: 'Uniforms', unitPrice: 2000, grade: 'Grade 2' },
-  { id: 'g2u-tracksuit', description: 'G2 Sports Tracksuit', category: 'Uniforms', unitPrice: 1500, grade: 'Grade 2' },
-  { id: 'g2u-tshirt', description: 'G2 Sports T-Shirt', category: 'Uniforms', unitPrice: 600, grade: 'Grade 2' },
+  { id: 'g2u-dress', description: 'Uniform Dress', category: 'Uniforms', unitPrice: 700, grade: 'Grade 2' },
+  { id: 'g2u-sweater', description: 'Uniform Sweater', category: 'Uniforms', unitPrice: 900, grade: 'Grade 2' },
+  { id: 'g2u-shirt', description: 'Uniform Shirt', category: 'Uniforms', unitPrice: 500, grade: 'Grade 2' },
+  { id: 'g2u-socks', description: 'Uniform Socks (Pair)', category: 'Uniforms', unitPrice: 200, grade: 'Grade 2' },
+  { id: 'g2u-fleece', description: 'Fleece Jacket', category: 'Uniforms', unitPrice: 2000, grade: 'Grade 2' },
+  { id: 'g2u-tracksuit', description: 'Sports Tracksuit', category: 'Uniforms', unitPrice: 1500, grade: 'Grade 2' },
+  { id: 'g2u-tshirt', description: 'Sports T-Shirt', category: 'Uniforms', unitPrice: 600, grade: 'Grade 2' },
   { id: 'g2u-bag', description: 'Rockside Branded School Bag', category: 'Uniforms', unitPrice: 2500, grade: 'Grade 2' },
   { id: 'g2u-shoes', description: 'Bata School Shoes Black', category: 'Uniforms', unitPrice: 2499, grade: 'Grade 2' },
 
   // --- GRADE 5 UNIFORMS ---
-  { id: 'g5u-dress', description: 'G5 Uniform Dress', category: 'Uniforms', unitPrice: 750, grade: 'Grade 5' },
-  { id: 'g5u-sweater', description: 'G5 Uniform Sweater', category: 'Uniforms', unitPrice: 950, grade: 'Grade 5' },
-  { id: 'g5u-shirt', description: 'G5 Uniform Shirt', category: 'Uniforms', unitPrice: 550, grade: 'Grade 5' },
-  { id: 'g5u-socks', description: 'G5 Uniform Socks (Pair)', category: 'Uniforms', unitPrice: 200, grade: 'Grade 5' },
-  { id: 'g5u-fleece', description: 'G5 Fleece Jacket', category: 'Uniforms', unitPrice: 2000, grade: 'Grade 5' },
-  { id: 'g5u-tracksuit', description: 'G5 Sports Tracksuit', category: 'Uniforms', unitPrice: 1500, grade: 'Grade 5' },
-  { id: 'g5u-tshirt', description: 'G5 Sports T-Shirt', category: 'Uniforms', unitPrice: 600, grade: 'Grade 5' },
+  { id: 'g5u-dress', description: 'Uniform Dress', category: 'Uniforms', unitPrice: 750, grade: 'Grade 5' },
+  { id: 'g5u-sweater', description: 'Uniform Sweater', category: 'Uniforms', unitPrice: 950, grade: 'Grade 5' },
+  { id: 'g5u-shirt', description: 'Uniform Shirt', category: 'Uniforms', unitPrice: 550, grade: 'Grade 5' },
+  { id: 'g5u-socks', description: 'Uniform Socks (Pair)', category: 'Uniforms', unitPrice: 200, grade: 'Grade 5' },
+  { id: 'g5u-fleece', description: 'Fleece Jacket', category: 'Uniforms', unitPrice: 2000, grade: 'Grade 5' },
+  { id: 'g5u-tracksuit', description: 'Sports Tracksuit', category: 'Uniforms', unitPrice: 1500, grade: 'Grade 5' },
+  { id: 'g5u-tshirt', description: 'Sports T-Shirt', category: 'Uniforms', unitPrice: 600, grade: 'Grade 5' },
   { id: 'g5u-bag', description: 'Rockside Branded School Bag L', category: 'Uniforms', unitPrice: 2500, grade: 'Grade 5' },
   { id: 'g5u-shoes', description: 'Bata School Shoes Premium', category: 'Uniforms', unitPrice: 2799, grade: 'Grade 5' },
 
   // --- GRADE 2 BOOKS ---
-  { id: 'g2b-mwanga', description: 'Mwanga wa Kiswahili G2', category: 'Books', unitPrice: 965, grade: 'Grade 2' },
-  { id: 'g2b-kisw-wb', description: 'Kiswahili Workbook G2', category: 'Books', unitPrice: 625, grade: 'Grade 2' },
-  { id: 'g2b-environ', description: 'Longhorn Environmental Activities G2', category: 'Books', unitPrice: 925, grade: 'Grade 2' },
-  { id: 'g2b-creative', description: 'Mentor Creative Activities G2', category: 'Books', unitPrice: 895, grade: 'Grade 2' },
+  { id: 'g2b-mwanga', description: 'Mwanga wa Kiswahili', category: 'Books', unitPrice: 965, grade: 'Grade 2' },
+  { id: 'g2b-kisw-wb', description: 'Kiswahili Workbook', category: 'Books', unitPrice: 625, grade: 'Grade 2' },
+  { id: 'g2b-environ', description: 'Longhorn Environmental Activities', category: 'Books', unitPrice: 925, grade: 'Grade 2' },
+  { id: 'g2b-creative', description: 'Mentor Creative Activities', category: 'Books', unitPrice: 895, grade: 'Grade 2' },
 
   // --- GRADE 5 BOOKS ---
-  { id: 'g5b-maths', description: 'Maths Tops Extension Workbook G5', category: 'Books', unitPrice: 760, grade: 'Grade 5' },
-  { id: 'g5b-kipeo', description: 'Kipeo Cha Kiswahili Textbook G5', category: 'Books', unitPrice: 785, grade: 'Grade 5' },
-  { id: 'g5b-kisw-wb', description: 'Kiswahili Tops Extension Workbook G5', category: 'Books', unitPrice: 760, grade: 'Grade 5' },
-  { id: 'g5b-creative', description: 'Spotlight Creative Activities G5', category: 'Books', unitPrice: 990, grade: 'Grade 5' },
-  { id: 'g5b-english', description: 'English: The Turning Point G5', category: 'Books', unitPrice: 470, grade: 'Grade 5' },
-  { id: 'g5b-musa', description: 'Kiswahili Hatima ya Musa Reader G5', category: 'Books', unitPrice: 465, grade: 'Grade 5' },
+  { id: 'g5b-maths', description: 'Maths Tops Extension Workbook', category: 'Books', unitPrice: 760, grade: 'Grade 5' },
+  { id: 'g5b-kipeo', description: 'Kipeo Cha Kiswahili Textbook', category: 'Books', unitPrice: 785, grade: 'Grade 5' },
+  { id: 'g5b-kisw-wb', description: 'Kiswahili Tops Extension Workbook', category: 'Books', unitPrice: 760, grade: 'Grade 5' },
+  { id: 'g5b-creative', description: 'Spotlight Creative Activities', category: 'Books', unitPrice: 990, grade: 'Grade 5' },
+  { id: 'g5b-english', description: 'English: The Turning Point', category: 'Books', unitPrice: 470, grade: 'Grade 5' },
+  { id: 'g5b-musa', description: 'Kiswahili Hatima ya Musa Reader', category: 'Books', unitPrice: 465, grade: 'Grade 5' },
 
   // --- GENERAL SERVICES ---
   { id: 'fees-tuition', description: 'Tuition Fees (Termly)', category: 'School Fees', unitPrice: 28500, grade: 'General' },
@@ -149,7 +149,7 @@ export const getInitialMockReceipts = (): Receipt[] => {
       items: [
         {
           id: "item-1a",
-          description: "G2 Uniform Dress",
+          description: "Uniform Dress",
           category: "Uniforms",
           quantity: 2,
           unitPrice: 700,
@@ -161,7 +161,7 @@ export const getInitialMockReceipts = (): Receipt[] => {
         },
         {
           id: "item-1b",
-          description: "G2 Uniform Sweater",
+          description: "Uniform Sweater",
           category: "Uniforms",
           quantity: 1,
           unitPrice: 900,
@@ -173,7 +173,7 @@ export const getInitialMockReceipts = (): Receipt[] => {
         },
         {
           id: "item-1c",
-          description: "Mwanga wa Kiswahili G2",
+          description: "Mwanga wa Kiswahili",
           category: "Books",
           quantity: 1,
           unitPrice: 965,
@@ -301,7 +301,7 @@ export const getInitialMockReceipts = (): Receipt[] => {
       items: [
         {
           id: "item-3a",
-          description: "G5 Fleece Jacket",
+          description: "Fleece Jacket",
           category: "Uniforms",
           quantity: 1,
           unitPrice: 2000,
@@ -313,7 +313,7 @@ export const getInitialMockReceipts = (): Receipt[] => {
         },
         {
           id: "item-3b",
-          description: "Maths Tops Extension Workbook G5",
+          description: "Maths Tops Extension Workbook",
           category: "Books",
           quantity: 1,
           unitPrice: 760,
@@ -325,7 +325,7 @@ export const getInitialMockReceipts = (): Receipt[] => {
         },
         {
           id: "item-3c",
-          description: "Kipeo Cha Kiswahili Textbook G5",
+          description: "Kipeo Cha Kiswahili Textbook",
           category: "Books",
           quantity: 1,
           unitPrice: 785,
@@ -383,7 +383,7 @@ export const getInitialMockReceipts = (): Receipt[] => {
       items: [
         {
           id: "item-4a",
-          description: "G2 Uniform Tracksuit",
+          description: "Uniform Tracksuit",
           category: "Uniforms",
           quantity: 1,
           unitPrice: 1500,
