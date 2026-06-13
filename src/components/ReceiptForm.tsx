@@ -1121,6 +1121,32 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
               </div>
             </div>
 
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
+                  Receipt / Stamp Date
+                </label>
+                <input
+                  type="date"
+                  value={receipt.date}
+                  onChange={(e) => setReceipt(prev => ({ ...prev, date: e.target.value }))}
+                  className="w-full text-xs px-3.5 py-2.5 bg-gray-50 rounded-xl border border-gray-200 focus:bg-white"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5 font-mono">
+                  Receipt / Stamp Time
+                </label>
+                <input
+                  type="time"
+                  value={receipt.time}
+                  onChange={(e) => setReceipt(prev => ({ ...prev, time: e.target.value }))}
+                  className="w-full text-xs px-3.5 py-2.5 bg-gray-50 rounded-xl border border-gray-200 focus:bg-white font-mono"
+                />
+              </div>
+            </div>
+
             {receipt.status !== 'Paid' && (
               <div>
                 <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
