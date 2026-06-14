@@ -267,7 +267,7 @@ export const ReceiptView: React.FC<ReceiptViewProps> = ({
           </p>
           
           <div className="text-xs text-gray-500 font-medium pt-1 space-y-0.5">
-            <div>{schoolConfig.address} • P.O. BOX NAIROBI</div>
+            <div>{schoolConfig.address}</div>
             <div>Physical: {schoolConfig.postalAddress}</div>
             
             <div className="flex flex-wrap justify-center md:justify-start gap-x-4 gap-y-1 pt-1 text-[11px] font-mono text-gray-600">
