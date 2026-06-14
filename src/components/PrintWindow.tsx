@@ -36,6 +36,152 @@ export const PrintWindow: React.FC<PrintWindowProps> = ({
   const [isDownloading, setIsDownloading] = useState(false);
   const [layoutMode, setLayoutMode] = useState<'receipt' | 'invoice'>('receipt');
 
+  // 44-character exact alignment helpers for eTIMS thermals
+  const padRight = (str: string, len: number) => {
+    if (str.length > len) return str.substring(0, len);
+    return str + " ".repeat(len - str.length);
+  };
+
+  const padLeft = (str: string, len: number) => {
+    if (str.length > len) return str.substring(0, len);
+    return " ".repeat(len - str.length) + str;
+  };
+
+  const centerText = (str: string, width: number = 44) => {
+    if (str.length >= width) return str.substring(0, width);
+    const leftPad = Math.floor((width - str.length) / 2);
+    const rightPad = width - str.length - leftPad;
+    return " ".repeat(leftPad) + str + " ".repeat(rightPad);
+  };
+
+  const formatNumericDate = (dateStr: string) => {
+    try {
+      const d = new Date(dateStr);
+      if (!isNaN(d.getTime())) {
+        const day = String(d.getDate()).padStart(2, '0');
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const year = d.getFullYear();
+        return `${day}-${month}-${year}`;
+      }
+    } catch (e) {}
+    return dateStr;
+  };
+
+  const formatTime12h = (timeStr: string) => {
+    try {
+      if (!timeStr) return '';
+      const parts = timeStr.split(':');
+      if (parts.length >= 2) {
+        let hours = parseInt(parts[0], 10);
+        const mins = parts[1];
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+        return `${String(hours).padStart(2, '0')}:${parts[1].substring(0, 2)} ${ampm}`;
+      }
+    } catch (e) {}
+    return timeStr;
+  };
+
+  const formatItemLine = (desc: string, qty: number, rate: number, total: number) => {
+    const dStr = desc.substring(0, 20);
+    const qStr = qty.toString();
+    const rStr = rate.toLocaleString('en-US', { minimumFractionDigits: 2 });
+    const tStr = total.toLocaleString('en-US', { minimumFractionDigits: 2 });
+    return padRight(dStr, 20) + padLeft(qStr, 3) + padLeft(rStr, 10) + padLeft(tStr, 11);
+  };
+
+  const formatTotalLine = (label: string, amount: number) => {
+    const left = label;
+    const right = amount.toLocaleString('en-US', { minimumFractionDigits: 2 });
+    const padLen = 44 - left.length - right.length;
+    const paddingSpace = padLen > 0 ? " ".repeat(padLen) : " ";
+    return `${left}${paddingSpace}${right}`;
+  };
+
+  const formatTwoColumn = (left: string, right: string, width: number = 44) => {
+    const padLen = width - left.length - right.length;
+    if (padLen > 0) {
+      return left + " ".repeat(padLen) + right;
+    }
+    return left + " " + right;
+  };
+
+  const doubleSeparator = "============================================";
+  const singleSeparator = "--------------------------------------------";
+
+  const schoolNameLine = centerText((schoolConfig.name || "ROCKSIDE ACADEMY").toUpperCase(), 44);
+  
+  let schoolBoxAddress = schoolConfig.address;
+  if (!schoolBoxAddress.toUpperCase().includes("BOX")) {
+    schoolBoxAddress = `P.O. Box ${schoolConfig.postalAddress || "3735-00200"}, Nairobi, Kenya`;
+  }
+  const schoolAddressLine = centerText(schoolBoxAddress, 44);
+  const phoneAndEmail = `TEL: ${schoolConfig.phone1} | ${schoolConfig.email}`;
+  const phoneAndEmailLine = centerText(phoneAndEmail, 44);
+  const kraPinLine = centerText(`KRA PIN: ${receipt.kraPin || schoolConfig.kraPin || "P000000000E"}`, 44);
+
+  const receiptNoFormatted = `RECEIPT NO: ${receipt.receiptNo}`;
+  const dateFormatted = `DATE: ${formatNumericDate(receipt.date)}`;
+  const metaLine1 = formatTwoColumn(receiptNoFormatted, dateFormatted, 44);
+
+  const timeFormatted = `TIME: ${formatTime12h(receipt.time)}`;
+  const receiptSignShort = (receipt.receiptSignature || "XXXXX").substring(0, 10).toUpperCase();
+  const rSignFormatted = `RECEIPT SIGN: ${receiptSignShort}`;
+  const metaLine2 = formatTwoColumn(timeFormatted, rSignFormatted, 44);
+
+  const metaLine3 = `CU INVOICE NO: ${receipt.invoiceNo?.startsWith('INV') ? receipt.invoiceNo.replace('INV-', 'KRA00') : receipt.invoiceNo?.toUpperCase() || 'KRA0012345678910'}`;
+
+  const itemHeader = padRight("ITEM DESCRIPTION", 20) + padLeft("QTY", 3) + padLeft("RATE(KES)", 10) + padLeft("TOTAL(KES)", 11);
+
+  const itemsLines = receipt.items.map(itm => 
+    formatItemLine(itm.description, itm.quantity, itm.unitPrice, itm.total)
+  ).join('\n');
+
+  const totalExclLine = formatTotalLine("TOTAL EXCL. TAX:", receipt.subtotal - receipt.discountTotal);
+  const totalVATLine = formatTotalLine("TOTAL VAT (16%):", receipt.taxTotal);
+  const totalAmountLine = formatTotalLine("TOTAL AMOUNT:", receipt.grandTotal);
+
+  const paymentMethodLine = `PAYMENT METHOD: ${receipt.paymentMode.toUpperCase()}`;
+  const paymentTxLabel = receipt.paymentMode.toUpperCase() === 'M-PESA' ? 'M-PESA TRANS ID' : 'TRANS ID';
+  const paymentTxLine = receipt.paymentRef ? `${paymentTxLabel}: ${receipt.paymentRef.toUpperCase()}` : null;
+  const accountLine = receipt.admissionNo ? `ACCOUNT/ADM NO: ${receipt.admissionNo}` : null;
+  const studentLine = receipt.studentName ? `STUDENT NAME: ${receipt.studentName}` : null;
+
+  const paymentSection = [
+    paymentMethodLine,
+    ...(paymentTxLine ? [paymentTxLine] : []),
+    ...(accountLine ? [accountLine] : []),
+    ...(studentLine ? [studentLine] : [])
+  ].join('\n');
+
+  const docFooterLine1 = centerText("THIS IS A VALID COMPUTER-GENERATED DOCUMENT", 44);
+  const docFooterLine2 = centerText("ISSUED UNDER THE KENYA REVENUE AUTHORITY eTIMS", 44);
+
+  const exactReceiptText = `${doubleSeparator}
+${schoolNameLine}
+${schoolAddressLine}
+${phoneAndEmailLine}
+${kraPinLine}
+${doubleSeparator}
+${metaLine1}
+${metaLine2}
+${metaLine3}
+${doubleSeparator}
+${itemHeader}
+${singleSeparator}
+${itemsLines}
+${singleSeparator}
+${totalExclLine}
+${totalVATLine}
+${doubleSeparator}
+${totalAmountLine}
+${doubleSeparator}
+${paymentSection}
+${doubleSeparator}
+${docFooterLine1}
+${docFooterLine2}`;
+
   const formatKES = (val: number) => {
     return new Intl.NumberFormat('en-KE', { 
       style: 'currency', 
@@ -85,17 +231,140 @@ export const PrintWindow: React.FC<PrintWindowProps> = ({
     };
   }, []);
 
-  // Generates a fully compiled standalone A4 HTML file as fallback download simulating PDF output
+  // Generates a fully compiled standalone file as fallback download simulating PDF output
   const handleSimulatePDFDownload = () => {
     setIsDownloading(true);
     
     setTimeout(() => {
       // Create clean filename based on guidelines: ReceiptNumber_StudentName_Date.pdf
-      const cleanStudentName = receipt.studentName.replace(/[^a-zA-Z0-9]/g, "_");
+      const cleanStudentName = (receipt.studentName || 'receipt').replace(/[^a-zA-Z0-9]/g, "_");
       const filename = `${receipt.receiptNo}_${cleanStudentName}_${receipt.date}.html`;
 
-      // Build extreme standalone full-css printable HTML source
-      const standaloneHTML = `
+      let standaloneHTML = '';
+
+      if (paperLayout === '80mm') {
+        standaloneHTML = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Receipt ${receipt.receiptNo} - Rockside Academy</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+    body {
+      font-family: 'JetBrains Mono', monospace;
+      background-color: #f3f4f6;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+    .receipt-card {
+      background-color: white;
+      width: 380px;
+      padding: 24px;
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+    }
+    pre {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11.5px;
+      line-height: 1.35;
+      color: #111827;
+      margin: 0;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+    .qr-container {
+      margin-top: 15px;
+      margin-bottom: 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      background-color: #fafafa;
+      padding: 12px;
+      border: 1px dashed #e5e7eb;
+      border-radius: 6px;
+    }
+    .qr-text {
+      font-size: 8px;
+      font-weight: bold;
+      color: #4b5563;
+      letter-spacing: 0.1em;
+    }
+    .print-btn {
+      display: block;
+      width: 100%;
+      text-align: center;
+      background-color: #111827;
+      color: white;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: bold;
+      text-decoration: none;
+      margin-top: 15px;
+    }
+    @media print {
+      @page {
+        size: 80mm auto;
+        margin: 0;
+      }
+      body {
+        background-color: white;
+        padding: 0;
+        margin: 0;
+      }
+      .receipt-card {
+        width: 80mm;
+        box-shadow: none;
+        border: none;
+        border-radius: 0;
+        padding: 4mm;
+      }
+      .print-btn {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="receipt-card">
+    <pre>${exactReceiptText}</pre>
+    
+    <div class="qr-container">
+      <svg width="120" height="120" viewBox="0 0 29 29" shape-rendering="crispEdges" style="image-rendering: pixelated;">
+        <path fill="#ffffff" d="M0,0 h29 v29 h-29 z" />
+        <path fill="#000000" d="M0,0 h7 v1 h-7 z M22,0 h7 v1 h-7 z M0,1 h1 v5 h-1 z M6,1 h1 v5 h-1 z M22,1 h1 v5 h-1 z M28,1 h1 v5 h-1 z M0,2 h1 v1 h1 v-1 h1 v1 h1 v-1 h1 v1 h-1 z M8,2 h2 v1 h-2 z M14,2 h3 v1 h-3 z M22,2 h1 v1 h1 v-1 h1 v1 h1 v-1 h1 v1 h-1 z M0,3 h1 v1 h-1 z M6,3 h1 v1 h-1 z M22,3 h1 v1 h-1 z M28,3 h1 v1 h-1 z M0,4 h1 v1 h-1 z M6,4 h1 v1 h-1 z M22,4 h1 v1 h-1 z M28,4 h1 v1 h-1 z M0,5 h1 v1 h-1 z M6,5 h1 v1 h-1 z M22,5 h1 v1 h-1 z M28,5 h1 v1 h-1 z M0,6 h7 v1 h-7 z M22,6 h7 v1 h-7 z M8,7 h1 v1 h1 v-1 z M13,7 h1 v2 h-1 z M19,7 h2 v1 h-2 z M0,8 h5 v1 h-5 z M25,8 h3 v1 h-3 z M1,9 h2 v1 h-2 z M8,9 h3 v1 h-3 z M16,9 h1 v1 h-1 z M23,9 h2 v1 h-2 z M0,10 h3 v1 h-3 z M5,10 h1 v1 h-1 z M11,10 h2 v1 h-2 z M18,10 h1 v1 h-1 z M24,10 h4 v1 h-4 z M0,11 h1 v1 h1 v-1 z M15,11 h1 v1 h-1 z M20,11 h2 v1 h-2 z M0,12 h5 v1 h-5 z M6,12 h1 v1 h-1 z M13,12 h2 v1 h-2 z M19,12 h4 v1 h-4 z M27,12 h2 v1 h-2 z M1,13 h1 v1 h-1 z M10,13 h2 v1 h-2 z M17,13 h1 v1 h-1 z M23,13 h2 v1 h-2 z M4,14 h2 v1 h-2 z M12,14 h2 v1 h-2 z M19,14 h3 v1 h-3 z M27,14 h1 v1 h-1 z M0,15 h1 v1 h-1 z M7,15 h3 v1 h-3 z M14,15 h2 v1 h-2 z M22,15 h2 v1 h-2 z M2,16 h3 v1 h-3 z M11,16 h2 v1 h-2 z M18,16 h1 v1 h-1 z M24,16 h3 v1 h-3 z M0,17 h1 v1 h1 v-1 z M9,17 h2 v1 h-2 z M15,17 h2 v1 h-2 z M20,17 h1 v1 h-1 z M5,18 h1 v1 h-1 z M13,18 h2 v1 h-2 z M19,18 h4 v1 h-4 z M26,18 h2 v1 h-2 z M1,19 h3 v1 h-3 z M11,19 h1 v1 h-1 z M17,19 h2 v1 h-2 z M23,19 h2 v1 h-2 z M0,20 h3 v1 h-3 z M9,20 h2 v1 h-2 z M14,20 h3 v1 h-3 z M21,20 h5 v1 h-5 z M4,21 h1 v1 h-1 z M12,21 h2 v1 h-2 z M18,21 h1 v1 h-1 z M27,21 h2 v1 h-2 z M0,22 h7 v1 h-7 z M10,22 h2 v1 h-2 z M15,22 h1 v1 h-1 z M24,22 h3 v1 h-3 z M0,23 h1 v1 h-1 z M6,23 h1 v1 h-1 z M13,23 h2 v1 h-2 z M19,23 h1 v1 h-1 z M27,23 h1 v1 h-1 z M0,24 h1 v1 h-1 z M6,24 h1 v1 h-1 z M10,24 h2 v1 h-2 z M16,24 h2 v1 h-2 z M24,24 h3 v1 h-3 z M0,25 h1 v1 h-1 z M6,25 h1 v1 h-1 z M14,25 h1 v1 h-1 z M20,25 h2 v1 h-2 z M0,26 h1 v1 h-1 z M6,26 h1 v1 h-1 z M11,26 h2 v1 h-2 z M18,26 h1 v1 h-1 z M25,26 h3 v1 h-3 z M0,27 h1 v1 h-1 z M6,27 h1 v1 h-1 z M15,27 h2 v1 h-2 z M21,27 h2 v1 h-2 z M0,28 h7 v1 h-7 z M9,28 h2 v1 h-2 z M14,28 h3 v1 h-3 z M19,28 h4 v1 h-4 z" />
+      </svg>
+      <div class="qr-text">VERIFICATION CODE: ${receipt.verificationCode}</div>
+    </div>
+
+    <pre>
+Invoice Hash:
+${receipt.invoiceHash}
+
+============================================
+THIS IS AN ELECTRONIC TAX INVOICE
+GENERATED THROUGH KRA eTIMS
+
+To verify:
+Scan the QR code using KRA eTIMS App
+or verify through KRA taxpayer portal.
+
+THANK YOU FOR SUPPORTING ${(schoolConfig.name || "ROCKSIDE ACADEMY").toUpperCase()}
+============================================</pre>
+
+    <a href="#" class="print-btn" onclick="window.print(); return false;">Print Action</a>
+  </div>
+</body>
+</html>
+        `;
+      } else {
+        standaloneHTML = `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -262,17 +531,85 @@ export const PrintWindow: React.FC<PrintWindowProps> = ({
       font-weight: bold;
     }
     @media print {
+      @page {
+        size: auto;
+        margin: 0 !important;
+      }
       .print-btn { display: none; }
-      body { padding: 0; }
+      body {
+        margin: 0 !important;
+        padding: 15mm !important;
+      }
       .container { border: none; box-shadow: none; padding: 0; }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="header-banner">
-      <div style="font-weight: bold; font-size: 14px; color: #111827;">KENYA REVENUE AUTHORITY</div>
-      <div class="tax-badge">eTIMS COMPLIANT</div>
+    <div class="header-banner" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e5e7eb; padding-bottom: 16px; margin-bottom: 24px;">
+      <div style="display: flex; align-items: center; gap: 14px;">
+        <div style="width: 48px; height: 48px; flex-shrink: 0;">
+          <svg viewBox="0 0 100 100" style="width: 100%; height: 100%;" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="48" fill="#ffffff" />
+            <path
+              d="M50,2 A48,48 0 0,0 2,50 A48,48 0 0,0 50,98 C46,92 40,82 38,72 C36,66 38,62 42,58 C45,55 52,53 58,50 C63,47 63,42 58,38 C52,35 44,34 38,32 C32,31 29,26 30,19 C31,10 42,2.5 50,2 Z"
+              fill="#000000"
+            />
+            <path
+              d="M58,4 A48,48 0 0,1 98,50 A48,48 0 0,1 58,96 Q76,70 76,50 Q76,30 58,4 Z"
+              fill="#e31f26"
+            />
+            <path d="M12,50 Q22,46 32,41" stroke="#ffffff" stroke-width="2" stroke-linecap="round" fill="none" />
+            <path d="M16,63 Q26,58 36,51" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" fill="none" />
+            <path d="M22,74 Q31,67 41,58" stroke="#ffffff" stroke-width="3" stroke-linecap="round" fill="none" />
+            <path d="M28,84 Q37,76 45,63" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" fill="none" />
+            <path d="M42,34 Q45,33.5 45,35.5 A1.5,1.5 0 0,1 42,35.5 Z" fill="#ffffff" />
+            <path d="M34,22 Q31,19 31,14 M38,25 Q35,21 35,17" stroke="#ffffff" stroke-width="2" stroke-linecap="round" fill="none" />
+          </svg>
+        </div>
+        <div style="display: flex; flex-direction: column; justify-content: center; font-family: Georgia, 'Times New Roman', Times, serif;">
+          <span style="font-size: 18px; font-weight: bold; color: #030712; line-height: 1; letter-spacing: -0.02em;">Kenya Revenue</span>
+          <span style="font-size: 11px; font-weight: bold; color: #111827; letter-spacing: 0.24em; text-transform: uppercase; margin-top: 5px; line-height: 1;">AUTHORITY</span>
+        </div>
+      </div>
+      <!-- eTIMS Brand Lockup replacing simple tax-badge as requested -->
+      <div style="display: flex; flex-direction: column; align-items: flex-end; margin-left: auto;">
+        <div style="display: flex; flex-direction: column; align-items: center;">
+          <div style="display: flex; align-items: flex-end; height: 36px; line-height: 1; font-family: system-ui, -apple-system, sans-serif;">
+            <span style="font-size: 26px; font-weight: 800; color: #6b7280; text-transform: lowercase; line-height: 1; margin-bottom: -1px; margin-right: 1px;">e</span>
+            <span style="font-size: 34px; font-weight: 900; color: #030712; text-transform: uppercase; line-height: 1; margin-right: 1px;">T</span>
+            <div style="display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; padding-bottom: 2px;">
+              <div style="width: 14px; height: 14px; margin-bottom: -1px;">
+                <svg viewBox="0 0 100 100" style="width: 100%; height: 100%;" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="50" cy="50" r="48" fill="#ffffff" />
+                  <path
+                    d="M50,2 A48,48 0 0,0 2,50 A48,48 0 0,0 50,98 C46,92 40,82 38,72 C36,66 38,62 42,58 C45,55 52,53 58,50 C63,47 63,42 58,38 C52,35 44,34 38,32 C32,31 29,26 30,19 C31,10 42,2.5 50,2 Z"
+                    fill="#000000"
+                  />
+                  <path
+                    d="M58,4 A48,48 0 0,1 98,50 A48,48 0 0,1 58,96 Q76,70 76,50 Q76,30 58,4 Z"
+                    fill="#e31f26"
+                  />
+                  <path d="M12,50 Q22,46 32,41" stroke="#ffffff" stroke-width="4" stroke-linecap="round" fill="none" />
+                  <path d="M16,63 Q26,58 36,51" stroke="#ffffff" stroke-width="5" stroke-linecap="round" fill="none" />
+                  <path d="M22,74 Q31,67 41,58" stroke="#ffffff" stroke-width="6" stroke-linecap="round" fill="none" />
+                  <path d="M28,84 Q37,76 45,63" stroke="#ffffff" stroke-width="6.5" stroke-linecap="round" fill="none" />
+                </svg>
+              </div>
+              <span style="font-size: 24px; font-weight: 900; color: #e31f26; font-style: italic; transform: skewX(-6deg); line-height: 1;">i</span>
+            </div>
+            <span style="font-size: 34px; font-weight: 900; color: #030712; text-transform: uppercase; line-height: 1; margin-left: 2px;">M</span>
+            <span style="font-size: 34px; font-weight: 900; color: #030712; text-transform: uppercase; line-height: 1; margin-left: 1px;">S</span>
+          </div>
+          <div style="width: 100%; height: 3px; position: relative; margin-top: 2px; overflow: hidden;">
+            <div style="position: absolute; top: 0; left: 0; right: 0; height: 1px; background-color: #e31f26;"></div>
+            <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: black;"></div>
+          </div>
+        </div>
+        <div style="margin-top: 4px; font-size: 9px; font-weight: bold; color: #047857; letter-spacing: 0.1em; text-transform: uppercase; font-family: monospace; background-color: #ecfdf5; border: 1px solid #d1fae5; padding: 2px 8px; border-radius: 4px;">
+          eTIMS COMPLIANT
+        </div>
+      </div>
     </div>
     
     <div class="school-info">
@@ -360,7 +697,8 @@ export const PrintWindow: React.FC<PrintWindowProps> = ({
   </div>
 </body>
 </html>
-      `;
+        `;
+      }
 
       // Trigger automatic stream saving in active frame browser context
       const fileData = new Blob([standaloneHTML], {type: 'text/html;charset=utf-8'});
@@ -377,6 +715,50 @@ export const PrintWindow: React.FC<PrintWindowProps> = ({
 
   return (
     <div className="space-y-6 max-w-5xl mx-auto">
+      <style dangerouslySetInnerHTML={{ __html: `
+        @media print {
+          ${paperLayout === '80mm' ? `
+            @page {
+              size: 80mm auto !important;
+              margin: 0 !important;
+            }
+            body {
+              background: white !important;
+              color: black !important;
+              margin: 0 !important;
+              padding: 0 !important;
+              display: flex !important;
+              justify-content: center !important;
+            }
+            .no-print {
+              display: none !important;
+            }
+            .print-container {
+              width: 80mm !important;
+              max-width: 800mm !important;
+              border: none !important;
+              box-shadow: none !important;
+              padding: 4mm !important;
+              margin: 0 !important;
+              background: white !important;
+            }
+          ` : `
+            @page {
+              size: auto;
+              margin: 0 !important;
+            }
+            body {
+              background: white !important;
+              color: black !important;
+              margin: 0 !important;
+              padding: 15mm !important;
+            }
+            .no-print {
+              display: none !important;
+            }
+          `}
+        }
+      ` }} />
       
       {/* Top Controller Options Panel */}
       <div className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm no-print flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
@@ -525,81 +907,7 @@ export const PrintWindow: React.FC<PrintWindowProps> = ({
         {paperLayout === '80mm' && (
           <div className="bg-white p-6 shadow-2xl w-[380px] border border-gray-300 font-mono text-[11px] leading-relaxed text-gray-900 print-container select-text">
             <pre className="font-mono text-[10.5px] leading-tight text-gray-900 whitespace-pre-wrap break-all select-all">
-{`==========================================================
-                    ROCKSIDE ACADEMY
-              TAX INVOICE / ${layoutMode === 'receipt' ? 'eTIMS RECEIPT' : 'STUDENT INVOICE'}
-==========================================================
-
-School Name: ${(schoolConfig.name || "ROCKSIDE ACADEMY").toUpperCase()}
-Address: ${schoolConfig.address || "P. O. Box 3735-00200, Nairobi"}
-Telephone: ${schoolConfig.phone1} / ${schoolConfig.phone2}
-
-KRA PIN: ${receipt.kraPin}
-eTIMS Serial No: ${receipt.controlUnitNo}
-Invoice No: ${receipt.invoiceNo}
-Date: ${formatETRDate(receipt.date)}
-Time: ${receipt.time}
-
-${receipt.studentName ? `Student Name: ${receipt.studentName}\n` : ''}${receipt.admissionNo ? `Adm No: ${receipt.admissionNo}\n` : ''}Grade: ${receipt.studentGrade || receipt.studentClass || '5'}
-Parent/Guardian: ${receipt.parentName || 'Not Specified'}
-
-----------------------------------------------------------
-DESCRIPTION                             AMOUNT (KES)
-----------------------------------------------------------
-${receipt.items.map(itm => {
-  const leftSide = itm.description;
-  const rightSide = itm.total.toLocaleString(undefined, { minimumFractionDigits: 2 });
-  const padLen = 58 - leftSide.length - rightSide.length;
-  const paddingSpace = padLen > 0 ? " ".repeat(padLen) : " ";
-  return `${leftSide}${paddingSpace}${rightSide}`;
-}).join('\n')}
-----------------------------------------------------------
-${(() => {
-  const leftLabel = "SUBTOTAL";
-  const rightValue = receipt.subtotal.toLocaleString(undefined, { minimumFractionDigits: 2 });
-  const padLen = 58 - leftLabel.length - rightValue.length;
-  const paddingSpace = padLen > 0 ? " ".repeat(padLen) : " ";
-  return `${leftLabel}${paddingSpace}${rightValue}`;
-})()}
-${(() => {
-  const leftLabel = "VAT (Exempt/Education Services)";
-  const rightValue = receipt.taxTotal.toLocaleString(undefined, { minimumFractionDigits: 2 });
-  const padLen = 58 - leftLabel.length - rightValue.length;
-  const paddingSpace = padLen > 0 ? " ".repeat(padLen) : " ";
-  return `${leftLabel}${paddingSpace}${rightValue}`;
-})()}
-----------------------------------------------------------
-${(() => {
-  const leftLabel = "TOTAL PAYABLE";
-  const rightValue = receipt.grandTotal.toLocaleString(undefined, { minimumFractionDigits: 2 });
-  const padLen = 58 - leftLabel.length - rightValue.length;
-  const paddingSpace = padLen > 0 ? " ".repeat(padLen) : " ";
-  return `${leftLabel}${paddingSpace}${rightValue}`;
-})()}
-==========================================================
-
-Payment Method: ${receipt.paymentMode.toUpperCase()}
-Transaction Code: ${receipt.paymentRef || 'N/A'}
-
-----------------------------------------------------------
-KRA eTIMS INFORMATION
-----------------------------------------------------------
-
-Buyer PIN: N/A
-
-Control Unit ID:
-${receipt.controlUnitNo}
-
-Fiscal Day Number:
-FDN-${receipt.fiscalDayNo || '127845'}
-
-Receipt Signature:
-${receipt.receiptSignature}
-
-Verification Code:
-${receipt.verificationCode}
-
-QR CODE:`}
+{exactReceiptText}
             </pre>
 
             {/* Standard QR Code inline visualization conforming to requested QR CODE text anchor */}
@@ -614,7 +922,7 @@ QR CODE:`}
 {`Invoice Hash:
 ${receipt.invoiceHash}
 
-==========================================================
+============================================
 THIS IS AN ELECTRONIC TAX INVOICE
 GENERATED THROUGH KRA eTIMS
 
@@ -622,8 +930,8 @@ To verify:
 Scan the QR code using KRA eTIMS App
 or verify through KRA taxpayer portal.
 
-THANK YOU FOR SUPPORTING ROCKSIDE ACADEMY
-==========================================================`}
+THANK YOU FOR SUPPORTING ${(schoolConfig.name || "ROCKSIDE ACADEMY").toUpperCase()}
+============================================`}
             </pre>
           </div>
         )}

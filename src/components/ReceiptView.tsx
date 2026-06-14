@@ -140,31 +140,102 @@ export const ReceiptView: React.FC<ReceiptViewProps> = ({
 
       {/* --- KRA CLASSIC ETIMS STRIP BANNER --- */}
       <div className="flex items-center justify-between border-b pb-4 mb-6 border-gray-100">
-        <div className="flex items-center gap-2">
-          {/* Custom vector flag/seal of Kenya representation */}
-          <div className="flex flex-col h-7 w-10 border border-gray-300 rounded overflow-hidden shrink-0">
-            <div className="h-1/5 bg-[#000000]"></div>
-            <div className="h-1/5 bg-[#e01111]"></div>
-            <div className="h-1/5 bg-[#ffffff]"></div>
-            <div className="h-1/5 bg-[#067232]"></div>
-            <div className="h-1/5 bg-[#ffffff]"></div>
+        <div className="flex items-center gap-3.5">
+          {/* Official Kenya Revenue Authority Lion Head Logo in High-Fidelity SVG */}
+          <div className="relative h-12 w-12 hover:scale-105 transition-transform duration-250 shrink-0 select-none">
+            <svg viewBox="0 0 100 100" className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+              {/* White background circle */}
+              <circle cx="50" cy="50" r="48" fill="#ffffff" />
+              
+              {/* Left Black Shield with negative space cutouts representing the lion facial details */}
+              <path
+                d="M50,2 A48,48 0 0,0 2,50 A48,48 0 0,0 50,98 C46,92 40,82 38,72 C36,66 38,62 42,58 C45,55 52,53 58,50 C63,47 63,42 58,38 C52,35 44,34 38,32 C32,31 29,26 30,19 C31,10 42,2.5 50,2 Z"
+                fill="#000000"
+              />
+              
+              {/* Sweeping premium red crescent representing the right-side dynamic mane flow */}
+              <path
+                d="M58,4 A48,48 0 0,1 98,50 A48,48 0 0,1 58,96 Q76,70 76,50 Q76,30 58,4 Z"
+                fill="#e31f26"
+              />
+
+              {/* Majestic Lion Face and mane details */}
+              {/* Flowing mane highlights (white paths inside the black region) */}
+              <path d="M12,50 Q22,46 32,41" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" fill="none" />
+              <path d="M16,63 Q26,58 36,51" stroke="#ffffff" strokeWidth="2.5" strokeLinecap="round" fill="none" />
+              <path d="M22,74 Q31,67 41,58" stroke="#ffffff" strokeWidth="3" strokeLinecap="round" fill="none" />
+              <path d="M28,84 Q37,76 45,63" stroke="#ffffff" strokeWidth="3.5" strokeLinecap="round" fill="none" />
+
+              {/* White profile eye and eyebrows details */}
+              <path d="M42,34 Q45,33.5 45,35.5 A1.5,1.5 0 0,1 42,35.5 Z" fill="#ffffff" />
+              
+              {/* Fine ear lines */}
+              <path d="M34,22 Q31,19 31,14 M38,25 Q35,21 35,17" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" fill="none" />
+            </svg>
           </div>
-          <div>
-            <div className="text-[11px] font-bold text-gray-800 tracking-wider font-display shrink-0">
-              KENYA REVENUE AUTHORITY
-            </div>
-            <div className="text-[9px] font-mono text-gray-500 font-semibold uppercase leading-none">
-              eTIMS Tax Compliance Node
-            </div>
+          
+          <div className="flex flex-col select-none justify-center">
+            <span className="text-[17px] font-bold text-gray-950 font-serif leading-none tracking-tight">
+              Kenya Revenue
+            </span>
+            <span className="text-[11px] font-bold text-gray-900 font-serif tracking-[0.24em] uppercase mt-1.5 leading-none">
+              AUTHORITY
+            </span>
           </div>
         </div>
 
-        <div className="text-right">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 text-[10px] font-bold text-emerald-800 bg-emerald-50 border border-emerald-100 rounded-full font-mono uppercase tracking-wider">
-            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600 shrink-0" />
-            eTIMS COMPLIANT
-          </span>
-          <div className="text-[9px] text-gray-400 mt-1 font-mono">{receipt.status} State</div>
+        <div className="flex flex-col items-end">
+          {/* Real eTiMS Brand Logo lockup as requested */}
+          <div className="flex flex-col items-center">
+            <div className="flex items-end select-none h-11 tracking-tight leading-none font-sans font-black">
+              {/* "e" in gray */}
+              <span className="text-[28px] text-gray-500 font-extrabold lowercase leading-none -mb-0.5">e</span>
+              
+              {/* "T" in black */}
+              <span className="text-[36px] text-gray-950 font-black uppercase leading-none">T</span>
+              
+              {/* "i" with Lion Dot */}
+              <div className="flex flex-col items-center justify-end h-full px-0.5 pb-0.5">
+                {/* Lion Dot */}
+                <div className="h-4.5 w-4.5 shrink-0 -mb-1">
+                  <svg viewBox="0 0 100 100" className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="48" fill="#ffffff" />
+                    <path
+                      d="M50,2 A48,48 0 0,0 2,50 A48,48 0 0,0 50,98 C46,92 40,82 38,72 C36,66 38,62 42,58 C45,55 52,53 58,50 C63,47 63,42 58,38 C52,35 44,34 38,32 C32,31 29,26 30,19 C31,10 42,2.5 50,2 Z"
+                      fill="#000000"
+                    />
+                    <path
+                      d="M58,4 A48,48 0 0,1 98,50 A48,48 0 0,1 58,96 Q76,70 76,50 Q76,30 58,4 Z"
+                      fill="#e31f26"
+                    />
+                    <path d="M12,50 Q22,46 32,41" stroke="#ffffff" strokeWidth="4" strokeLinecap="round" fill="none" />
+                    <path d="M16,63 Q26,58 36,51" stroke="#ffffff" strokeWidth="5" strokeLinecap="round" fill="none" />
+                    <path d="M22,74 Q31,67 41,58" stroke="#ffffff" strokeWidth="6" strokeLinecap="round" fill="none" />
+                    <path d="M28,84 Q37,76 45,63" stroke="#ffffff" strokeWidth="6.5" strokeLinecap="round" fill="none" />
+                  </svg>
+                </div>
+                {/* Stem of i: a bold, slightly italic red 1-like or i-like bar */}
+                <span className="text-[26px] text-[#e31f26] font-black italic transform -skew-x-6 leading-none">i</span>
+              </div>
+              
+              {/* "M" and "S" in bold black */}
+              <span className="text-[36px] text-gray-950 font-black uppercase leading-none">M</span>
+              <span className="text-[36px] text-gray-950 font-black uppercase leading-none">S</span>
+            </div>
+            
+            {/* Tapering underline */}
+            <div className="w-full h-[3px] relative mt-1 overflow-hidden">
+              {/* Red line top edge */}
+              <div className="absolute top-0 left-0 right-0 h-[1px] bg-[#e31f26]" />
+              {/* Black tapering wedge */}
+              <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-black" style={{ clipPath: 'polygon(0 0, 100% 100%, 0 100%)' }} />
+            </div>
+          </div>
+          
+          <div className="flex items-center gap-1.5 mt-2.5 text-[9px] font-bold text-emerald-800 tracking-wider uppercase font-mono bg-emerald-50 border border-emerald-100 px-3 py-1 rounded-md shadow-3xs">
+            <CheckCircle2 className="h-3 w-3 text-emerald-600 shrink-0" />
+            <span>{receipt.status} State (COMPLIANT)</span>
+          </div>
         </div>
       </div>
 

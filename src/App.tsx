@@ -430,6 +430,7 @@ export default function App() {
             onDeleteReceipt={handleDeleteReceipt}
             onDuplicateReceipt={handleDuplicateReceipt}
             userRole={userRole}
+            schoolConfig={schoolConfig}
           />
         )}
 

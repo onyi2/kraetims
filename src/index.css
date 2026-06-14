@@ -17,9 +17,16 @@
 
 /* Custom Print CSS classes for print layout and paper size optimizations */
 @media print {
+  @page {
+    size: auto;
+    margin: 0 !important;
+  }
+  
   body {
     background-color: white !important;
     color: black !important;
+    margin: 0 !important;
+    padding: 15mm !important;
   }
   
   .no-print {

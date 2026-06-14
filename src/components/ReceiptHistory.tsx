@@ -20,7 +20,288 @@ import {
   Sparkles,
   Info
 } from 'lucide-react';
-import { Receipt, UserRole } from '../types';
+import { Receipt, UserRole, SchoolConfig } from '../types';
+import { QRCodeSVG } from './QRCodeSVG';
+import { motion, AnimatePresence } from 'motion/react';
+
+interface ReceiptMiniThumbnailProps {
+  receipt: Receipt;
+  schoolConfig: SchoolConfig;
+  coords: { x: number; y: number };
+  onMouseEnterPopover: () => void;
+  onMouseLeavePopover: () => void;
+}
+
+const ReceiptMiniThumbnail: React.FC<ReceiptMiniThumbnailProps> = ({
+  receipt,
+  schoolConfig,
+  coords,
+  onMouseEnterPopover,
+  onMouseLeavePopover
+}) => {
+  const [activeTab, setActiveTab] = useState<'thermal' | 'a4'>('thermal');
+
+  const formatKES = (val: number) => {
+    return new Intl.NumberFormat('en-KE', { style: 'currency', currency: 'KES', maximumFractionDigits: 0 }).format(val);
+  };
+
+  const formatDateCompact = (dateStr: string) => {
+    try {
+      const d = new Date(dateStr);
+      if (!isNaN(d.getTime())) {
+        return d.toLocaleDateString('en-KE', { day: '2-digit', month: 'short', year: 'numeric' });
+      }
+    } catch(e){}
+    return dateStr;
+  };
+
+  const cardHeight = 440;
+  const topPosition = Math.min(coords.y - 120, window.innerHeight - cardHeight - 20);
+  const leftPosition = Math.min(coords.x, window.innerWidth - 340);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95, y: 15 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.95, y: 15 }}
+      transition={{ duration: 0.18, ease: "easeOut" }}
+      style={{ top: `${Math.max(20, topPosition)}px`, left: `${Math.max(20, leftPosition)}px` }}
+      onMouseEnter={onMouseEnterPopover}
+      onMouseLeave={onMouseLeavePopover}
+      className="fixed w-[310px] bg-white rounded-2xl shadow-2xl border border-gray-200 z-[100] flex flex-col font-sans overflow-hidden select-none pointer-events-auto"
+    >
+      {/* Header with Switch Tabs */}
+      <div className="bg-slate-900 text-white px-3.5 py-2.5 flex items-center justify-between shadow-xs">
+        <div className="flex items-center gap-1.5">
+          <Printer className="h-3.5 w-3.5 text-primary-400" />
+          <span className="text-[10px] font-bold tracking-tight uppercase">Live Print Preview</span>
+        </div>
+        <div className="flex bg-slate-800 p-0.5 rounded-lg border border-slate-700">
+          <button
+            type="button"
+            onClick={() => setActiveTab('thermal')}
+            className={`text-[9px] font-bold px-2.5 py-0.5 rounded-md transition duration-150 ${
+              activeTab === 'thermal' 
+                ? 'bg-primary-600 text-white shadow font-extrabold' 
+                : 'text-gray-400 hover:text-white'
+            }`}
+          >
+            Thermal
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab('a4')}
+            className={`text-[9px] font-bold px-2.5 py-0.5 rounded-md transition duration-150 ${
+              activeTab === 'a4' 
+                ? 'bg-primary-600 text-white shadow font-extrabold' 
+                : 'text-gray-400 hover:text-white'
+            }`}
+          >
+            A4 Page
+          </button>
+        </div>
+      </div>
+
+      {/* Main Preview Container */}
+      <div className="p-3.5 bg-gray-50 flex-1 overflow-y-auto max-h-[380px] scroll-thin">
+        {activeTab === 'thermal' ? (
+          /* THERMAL MINI RECEIPT */
+          <div className="bg-white border border-gray-300 p-4 shadow-xs font-mono text-[10px] text-gray-800 leading-normal rounded relative overflow-hidden">
+            {/* Paper tear visual effect */}
+            <div className="absolute top-0 left-0 right-0 h-[4px] bg-linear-to-b from-gray-200 to-transparent" />
+            
+            <div className="text-center font-bold text-[11px] tracking-tight uppercase text-gray-900">
+              {schoolConfig.name || "ROCKSIDE ACADEMY"}
+            </div>
+            <div className="text-center text-[8px] text-gray-500 mt-0.5">
+              {schoolConfig.address || "P.O. Box 3735-00200, Nairobi"}
+            </div>
+            <div className="text-center text-[8px] text-gray-500">
+              TEL: {schoolConfig.phone1}
+            </div>
+            <div className="text-center text-[8px] text-gray-500 font-bold mt-1">
+              KRA PIN: {receipt.kraPin || "P000000000E"}
+            </div>
+            
+            <div className="border-t border-dashed border-gray-300 my-2" />
+            
+            <div className="space-y-1 text-[9px] text-gray-600">
+              <div className="flex justify-between">
+                <span>RECEIPT: {receipt.receiptNo}</span>
+                <span>DATE: {formatDateCompact(receipt.date)}</span>
+              </div>
+              <div className="flex justify-between">
+                <span>TIME: {receipt.time}</span>
+                <span className="text-right truncate max-w-[140px]">ADM: {receipt.admissionNo}</span>
+              </div>
+              <div>STUDENT: <span className="font-bold text-gray-850">{receipt.studentName}</span></div>
+            </div>
+
+            <div className="border-t border-dashed border-gray-300 my-2" />
+
+            {/* mini listing header */}
+            <div className="flex justify-between font-bold text-[8px] text-gray-500 mb-1">
+              <span>ITEM DESCRIPTION</span>
+              <span>TOTAL (KES)</span>
+            </div>
+            <div className="space-y-1 text-[9px]">
+              {receipt.items.map((itm, idx) => (
+                <div key={idx} className="flex justify-between items-start gap-2">
+                  <span className="truncate max-w-[160px] text-gray-700">
+                    {itm.quantity}x {itm.description}
+                  </span>
+                  <span className="font-bold text-gray-950 font-mono">
+                    {formatKES(itm.total)}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            <div className="border-t border-dashed border-gray-300 my-2" />
+
+            {/* calculation totals block */}
+            <div className="space-y-1 text-[9px] font-mono">
+              <div className="flex justify-between">
+                <span>TOTAL EXCL TAX:</span>
+                <span>{formatKES(receipt.subtotal - (receipt.discountTotal || 0))}</span>
+              </div>
+              <div className="flex justify-between text-gray-500">
+                <span>TOTAL VAT (16%):</span>
+                <span>{formatKES(receipt.taxTotal)}</span>
+              </div>
+              <div className="flex justify-between font-bold text-gray-950 border-t border-dashed border-gray-300 pt-1 text-[11px]">
+                <span>TOTAL AMOUNT:</span>
+                <span>{formatKES(receipt.grandTotal)}</span>
+              </div>
+            </div>
+
+            <div className="border-t border-dashed border-gray-300 my-2" />
+
+            <div className="space-y-1 text-[8px] text-gray-500">
+              <div>PAYMENT MODE: <span className="font-bold text-slate-800">{receipt.paymentMode.toUpperCase()}</span></div>
+              {receipt.paymentRef && (
+                <div>TX REF: <span className="font-bold text-slate-800">{receipt.paymentRef.toUpperCase()}</span></div>
+              )}
+            </div>
+
+            {/* Mini QR verified area */}
+            <div className="mt-3 flex flex-col items-center justify-center p-2 bg-slate-50 border border-dashed border-gray-200 rounded-lg">
+              <QRCodeSVG value={receipt.verificationCode || "VERIFIED-E-INVOICE"} size={65} />
+              <div className="text-[7px] text-gray-400 font-bold tracking-tight uppercase mt-1.5">
+                KRA VERIFICATION CODE:
+              </div>
+              <div className="text-[8px] font-bold text-gray-800 font-mono text-center truncate w-full px-1">
+                {receipt.verificationCode}
+              </div>
+            </div>
+            
+            <div className="text-[7px] text-gray-400 text-center mt-3 font-sans uppercase tracking-tight">
+              KRA eTIMS ELECTRONIC TAX SYSTEM
+            </div>
+          </div>
+        ) : (
+          /* A4 INVOICE MINI PREVIEW */
+          <div className="bg-white border border-gray-200 p-4 shadow-sm rounded-lg text-gray-800 relative flex flex-col border-t-3 border-t-primary-600">
+            {/* Miniature Blue/Slate institutional receipt header */}
+            <div className="flex justify-between items-start gap-2 border-b pb-2 mb-2">
+              <div>
+                <div className="font-bold text-[10px] text-gray-950 uppercase leading-none tracking-tight">
+                  {schoolConfig.name || "ROCKSIDE ACADEMY"}
+                </div>
+                {schoolConfig.motto && (
+                  <div className="text-[7px] text-gray-500 leading-none mt-1">
+                    {schoolConfig.motto}
+                  </div>
+                )}
+                <div className="text-[6.5px] text-gray-400 mt-1 pb-1">
+                  {schoolConfig.address} • {schoolConfig.email}
+                </div>
+              </div>
+              {/* Miniature emblem */}
+              <div className="w-5 h-5 rounded-full bg-primary-100 flex items-center justify-center text-primary-700 font-bold text-[8px] shrink-0 font-sans">
+                R
+              </div>
+            </div>
+
+            <div className="bg-primary-900 text-white rounded text-center py-0.5 text-[8px] font-bold tracking-widest uppercase mb-2">
+              KRA ELECTRONIC TAX INVOICE
+            </div>
+
+            {/* metadata grid double column */}
+            <div className="grid grid-cols-2 gap-2 text-[7px] text-gray-600 bg-gray-50 p-1.5 rounded mb-2 font-sans">
+              <div className="space-y-0.5">
+                <div><span className="font-bold text-gray-400 uppercase text-[6px]">Receipt:</span> <span className="font-mono text-gray-800 font-bold">{receipt.receiptNo}</span></div>
+                <div><span className="font-bold text-gray-400 uppercase text-[6px]">Student:</span> <span className="text-gray-800 font-bold truncate max-w-[100px] inline-block align-bottom">{receipt.studentName}</span></div>
+                <div><span className="font-bold text-gray-400 uppercase text-[6px]">Adm:</span> <span className="font-mono text-gray-800 font-semibold">{receipt.admissionNo}</span></div>
+              </div>
+              <div className="space-y-0.5 text-right">
+                <div><span className="font-bold text-gray-400 uppercase text-[6px]">Date:</span> <span className="text-gray-800 font-semibold">{receipt.date}</span></div>
+                <div><span className="font-bold text-gray-400 uppercase text-[6px]">Grade:</span> <span className="text-gray-800 font-semibold">{receipt.studentClass}</span></div>
+                <div><span className="font-bold text-gray-400 uppercase text-[6px]">Term:</span> <span className="text-gray-800">{receipt.term}</span></div>
+              </div>
+            </div>
+
+            {/* items table list */}
+            <div className="border border-gray-200 rounded overflow-hidden mb-2">
+              <div className="grid grid-cols-12 bg-gray-100 text-[6.5px] font-bold text-gray-500 py-1 px-1.5 uppercase tracking-wider border-b border-gray-100">
+                <span className="col-span-8">Particular Fee Description</span>
+                <span className="col-span-4 text-right">Credit (KES)</span>
+              </div>
+              <div className="divide-y divide-gray-100">
+                {receipt.items.map((itm, idx) => (
+                  <div key={idx} className="grid grid-cols-12 text-[7px] py-1 px-1.5 text-gray-700 font-medium">
+                    <span className="col-span-8 truncate">{itm.description}</span>
+                    <span className="col-span-4 text-right font-mono font-bold text-gray-900">{formatKES(itm.total)}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* total calculations right alignment */}
+            <div className="w-1/2 ml-auto space-y-0.5 text-[7px] border-t pt-1 font-sans">
+              <div className="flex justify-between text-gray-500">
+                <span>Subtotal:</span>
+                <span className="font-mono">{formatKES(receipt.subtotal - (receipt.discountTotal || 0))}</span>
+              </div>
+              <div className="flex justify-between text-gray-500">
+                <span>VAT (Exempt):</span>
+                <span className="font-mono">{formatKES(receipt.taxTotal)}</span>
+              </div>
+              <div className="flex justify-between font-bold text-primary-950 border-t pt-0.5 text-[8.5px]">
+                <span>Total Paid:</span>
+                <span className="font-mono">{formatKES(receipt.grandTotal)}</span>
+              </div>
+            </div>
+
+            {/* signatures and stamp simulation */}
+            <div className="flex justify-between items-end mt-3 border-t border-dashed pt-2">
+              <div className="text-[6px] text-gray-400 max-w-[120px] leading-tight">
+                Issuer PIN: {receipt.kraPin || "P000000000E"}<br/>
+                KRA Security module signed
+              </div>
+              {/* miniature compliance verification stamp */}
+              <div className="w-10 h-10 border border-emerald-600 rounded-full flex flex-col items-center justify-center text-[5px] font-extrabold text-emerald-700 shrink-0 rotate-12 scale-95 opacity-85 font-sans leading-none">
+                <span>VERIFIED</span>
+                <span className="text-[4px] font-bold mt-0.5 text-emerald-600 uppercase">eTIMS OK</span>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Popover footer */}
+      <div className="bg-slate-100 px-3.5 py-2 border-t border-gray-200 text-[9px] text-gray-500 flex items-center justify-between font-medium">
+        <span className="flex items-center gap-1 font-sans">
+          <Info className="h-3 w-3 text-slate-400" />
+          Move mouse inside preview to select elements
+        </span>
+        <span className="text-primary-700 font-bold truncate max-w-[100px] font-mono">
+          {receipt.receiptNo}
+        </span>
+      </div>
+    </motion.div>
+  );
+};
 
 interface ReceiptHistoryProps {
   receipts: Receipt[];
@@ -28,6 +309,7 @@ interface ReceiptHistoryProps {
   onDeleteReceipt: (id: string) => void;
   onDuplicateReceipt: (receipt: Receipt) => void;
   userRole: UserRole;
+  schoolConfig?: SchoolConfig;
 }
 
 export const ReceiptHistory: React.FC<ReceiptHistoryProps> = ({
@@ -35,13 +317,62 @@ export const ReceiptHistory: React.FC<ReceiptHistoryProps> = ({
   onNavigate,
   onDeleteReceipt,
   onDuplicateReceipt,
-  userRole
+  userRole,
+  schoolConfig = {
+    name: "ROCKSIDE ACADEMY",
+    motto: "Shaping the Future",
+    address: "P.O. Box 3735-00200, Nairobi, Kenya",
+    postalAddress: "3735-00200",
+    phone1: "+254 725 000 000",
+    phone2: "+254 733 000 000",
+    email: "info@rocksideacademy.ac.ke",
+    kraPin: "P000000000E",
+    logoUrl: "",
+    schoolStampUrl: ""
+  }
 }) => {
   // Search & Filter State variables
   const [searchTerm, setSearchTerm] = useState('');
   const [filterGrade, setFilterGrade] = useState('All');
   const [filterMode, setFilterMode] = useState('All');
   const [filterStatus, setFilterStatus] = useState('All');
+
+  // Hover Thumbnail states with advanced transition buffer tracking
+  const [hoveredReceipt, setHoveredReceipt] = useState<Receipt | null>(null);
+  const [hoverCoordinates, setHoverCoordinates] = useState<{ x: number; y: number } | null>(null);
+  const hoverTimeoutRef = React.useRef<any>(null);
+
+  const handleMouseEnterRow = (e: React.MouseEvent, rec: Receipt) => {
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+      hoverTimeoutRef.current = null;
+    }
+    const rect = e.currentTarget.getBoundingClientRect();
+    setHoveredReceipt(rec);
+    setHoverCoordinates({
+      x: rect.right - 8, // seamless cursor slide over
+      y: rect.top,
+    });
+  };
+
+  const handleMouseLeaveRow = () => {
+    hoverTimeoutRef.current = setTimeout(() => {
+      setHoveredReceipt(null);
+      setHoverCoordinates(null);
+    }, 250); // 250ms comfortable buffer
+  };
+
+  const handleMouseEnterPopover = () => {
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+      hoverTimeoutRef.current = null;
+    }
+  };
+
+  const handleMouseLeavePopover = () => {
+    setHoveredReceipt(null);
+    setHoverCoordinates(null);
+  };
 
   // Simulated Dispatch Overlay States
   const [activeDispatchReceipt, setActiveDispatchReceipt] = useState<Receipt | null>(null);
@@ -257,15 +588,26 @@ export const ReceiptHistory: React.FC<ReceiptHistoryProps> = ({
                   return (
                     <tr key={rec.id} className="hover:bg-gray-50/70 transition-colors group">
                       
-                      {/* Column 1: Codes \& Dates */}
-                      <td className="py-4 px-6">
-                        <div className="font-mono text-[13px] text-gray-900 font-bold">
-                          {rec.receiptNo}
+                      {/* Column 1: Codes & Dates (Interactive hover-tethered preview) */}
+                      <td 
+                        className="py-4 px-6 relative cursor-pointer select-none"
+                        onMouseEnter={(e) => handleMouseEnterRow(e, rec)}
+                        onMouseLeave={handleMouseLeaveRow}
+                      >
+                        <div className="flex items-center gap-1.5 flex-wrap">
+                          <div className="font-mono text-[13.5px] text-gray-950 font-bold tracking-tight">
+                            {rec.receiptNo}
+                          </div>
+                          {/* Animated Sparkles Indicator on Row Hover */}
+                          <span className="opacity-0 group-hover:opacity-100 transition-all duration-205 bg-primary-50 text-primary-700 text-[9px] font-bold px-1.5 py-0.5 rounded-md flex items-center gap-0.5 border border-primary-100 shadow-2xs font-sans">
+                            <Sparkles className="h-2 w-2 text-primary-500 animate-pulse animate-duration-1000" />
+                            Preview
+                          </span>
                         </div>
-                        <div className="text-[11px] text-primary-600 font-mono mt-0.5 font-medium">
+                        <div className="text-[11px] text-primary-600 font-mono mt-0.5 font-semibold">
                           eTIMS Inv: #{rec.invoiceNo}
                         </div>
-                        <div className="text-[10px] text-gray-400 mt-1">
+                        <div className="text-[10px] text-gray-400 mt-1 font-sans font-medium">
                           {formatDate(rec.date)} • {rec.time}
                         </div>
                       </td>
@@ -526,6 +868,19 @@ export const ReceiptHistory: React.FC<ReceiptHistoryProps> = ({
           </div>
         </div>
       )}
+
+      {/* --- FLOATING MICROSCOPIC PRINT PREVIEW CARD --- */}
+      <AnimatePresence>
+        {hoveredReceipt && hoverCoordinates && (
+          <ReceiptMiniThumbnail
+            receipt={hoveredReceipt}
+            schoolConfig={schoolConfig}
+            coords={hoverCoordinates}
+            onMouseEnterPopover={handleMouseEnterPopover}
+            onMouseLeavePopover={handleMouseLeavePopover}
+          />
+        )}
+      </AnimatePresence>
 
     </div>
   );
