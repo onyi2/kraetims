@@ -19,12 +19,12 @@ export const KaroneyLogo: React.FC<KaroneyLogoProps> = ({
       className={`select-none shrink-0 ${className}`}
     >
       <defs>
-        {/* Dynamic Gradient for Modern Professional Corporate Supplies Brand */}
-        <linearGradient id="karoneyBrandGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#2563EB" /> {/* Royal Blue */}
-          <stop offset="100%" stopColor="#1E3A8A" /> {/* Deep Indigo */}
+        {/* Deep Slate/Blue to Emerald green gradient representing literary excellence */}
+        <linearGradient id="gikaPrimaryGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#1E3A8A" /> {/* Deep Royal Blue */}
+          <stop offset="100%" stopColor="#0F766E" /> {/* Pine Teal */}
         </linearGradient>
-        <linearGradient id="amberGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <linearGradient id="gikaGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stopColor="#F59E0B" /> {/* Amber */}
           <stop offset="100%" stopColor="#D97706" /> {/* Darker Golden */}
         </linearGradient>
@@ -33,11 +33,11 @@ export const KaroneyLogo: React.FC<KaroneyLogoProps> = ({
         </filter>
       </defs>
 
-      {/* Main Container - Elegant Rounded Soft Hexagon appropriate for a supplies corporation */}
+      {/* Main Container - Elegant Rounded Soft Hexagon */}
       <path 
         d="M 50,4 L 88,26 L 88,74 L 50,96 L 12,74 L 12,26 Z" 
-        fill="url(#karoneyBrandGrad)" 
-        stroke="url(#amberGoldGrad)" 
+        fill="url(#gikaPrimaryGrad)" 
+        stroke="url(#gikaGoldGrad)" 
         strokeWidth="3" 
         strokeLinejoin="round"
         filter="url(#softShadow)"
@@ -53,33 +53,22 @@ export const KaroneyLogo: React.FC<KaroneyLogoProps> = ({
         opacity="0.25"
       />
 
-      {/* Modern Stylized 'K' & Office Supplies Motif */}
-      {/* 1. Spine / Left Ledger Book block of Karoney */}
-      <g filter="url(#softShadow)">
-        <rect x="33" y="26" width="9" height="48" rx="2" fill="#FFFFFF" />
-        {/* Binder ridges */}
-        <line x1="33" y1="36" x2="42" y2="36" stroke="#1E3A8A" strokeWidth="1.2" opacity="0.3" />
-        <line x1="33" y1="46" x2="42" y2="46" stroke="#1E3A8A" strokeWidth="1.2" opacity="0.3" />
-        <line x1="33" y1="56" x2="42" y2="56" stroke="#1E3A8A" strokeWidth="1.2" opacity="0.3" />
-        <line x1="33" y1="66" x2="42" y2="66" stroke="#1E3A8A" strokeWidth="1.2" opacity="0.3" />
+      {/* Stylized Open Book pages in background cover layout */}
+      <g opacity="0.85" filter="url(#softShadow)">
+        <path d="M 50,30 C 44,28 36,30 28,34 L 28,68 C 36,64 44,62 50,64 Z" fill="#FFFFFF" />
+        <path d="M 50,64 C 56,62 64,64 72,68 L 72,34 C 64,30 56,28 50,30 Z" fill="#FFFFFF" opacity="0.9" />
+        {/* Ribbon bookmark falling from center (Amber gold) */}
+        <path d="M 48,30 L 52,30 L 52,78 L 50,75 L 48,78 Z" fill="url(#gikaGoldGrad)" />
       </g>
 
-      {/* 2. Upper branch of K - forming a stylized high-lighted ruler or paper diagonal */}
+      {/* Bold custom stylized capital 'G' overlaid on the center book spine */}
       <path 
-        d="M 42,46 L 63,26 C 65.5,23.5 69.5,23.5 72,26 C 74.5,28.5 74.5,32.5 72,35 L 53,54 Z" 
-        fill="#FFFFFF" 
-        opacity="0.95"
+        d="M 50,29 C 39,29 30,37 30,49 C 30,61 39,69 50,69 C 58,69 64,65 66,59 L 58,54 C 56,57 53,59 50,59 C 45,59 41,55 41,49 C 41,43 45,39 50,39 C 54,39 57,41 59,45 L 59,48 L 51,48 L 51,53 L 66,53 L 66,43 C 66,35 59,29 50,29 Z" 
+        fill="url(#gikaGoldGrad)"
         filter="url(#softShadow)"
       />
 
-      {/* 3. Lower branch of K - beautifully styled in Gold/Amber representing premium supplies deliveries */}
-      <path 
-        d="M 42,49 L 52,43 L 71,64 C 73.5,66.5 73.5,70.5 71,73 C 68.5,75.5 64.5,75.5 62,73 L 42,50 Z" 
-        fill="url(#amberGoldGrad)" 
-        filter="url(#softShadow)"
-      />
-
-      {/* Tiny decorative star in top right to show high-quality excellence */}
+      {/* Extra starry elements for academic distinction */}
       <path 
         d="M 68,14 L 69.5,18 L 74,18.5 L 70.5,21.5 L 71.5,26 L 68,23.5 L 64.5,26 L 65.5,21.5 L 62,18.5 L 66.5,18 Z" 
         fill="#FFFFFF" 

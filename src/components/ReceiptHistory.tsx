@@ -111,7 +111,7 @@ const ReceiptMiniThumbnail: React.FC<ReceiptMiniThumbnailProps> = ({
             <div className="absolute top-0 left-0 right-0 h-[4px] bg-linear-to-b from-gray-200 to-transparent" />
             
             <div className="text-center font-bold text-[11px] tracking-tight uppercase text-gray-900">
-              {schoolConfig.name || "KARONEY SUPPLIES"}
+              {schoolConfig.name || "GIKA BOOKSHOP"}
             </div>
             <div className="text-center text-[8px] text-gray-500 mt-0.5">
               {schoolConfig.address || "P.O. Box 4589-00100, Ruai, Nairobi"}
@@ -203,7 +203,7 @@ const ReceiptMiniThumbnail: React.FC<ReceiptMiniThumbnailProps> = ({
             <div className="flex justify-between items-start gap-2 border-b pb-2 mb-2">
               <div>
                 <div className="font-bold text-[10px] text-gray-950 uppercase leading-none tracking-tight">
-                  {schoolConfig.name || "KARONEY SCHOOL SUPPLIES"}
+                  {schoolConfig.name || "GIKA BOOKSHOP"}
                 </div>
                 {schoolConfig.motto && (
                   <div className="text-[7px] text-gray-500 leading-none mt-1">
@@ -316,13 +316,13 @@ export const ReceiptHistory: React.FC<ReceiptHistoryProps> = ({
   onDuplicateReceipt,
   userRole,
   schoolConfig = {
-    name: "KARONEY SUPPLIES",
-    motto: "Quality Educational Aids and Excellence in Supplies",
-    address: "P.O. Box 4589-00100, Ruai, Nairobi, Kenya",
-    postalAddress: "4589-00100",
-    phone1: "0794431355",
-    phone2: "011458963",
-    email: "info@karoneyschoolsupplies.co.ke",
+    name: "GIKA BOOKSHOP",
+    motto: "Quality Books, Stationery & Professional School Supplies",
+    address: "P.O. Box 4545-00100 CBD",
+    postalAddress: "CBD, Nairobi, Kenya",
+    phone1: "0721223731",
+    phone2: "079845465",
+    email: "info@gikabookshop.co.ke",
     kraPin: "P051238491A",
     logoUrl: "",
     schoolStampUrl: ""
@@ -422,10 +422,10 @@ export const ReceiptHistory: React.FC<ReceiptHistoryProps> = ({
     if (type === 'email') {
       setDispatchDestination(rec.parentEmail || '');
       setDispatchSubject(`Official KRA eTIMS Receipt Statement: ${rec.receiptNo}`);
-      setDispatchMessage(`Dear ${rec.parentName || 'Client'},\n\nPlease find attached the official KRA eTIMS-secure electronic receipt ${rec.receiptNo} representing funds captured for ${rec.buyerName || 'General Buyer'} (KRA PIN: ${rec.buyerPin || 'N/A'}) for ${rec.term}, ${rec.academicYear}.\n\nTotal Paid: ${formatKES(rec.grandTotal)}\nOutstanding Statement Balance: ${formatKES(rec.balance)}\n\nThank you for choosing Karoney Supplies.\n\nWarm regards,\nBilling Team`);
+      setDispatchMessage(`Dear ${rec.parentName || 'Client'},\n\nPlease find attached the official KRA eTIMS-secure electronic receipt ${rec.receiptNo} representing funds captured for ${rec.buyerName || 'General Buyer'} (KRA PIN: ${rec.buyerPin || 'N/A'}) for ${rec.term}, ${rec.academicYear}.\n\nTotal Paid: ${formatKES(rec.grandTotal)}\nOutstanding Statement Balance: ${formatKES(rec.balance)}\n\nThank you for choosing Gika Bookshop.\n\nWarm regards,\nBilling Team`);
     } else {
       setDispatchDestination(rec.parentPhone || '');
-      setDispatchMessage(`*KARONEY SUPPLIES OFFICIAL BILLING*\n\nHello ${rec.parentName || 'Client'},\nWe have compiled your digitally verified eTIMS invoice receipt *${rec.receiptNo}* for *${rec.buyerName || 'General Buyer'}*.\n\n*Term:* ${rec.term}\n*Total Fee Paid:* ${formatKES(rec.grandTotal)}\n*Control Unit ID:* ${rec.controlUnitNo}\n*KRA Verification PIN:* ${rec.verificationCode}\n\nDownload full statement PDF here: https://karoneysupplies.co.ke/receipts/${rec.id}`);
+      setDispatchMessage(`*GIKA BOOKSHOP OFFICIAL BILLING*\n\nHello ${rec.parentName || 'Client'},\nWe have compiled your digitally verified eTIMS invoice receipt *${rec.receiptNo}* for *${rec.buyerName || 'General Buyer'}*.\n\n*Term:* ${rec.term}\n*Total Fee Paid:* ${formatKES(rec.grandTotal)}\n*Control Unit ID:* ${rec.controlUnitNo}\n*KRA Verification PIN:* ${rec.verificationCode}\n\nDownload full statement PDF here: https://gikabookshop.co.ke/receipts/${rec.id}`);
     }
   };
 
@@ -786,7 +786,7 @@ export const ReceiptHistory: React.FC<ReceiptHistoryProps> = ({
                   Send securely via {dispatchType === 'email' ? 'Electronic Mail' : 'SMS KRA Relay'}
                 </h3>
                 <p className="text-xs text-gray-500 font-sans">
-                  Simulating Karoney School Supplies institutional outbound communications.
+                  Simulating Gika Bookshop institutional outbound communications.
                 </p>
               </div>
             </div>

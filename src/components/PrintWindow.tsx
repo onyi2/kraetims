@@ -110,7 +110,7 @@ export const PrintWindow: React.FC<PrintWindowProps> = ({
   const doubleSeparator = "============================================";
   const singleSeparator = "--------------------------------------------";
 
-  const schoolNameLine = centerText((schoolConfig.name || "KARONEY SUPPLIES").toUpperCase(), 44);
+  const schoolNameLine = centerText((schoolConfig.name || "GIKA BOOKSHOP").toUpperCase(), 44);
   
   let schoolBoxAddress = schoolConfig.address;
   if (!schoolBoxAddress.toUpperCase().includes("BOX")) {
@@ -251,7 +251,7 @@ ${docFooterLine2}`;
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Receipt ${receipt.receiptNo} - Karoney School Supplies</title>
+  <title>Receipt ${receipt.receiptNo} - Gika Bookshop</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
     body {
@@ -358,7 +358,7 @@ To verify:
 Scan the QR code using KRA eTIMS App
 or verify through KRA taxpayer portal.
 
-THANK YOU FOR SUPPORTING ${(schoolConfig.name || "KARONEY SCHOOL SUPPLIES").toUpperCase()}
+THANK YOU FOR SUPPORTING ${(schoolConfig.name || "GIKA BOOKSHOP").toUpperCase()}
 ============================================</pre>
 
     <a href="#" class="print-btn" onclick="window.print(); return false;">Print Action</a>
@@ -372,7 +372,7 @@ THANK YOU FOR SUPPORTING ${(schoolConfig.name || "KARONEY SCHOOL SUPPLIES").toUp
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>${receipt.receiptNo} - Karoney School Supplies Receipt</title>
+  <title>${receipt.receiptNo} - Gika Bookshop Receipt</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
     body {
@@ -933,7 +933,7 @@ To verify:
 Scan the QR code using KRA eTIMS App
 or verify through KRA taxpayer portal.
 
-THANK YOU FOR SUPPORTING ${(schoolConfig.name || "KARONEY SCHOOL SUPPLIES").toUpperCase()}
+THANK YOU FOR SUPPORTING ${(schoolConfig.name || "GIKA BOOKSHOP").toUpperCase()}
 ============================================`}
             </pre>
           </div>

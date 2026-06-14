@@ -5,23 +5,23 @@
 
 import { ProductPreset, SchoolConfig, Receipt, ReceiptItem } from '../types';
 
-// Karoney Supplies default configuration
+// Gika Bookshop default configuration
 export const defaultSchoolConfig: SchoolConfig = {
-  name: "KARONEY SUPPLIES",
-  motto: "Quality Educational Aids and Excellence in Supplies",
+  name: "GIKA BOOKSHOP",
+  motto: "Quality Books, Stationery & Professional School Supplies",
   logoUrl: null, // We will render a stunning SVG-based brand logo
-  address: "P.O. Box 4589-00100, Ruai, Nairobi",
-  postalAddress: "off eastern bypass, Nairobi, Kenya",
-  phone1: "0794431355",
-  phone2: "011458963",
-  email: "info@karoneyschoolsupplies.co.ke",
-  website: "www.karoneyschoolsupplies.co.ke",
+  address: "P.O. Box 4545-00100 CBD",
+  postalAddress: "CBD, Nairobi, Kenya",
+  phone1: "0721223731",
+  phone2: "079845465",
+  email: "info@gikabookshop.co.ke",
+  website: "www.gikabookshop.co.ke",
   kraPin: "P051238491A",
   etimsRegNo: "ETIMS-109485721",
   schoolRegNo: "MOE/PE/0984/2018"
 };
 
-// Complete product and fees catalogs loaded from Karoney School Supplies specs
+// Complete product and fees catalogs loaded from Gika Bookshop specs
 export const productPresets: ProductPreset[] = [
   // --- GRADE 2 UNIFORMS ---
   { id: 'g2u-dress', description: 'Uniform Dress', category: 'Uniforms', unitPrice: 700, grade: 'Grade 2' },
@@ -31,7 +31,7 @@ export const productPresets: ProductPreset[] = [
   { id: 'g2u-fleece', description: 'Fleece Jacket', category: 'Uniforms', unitPrice: 2000, grade: 'Grade 2' },
   { id: 'g2u-tracksuit', description: 'Sports Tracksuit', category: 'Uniforms', unitPrice: 1500, grade: 'Grade 2' },
   { id: 'g2u-tshirt', description: 'Sports T-Shirt', category: 'Uniforms', unitPrice: 600, grade: 'Grade 2' },
-  { id: 'g2u-bag', description: 'Karoney Branded School Bag', category: 'Uniforms', unitPrice: 2500, grade: 'Grade 2' },
+  { id: 'g2u-bag', description: 'Gika Branded School Bag', category: 'Uniforms', unitPrice: 2500, grade: 'Grade 2' },
   { id: 'g2u-shoes', description: 'Bata School Shoes Black', category: 'Uniforms', unitPrice: 2499, grade: 'Grade 2' },
 
   // --- GRADE 5 UNIFORMS ---
@@ -42,7 +42,7 @@ export const productPresets: ProductPreset[] = [
   { id: 'g5u-fleece', description: 'Fleece Jacket', category: 'Uniforms', unitPrice: 2000, grade: 'Grade 5' },
   { id: 'g5u-tracksuit', description: 'Sports Tracksuit', category: 'Uniforms', unitPrice: 1500, grade: 'Grade 5' },
   { id: 'g5u-tshirt', description: 'Sports T-Shirt', category: 'Uniforms', unitPrice: 600, grade: 'Grade 5' },
-  { id: 'g5u-bag', description: 'Karoney Branded School Bag L', category: 'Uniforms', unitPrice: 2500, grade: 'Grade 5' },
+  { id: 'g5u-bag', description: 'Gika Branded School Bag L', category: 'Uniforms', unitPrice: 2500, grade: 'Grade 5' },
   { id: 'g5u-shoes', description: 'Bata School Shoes Premium', category: 'Uniforms', unitPrice: 2799, grade: 'Grade 5' },
 
   // --- GRADE 2 BOOKS ---

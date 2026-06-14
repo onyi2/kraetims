@@ -592,9 +592,9 @@ export const ReceiptView: React.FC<ReceiptViewProps> = ({
 
                       {/* Header lines inside rubber seal */}
                       <g fontFamily="system-ui, -apple-system, sans-serif" textAnchor="middle" fill="#2563EB">
-                        <text x="150" y="28" fontSize="11" fontWeight="950" letterSpacing="0.4">KARONEY SUPPLIES</text>
-                        <text x="150" y="42" fontSize="7.5" fontWeight="bold" letterSpacing="0.1">P.O. Box 4589 - 00100, RUAI</text>
-                        <text x="150" y="52" fontSize="7" fontWeight="bold" letterSpacing="0.05">Tel: 0794 431355, 0114 58963</text>
+                        <text x="150" y="28" fontSize="11" fontWeight="950" letterSpacing="0.4">GIKA BOOKSHOP</text>
+                        <text x="150" y="42" fontSize="7.5" fontWeight="bold" letterSpacing="0.1">P.O. Box 4545-00100, CBD</text>
+                        <text x="150" y="52" fontSize="7" fontWeight="bold" letterSpacing="0.05">Tel: 0721223731, 079845465</text>
                       </g>
 
                       {/* Red Dater Seal (Drawn rotated for authentic physical realism) */}
@@ -607,7 +607,7 @@ export const ReceiptView: React.FC<ReceiptViewProps> = ({
                       {/* Bottom designation credentials */}
                       <g fontFamily="system-ui, -apple-system, sans-serif" textAnchor="middle" fill="#2563EB">
                         <text x="140" y="118" fontSize="10" fontWeight="900" letterSpacing="0.4">ADMINISTRATION MANAGER</text>
-                        <text x="140" y="130" fontSize="7.5" fontWeight="bold">info@karoneyschoolsupplies.co.ke</text>
+                        <text x="140" y="130" fontSize="7.5" fontWeight="bold">info@gikabookshop.co.ke</text>
                       </g>
                     </g>
                   )}

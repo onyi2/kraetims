@@ -25,7 +25,7 @@ export const generateMpesaSvg = (amount: number, refNo: string, studentName: str
     <text x="376" y="44" fill="#C8E6C9" font-family="monospace" font-weight="bold" font-size="11" text-anchor="end">TX_SUCCESS</text>
     
     <text x="200" y="130" fill="#2E7D32" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, sans-serif" font-weight="900" font-size="30" text-anchor="middle">KES ${balance}.00</text>
-    <text x="200" y="152" fill="#558B2F" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, sans-serif" font-weight="700" font-size="11" text-anchor="middle" letter-spacing="1">PAID TO KARONEY SCHOOL SUPPLIES</text>
+    <text x="200" y="152" fill="#558B2F" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, sans-serif" font-weight="700" font-size="11" text-anchor="middle" letter-spacing="1">PAID TO GIKA BOOKSHOP</text>
     
     <line x1="30" y1="180" x2="370" y2="180" stroke="#A5D6A7" stroke-width="1.5" stroke-dasharray="6 4"/>
     
@@ -49,7 +49,7 @@ export const generateMpesaSvg = (amount: number, refNo: string, studentName: str
     <rect x="30" y="380" width="340" height="90" fill="white" rx="14" stroke="#4CAF50" stroke-width="1.5" stroke-dasharray="4"/>
     <text x="200" y="414" fill="#1B5E20" font-family="-apple-system, sans-serif" font-size="12" font-weight="800" text-anchor="middle" letter-spacing="0.5">M-PESA DEPOSIT RECONCILED</text>
     <text x="200" y="438" fill="#666" font-family="-apple-system, sans-serif" font-size="10" text-anchor="middle">Safaricom Paybill 400222 account cleared.</text>
-    <text x="200" y="452" fill="#999" font-family="monospace" font-size="8" text-anchor="middle">RECONCILED BY KARONEY SCHOOL BURSAR</text>
+    <text x="200" y="452" fill="#999" font-family="monospace" font-size="8" text-anchor="middle">RECONCILED BY GIKA BOOKSHOP ADMIN</text>
   </svg>`;
   return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
 };
@@ -123,7 +123,7 @@ export const generateChequeSlipSvg = (amount: number, refNo: string, studentName
     
     <!-- Check body -->
     <text x="30" y="85" fill="#546E7A" font-family="sans-serif" font-weight="bold" font-size="9" letter-spacing="0.5">PAY </text>
-    <text x="70" y="85" fill="#1A237E" font-family="sans-serif" font-weight="800" font-size="13">KARONEY SCHOOL SUPPLIES</text>
+    <text x="70" y="85" fill="#1A237E" font-family="sans-serif" font-weight="800" font-size="13">GIKA BOOKSHOP</text>
     <line x1="65" y1="89" x2="350" y2="89" stroke="#CFD8DC" stroke-dasharray="3 3"/>
     
     <text x="365" y="85" fill="#3E2723" font-family="sans-serif" font-weight="900" font-size="13">KES **${balance}.00**</text>
@@ -159,10 +159,10 @@ export const generateClassicOfficialStamp = (
   email: string,
   dateStr: string = "06 MAY 2026"
 ): string => {
-  const cleanName = (schoolName || "KARONEY SUPPLIES").toUpperCase();
-  const cleanAddress = address || "P.O. Box 4589-00100, RUAI, NAIROBI";
-  const cleanPhone = phone || "Tel: 0794 431355, 0114 58963";
-  const cleanEmail = email || "info@karoneyschoolsupplies.co.ke";
+  const cleanName = (schoolName || "GIKA BOOKSHOP").toUpperCase();
+  const cleanAddress = address || "P.O. Box 4545-00100, CBD";
+  const cleanPhone = phone || "Tel: 0721223731, 079845465";
+  const cleanEmail = email || "info@gikabookshop.co.ke";
   
   // Format the date parameter beautifully for dater stamp look (e.g., "13 JUN 2026")
   let displayDate = dateStr.toUpperCase();
@@ -262,7 +262,7 @@ export const generateClassicOfficialStamp = (
 };
 
 /**
- * Generates an SVG representation of an official Karoney School Supplies uniform/item fee schedule slip,
+ * Generates an SVG representation of an official Gika Bookshop uniform/item fee schedule slip,
  * resembling the exact item/price sheet uploaded by the user.
  */
 export const generateUniformPriceListSlipSvg = (): string => {
@@ -279,8 +279,8 @@ export const generateUniformPriceListSlipSvg = (): string => {
     </g>
 
     <!-- Header Text -->
-    <text x="290" y="32" font-family="-apple-system, sans-serif" font-weight="900" font-size="16" fill="#1E3A8A" text-anchor="middle" letter-spacing="1">KARONEY SUPPLIES</text>
-    <text x="290" y="47" font-family="-apple-system, sans-serif" font-weight="bold" font-size="8.5" fill="#1E40AF" text-anchor="middle" letter-spacing="0.2">P.O. Box 4589-00100, RUAI  TEL: 0794431355/011458963</text>
+    <text x="290" y="32" font-family="-apple-system, sans-serif" font-weight="900" font-size="16" fill="#1E3A8A" text-anchor="middle" letter-spacing="1">GIKA BOOKSHOP</text>
+    <text x="290" y="47" font-family="-apple-system, sans-serif" font-weight="bold" font-size="8.5" fill="#1E40AF" text-anchor="middle" letter-spacing="0.2">P.O. Box 4545-00100, CBD  TEL: 0721223731 / 079845465</text>
 
     <!-- Underline divider -->
     <line x1="20" y1="62" x2="520" y2="62" stroke="#CBD5E1" stroke-width="1.5"/>
@@ -343,9 +343,9 @@ export const generateUniformPriceListSlipSvg = (): string => {
 
       <!-- Stamp Texts -->
       <g font-family="-apple-system, sans-serif" text-anchor="middle" fill="#2563EB">
-        <text x="210" y="44" font-size="12" font-weight="900" letter-spacing="0.5">KARONEY SUPPLIES</text>
-        <text x="210" y="59" font-size="9" font-weight="bold">P.O. Box 4589-00100, RUAI</text>
-        <text x="210" y="72" font-size="8.5" font-weight="bold">Tel: 0794 431355, 0114 58963</text>
+        <text x="210" y="44" font-size="12" font-weight="900" letter-spacing="0.5">GIKA BOOKSHOP</text>
+        <text x="210" y="59" font-size="9" font-weight="bold">P.O. Box 4545-00100, CBD</text>
+        <text x="210" y="72" font-size="8.5" font-weight="bold">Tel: 0721223731, 079845465</text>
       </g>
 
       <!-- Ink Date -->
@@ -354,7 +354,7 @@ export const generateUniformPriceListSlipSvg = (): string => {
       <!-- Bottom designation -->
       <g font-family="-apple-system, sans-serif" text-anchor="middle" fill="#2563EB">
         <text x="190" y="152" font-size="12" font-weight="800">ADMINISTRATION MANAGER</text>
-        <text x="190" y="167" font-size="9" font-weight="bold">info@karoneyschoolsupplies.co.ke</text>
+        <text x="190" y="167" font-size="9" font-weight="bold">info@gikabookshop.co.ke</text>
       </g>
 
       <!-- Signature under stamp -->
