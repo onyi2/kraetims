@@ -110,11 +110,11 @@ export const PrintWindow: React.FC<PrintWindowProps> = ({
   const doubleSeparator = "============================================";
   const singleSeparator = "--------------------------------------------";
 
-  const schoolNameLine = centerText((schoolConfig.name || "KARONEY SCHOOL SUPPLIES").toUpperCase(), 44);
+  const schoolNameLine = centerText((schoolConfig.name || "KARONEY SUPPLIES").toUpperCase(), 44);
   
   let schoolBoxAddress = schoolConfig.address;
   if (!schoolBoxAddress.toUpperCase().includes("BOX")) {
-    schoolBoxAddress = `P.O. Box ${schoolConfig.postalAddress || "3735-00200"}, Nairobi, Kenya`;
+    schoolBoxAddress = `P.O. Box ${schoolConfig.postalAddress || "4589-00100"}, Nairobi, Kenya`;
   }
   const schoolAddressLine = centerText(schoolBoxAddress, 44);
   const phoneAndEmail = `TEL: ${schoolConfig.phone1} | ${schoolConfig.email}`;
@@ -132,7 +132,7 @@ export const PrintWindow: React.FC<PrintWindowProps> = ({
 
   const metaLine3 = `CU INVOICE NO: ${receipt.invoiceNo?.startsWith('INV') ? receipt.invoiceNo.replace('INV-', 'KRA00') : receipt.invoiceNo?.toUpperCase() || 'KRA0012345678910'}`;
 
-  const itemHeader = padRight("ITEM DESCRIPTION", 20) + padLeft("QTY", 3) + padLeft("RATE(KES)", 10) + padLeft("TOTAL(KES)", 11);
+  const itemHeader = padRight("ITEM DESCRIPTION", 20) + padLeft("QTY", 3) + padLeft("PRICE(KES)", 10) + padLeft("AMOUNT(KES)", 11);
 
   const itemsLines = receipt.items.map(itm => 
     formatItemLine(itm.description, itm.quantity, itm.unitPrice, itm.total)
@@ -142,7 +142,7 @@ export const PrintWindow: React.FC<PrintWindowProps> = ({
   const totalVATLine = formatTotalLine("TOTAL VAT (16%):", receipt.taxTotal);
   const totalAmountLine = formatTotalLine("TOTAL AMOUNT:", receipt.grandTotal);
 
-  const buyerNameLine = `BUYER: ${(receipt.buyerName || "Rockside Academy").toUpperCase()}`;
+  const buyerNameLine = `BUYER: ${(receipt.buyerName || "General Buyer").toUpperCase()}`;
   const buyerPinLine = `BUYER PIN: ${(receipt.buyerPin || "P051647289B").toUpperCase()}`;
   const paymentMethodLine = `PAYMENT METHOD: ${receipt.paymentMode.toUpperCase()}`;
   const paymentTxLabel = receipt.paymentMode.toUpperCase() === 'M-PESA' ? 'M-PESA TRANS ID' : 'TRANS ID';
@@ -156,8 +156,6 @@ export const PrintWindow: React.FC<PrintWindowProps> = ({
     "--------------------------------------------",
     paymentMethodLine,
     ...(paymentTxLine ? [paymentTxLine] : []),
-    ...(accountLine ? [accountLine] : []),
-    ...(studentLine ? [studentLine] : [])
   ].join('\n');
 
   const docFooterLine1 = centerText("THIS IS A VALID COMPUTER-GENERATED DOCUMENT", 44);
@@ -241,9 +239,9 @@ ${docFooterLine2}`;
     setIsDownloading(true);
     
     setTimeout(() => {
-      // Create clean filename based on guidelines: ReceiptNumber_StudentName_Date.pdf
-      const cleanStudentName = (receipt.studentName || 'receipt').replace(/[^a-zA-Z0-9]/g, "_");
-      const filename = `${receipt.receiptNo}_${cleanStudentName}_${receipt.date}.html`;
+      // Create clean filename based on guidelines: ReceiptNumber_BuyerName_Date.pdf
+      const cleanBuyerName = (receipt.buyerName || 'receipt').replace(/[^a-zA-Z0-9]/g, "_");
+      const filename = `${receipt.receiptNo}_${cleanBuyerName}_${receipt.date}.html`;
 
       let standaloneHTML = '';
 
@@ -345,7 +343,7 @@ ${docFooterLine2}`;
         <path fill="#ffffff" d="M0,0 h29 v29 h-29 z" />
         <path fill="#000000" d="M0,0 h7 v1 h-7 z M22,0 h7 v1 h-7 z M0,1 h1 v5 h-1 z M6,1 h1 v5 h-1 z M22,1 h1 v5 h-1 z M28,1 h1 v5 h-1 z M0,2 h1 v1 h1 v-1 h1 v1 h1 v-1 h1 v1 h-1 z M8,2 h2 v1 h-2 z M14,2 h3 v1 h-3 z M22,2 h1 v1 h1 v-1 h1 v1 h1 v-1 h1 v1 h-1 z M0,3 h1 v1 h-1 z M6,3 h1 v1 h-1 z M22,3 h1 v1 h-1 z M28,3 h1 v1 h-1 z M0,4 h1 v1 h-1 z M6,4 h1 v1 h-1 z M22,4 h1 v1 h-1 z M28,4 h1 v1 h-1 z M0,5 h1 v1 h-1 z M6,5 h1 v1 h-1 z M22,5 h1 v1 h-1 z M28,5 h1 v1 h-1 z M0,6 h7 v1 h-7 z M22,6 h7 v1 h-7 z M8,7 h1 v1 h1 v-1 z M13,7 h1 v2 h-1 z M19,7 h2 v1 h-2 z M0,8 h5 v1 h-5 z M25,8 h3 v1 h-3 z M1,9 h2 v1 h-2 z M8,9 h3 v1 h-3 z M16,9 h1 v1 h-1 z M23,9 h2 v1 h-2 z M0,10 h3 v1 h-3 z M5,10 h1 v1 h-1 z M11,10 h2 v1 h-2 z M18,10 h1 v1 h-1 z M24,10 h4 v1 h-4 z M0,11 h1 v1 h1 v-1 z M15,11 h1 v1 h-1 z M20,11 h2 v1 h-2 z M0,12 h5 v1 h-5 z M6,12 h1 v1 h-1 z M13,12 h2 v1 h-2 z M19,12 h4 v1 h-4 z M27,12 h2 v1 h-2 z M1,13 h1 v1 h-1 z M10,13 h2 v1 h-2 z M17,13 h1 v1 h-1 z M23,13 h2 v1 h-2 z M4,14 h2 v1 h-2 z M12,14 h2 v1 h-2 z M19,14 h3 v1 h-3 z M27,14 h1 v1 h-1 z M0,15 h1 v1 h-1 z M7,15 h3 v1 h-3 z M14,15 h2 v1 h-2 z M22,15 h2 v1 h-2 z M2,16 h3 v1 h-3 z M11,16 h2 v1 h-2 z M18,16 h1 v1 h-1 z M24,16 h3 v1 h-3 z M0,17 h1 v1 h1 v-1 z M9,17 h2 v1 h-2 z M15,17 h2 v1 h-2 z M20,17 h1 v1 h-1 z M5,18 h1 v1 h-1 z M13,18 h2 v1 h-2 z M19,18 h4 v1 h-4 z M26,18 h2 v1 h-2 z M1,19 h3 v1 h-3 z M11,19 h1 v1 h-1 z M17,19 h2 v1 h-2 z M23,19 h2 v1 h-2 z M0,20 h3 v1 h-3 z M9,20 h2 v1 h-2 z M14,20 h3 v1 h-3 z M21,20 h5 v1 h-5 z M4,21 h1 v1 h-1 z M12,21 h2 v1 h-2 z M18,21 h1 v1 h-1 z M27,21 h2 v1 h-2 z M0,22 h7 v1 h-7 z M10,22 h2 v1 h-2 z M15,22 h1 v1 h-1 z M24,22 h3 v1 h-3 z M0,23 h1 v1 h-1 z M6,23 h1 v1 h-1 z M13,23 h2 v1 h-2 z M19,23 h1 v1 h-1 z M27,23 h1 v1 h-1 z M0,24 h1 v1 h-1 z M6,24 h1 v1 h-1 z M10,24 h2 v1 h-2 z M16,24 h2 v1 h-2 z M24,24 h3 v1 h-3 z M0,25 h1 v1 h-1 z M6,25 h1 v1 h-1 z M14,25 h1 v1 h-1 z M20,25 h2 v1 h-2 z M0,26 h1 v1 h-1 z M6,26 h1 v1 h-1 z M11,26 h2 v1 h-2 z M18,26 h1 v1 h-1 z M25,26 h3 v1 h-3 z M0,27 h1 v1 h-1 z M6,27 h1 v1 h-1 z M15,27 h2 v1 h-2 z M21,27 h2 v1 h-2 z M0,28 h7 v1 h-7 z M9,28 h2 v1 h-2 z M14,28 h3 v1 h-3 z M19,28 h4 v1 h-4 z" />
       </svg>
-      <div class="qr-text">VERIFICATION CODE: ${receipt.verificationCode}</div>
+      <div class="qr-text">END OF FISCAL RECEIPT</div>
     </div>
 
     <pre>
@@ -644,12 +642,10 @@ THANK YOU FOR SUPPORTING ${(schoolConfig.name || "KARONEY SCHOOL SUPPLIES").toUp
       </div>
       
       <div class="meta-card">
-        <div class="meta-title">Buyer & Student Profile</div>
-        <div class="meta-row"><span class="meta-label">Buyer Name:</span><span class="meta-val" style="text-transform: uppercase; font-weight: bold;">${receipt.buyerName || 'Rockside Academy'}</span></div>
+        <div class="meta-title">Buyer & Billing Profile</div>
+        <div class="meta-row"><span class="meta-label">Buyer Name:</span><span class="meta-val" style="text-transform: uppercase; font-weight: bold;">${receipt.buyerName || 'General Buyer'}</span></div>
         <div class="meta-row"><span class="meta-label">Buyer PIN:</span><span class="meta-val" style="font-family: monospace;">${receipt.buyerPin || 'P051647289B'}</span></div>
-        ${receipt.studentName ? `<div class="meta-row" style="border-top: 1px dashed #cbd5e1; padding-top: 4px; margin-top: 4px;"><span class="meta-label">Student:</span><span class="meta-val" style="font-weight: 600;">${receipt.studentName}</span></div>` : ''}
-        ${receipt.admissionNo ? `<div class="meta-row"><span class="meta-label">Adm No:</span><span class="meta-val">${receipt.admissionNo}</span></div>` : ''}
-        <div class="meta-row"><span class="meta-label">Class:</span><span class="meta-val">${receipt.studentClass}</span></div>
+        <div class="meta-row" style="border-top: 1px dashed #cbd5e1; padding-top: 4px; margin-top: 4px;"><span class="meta-label">Category:</span><span class="meta-val" style="font-weight: 500;">${receipt.studentClass}</span></div>
         <div class="meta-row"><span class="meta-label">Payment:</span><span class="meta-val">${receipt.paymentMode} (${receipt.paymentRef || 'N/A'})</span></div>
       </div>
     </div>
@@ -661,8 +657,8 @@ THANK YOU FOR SUPPORTING ${(schoolConfig.name || "KARONEY SCHOOL SUPPLIES").toUp
           <th>Description</th>
           <th>Category</th>
           <th class="center-align">Qty</th>
-          <th class="right-align">Unit Price</th>
-          <th class="right-align">Total Price</th>
+          <th class="right-align">Price</th>
+          <th class="right-align">Amount</th>
         </tr>
       </thead>
       <tbody>
@@ -682,7 +678,7 @@ THANK YOU FOR SUPPORTING ${(schoolConfig.name || "KARONEY SCHOOL SUPPLIES").toUp
     <div class="ledger-math">
       <div class="math-card">
         <div class="meta-row"><span class="meta-label">Subtotal:</span><span>KES ${receipt.subtotal.toFixed(2)}</span></div>
-        <div class="meta-row"><span class="meta-label">Discount:</span><span style="color: #059669;">-KES ${receipt.discountTotal.toFixed(2)}</span></div>
+        ${receipt.discountTotal > 0 ? `<div class="meta-row"><span class="meta-label">Discount:</span><span style="color: #059669;">-KES ${receipt.discountTotal.toFixed(2)}</span></div>` : ''}
         <div class="meta-row"><span class="meta-label">VAT Charge (16%):</span><span>KES ${receipt.taxTotal.toFixed(2)}</span></div>
         <div class="meta-row total-row"><span class="meta-label" style="color:#0d47a1;">Grand Total:</span><span>KES ${receipt.grandTotal.toFixed(2)}</span></div>
         <div class="meta-row" style="margin-top: 10px;"><span class="meta-label">Paid Amount:</span><span style="color: #059669; font-weight: bold;">KES ${receipt.amountPaid.toFixed(2)}</span></div>
@@ -921,7 +917,7 @@ THANK YOU FOR SUPPORTING ${(schoolConfig.name || "KARONEY SCHOOL SUPPLIES").toUp
             <div className="my-3 flex flex-col items-center gap-1.5 bg-gray-50 p-2.5 rounded-lg border border-gray-200">
               <QRCodeSVG value={buildVerificationUrl(receipt)} size={115} />
               <div className="text-[8px] text-gray-500 font-mono font-bold tracking-widest mt-1">
-                VERIFICATION CODE: {receipt.verificationCode}
+                END OF FISCAL RECEIPT
               </div>
             </div>
 

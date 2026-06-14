@@ -25,7 +25,7 @@ import {
 import { Receipt, SchoolConfig } from '../types';
 import { QRCodeSVG } from './QRCodeSVG';
 import { buildVerificationUrl } from '../data/presets';
-import { RocksideLogo } from './RocksideLogo';
+import { KaroneyLogo } from './KaroneyLogo';
 
 interface ReceiptViewProps {
   receipt: Receipt;
@@ -253,7 +253,7 @@ export const ReceiptView: React.FC<ReceiptViewProps> = ({
               />
             </div>
           ) : (
-            <RocksideLogo size={80} className="hover:scale-105 transition-transform duration-200" />
+            <KaroneyLogo size={80} className="hover:scale-105 transition-transform duration-200" />
           )}
         </div>
 
@@ -344,7 +344,7 @@ export const ReceiptView: React.FC<ReceiptViewProps> = ({
           <div className="grid grid-cols-3 gap-y-1.5 gap-x-2">
             <span className="font-semibold text-gray-500">Buyer Name:</span>
             <span className="col-span-2 font-bold text-gray-900 uppercase">
-              {receipt.buyerName || "Rockside Academy"}
+              {receipt.buyerName || "General Buyer"}
             </span>
 
             <span className="font-semibold text-gray-500">Buyer PIN:</span>
@@ -371,7 +371,7 @@ export const ReceiptView: React.FC<ReceiptViewProps> = ({
 
             {receipt.parentName && (
               <>
-                <span className="font-semibold text-gray-500">Guardian:</span>
+                <span className="font-semibold text-gray-500">Contact Person:</span>
                 <span className="col-span-2 text-gray-700">{receipt.parentName}</span>
               </>
             )}
@@ -396,16 +396,15 @@ export const ReceiptView: React.FC<ReceiptViewProps> = ({
               <th className="py-2.5 px-2">Description</th>
               <th className="py-2.5 px-2">Category</th>
               <th className="py-2.5 px-2 text-center">Qty</th>
-              <th className="py-2.5 px-2 text-right">Rate</th>
-              <th className="py-2.5 px-2 text-right">Disc</th>
+              <th className="py-2.5 px-2 text-right">Price</th>
               <th className="py-2.5 px-2 text-center text-[10px]">VAT %</th>
-              <th className="py-2.5 px-3 text-right">KES Line Total</th>
+              <th className="py-2.5 px-3 text-right">Amount</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100 text-xs">
             {receipt.items.length === 0 ? (
               <tr>
-                <td colSpan={8} className="py-8 text-center text-gray-400 font-medium">
+                <td colSpan={7} className="py-8 text-center text-gray-400 font-medium">
                   No items populated in invoice breakdown yet.
                 </td>
               </tr>
@@ -417,9 +416,6 @@ export const ReceiptView: React.FC<ReceiptViewProps> = ({
                   <td className="py-2.5 px-2 text-gray-500 font-medium text-[11px]">{itm.category}</td>
                   <td className="py-2.5 px-2 text-center font-mono">{itm.quantity}</td>
                   <td className="py-2.5 px-2 text-right font-mono">{itm.unitPrice.toLocaleString()}.00</td>
-                  <td className="py-2.5 px-2 text-right font-mono text-gray-400">
-                    {itm.discount > 0 ? `-${itm.discount.toLocaleString()}` : '0'}.00
-                  </td>
                   <td className="py-2.5 px-2 text-center font-mono">
                     {itm.taxRate}% <span className="text-[10px] bg-gray-100 text-gray-600 px-1 py-0.2 rounded">{itm.taxType}</span>
                   </td>
@@ -462,10 +458,12 @@ export const ReceiptView: React.FC<ReceiptViewProps> = ({
             <span className="font-semibold text-gray-800">{formatKES(receipt.subtotal)}</span>
           </div>
           
-          <div className="flex justify-between text-gray-500">
-            <span>Discounts:</span>
-            <span className="font-semibold text-emerald-600">-{formatKES(receipt.discountTotal)}</span>
-          </div>
+          {receipt.discountTotal > 0 && (
+            <div className="flex justify-between text-gray-500">
+              <span>Discounts:</span>
+              <span className="font-semibold text-emerald-600">-{formatKES(receipt.discountTotal)}</span>
+            </div>
+          )}
 
           <div className="flex justify-between text-gray-500 pb-1 border-b">
             <span>Standard VAT (16%):</span>
@@ -537,8 +535,8 @@ export const ReceiptView: React.FC<ReceiptViewProps> = ({
               </span>
             </div>
           </div>
-          <div className="text-[9px] font-mono text-gray-400 text-center uppercase tracking-widest leading-none mt-1">
-            VERIFICATION CODE: {receipt.verificationCode}
+          <div className="text-[9px] font-mono text-gray-500 font-bold text-center uppercase tracking-widest leading-none mt-1">
+            END OF FISCAL RECEIPT
           </div>
         </div>
 
@@ -594,9 +592,9 @@ export const ReceiptView: React.FC<ReceiptViewProps> = ({
 
                       {/* Header lines inside rubber seal */}
                       <g fontFamily="system-ui, -apple-system, sans-serif" textAnchor="middle" fill="#2563EB">
-                        <text x="150" y="28" fontSize="11" fontWeight="950" letterSpacing="0.4">KARONEY SCHOOL SUPPLIES</text>
-                        <text x="150" y="42" fontSize="7.5" fontWeight="bold" letterSpacing="0.1">P.O. Box 3735 - 00200, NAIROBI</text>
-                        <text x="150" y="52" fontSize="7" fontWeight="bold" letterSpacing="0.05">Tel: 0718 164141, 0734 808355</text>
+                        <text x="150" y="28" fontSize="11" fontWeight="950" letterSpacing="0.4">KARONEY SUPPLIES</text>
+                        <text x="150" y="42" fontSize="7.5" fontWeight="bold" letterSpacing="0.1">P.O. Box 4589 - 00100, RUAI</text>
+                        <text x="150" y="52" fontSize="7" fontWeight="bold" letterSpacing="0.05">Tel: 0794 431355, 0114 58963</text>
                       </g>
 
                       {/* Red Dater Seal (Drawn rotated for authentic physical realism) */}
@@ -723,7 +721,7 @@ export const ReceiptView: React.FC<ReceiptViewProps> = ({
                 <Paperclip className="h-4 w-4 text-primary-600" />
                 Proof of Payment: {receipt.receiptNo}
               </h3>
-              <p className="text-[10px] text-gray-400 mt-0.5">Linked to student {receipt.studentName || 'Not Set'} ({receipt.admissionNo || 'Not Set'})</p>
+              <p className="text-[10px] text-gray-400 mt-0.5">Linked to client {receipt.buyerName || 'Not Set'} ({receipt.buyerPin || 'Not Set'})</p>
             </div>
             <div className="bg-gray-100 p-4 rounded-xl flex-1 flex items-center justify-center overflow-auto min-h-[250px]">
               <img 

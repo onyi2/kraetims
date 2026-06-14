@@ -1,11 +1,11 @@
 import React from 'react';
 
-interface RocksideLogoProps {
+interface KaroneyLogoProps {
   className?: string;
   size?: number;
 }
 
-export const RocksideLogo: React.FC<RocksideLogoProps> = ({ 
+export const KaroneyLogo: React.FC<KaroneyLogoProps> = ({ 
   className = '', 
   size = 80 
 }) => {

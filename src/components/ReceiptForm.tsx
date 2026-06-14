@@ -77,7 +77,7 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
       parentName: '',
       parentPhone: '',
       parentEmail: '',
-      buyerName: 'Rockside Academy',
+      buyerName: 'General Buyer',
       buyerPin: 'P051647289B',
       paymentRef: '',
       paymentMode: 'M-Pesa',
@@ -343,12 +343,8 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
   };
 
   const handleSaveWorkspace = () => {
-    if (!receipt.studentName) {
-      alert("Please fill in the Student Name");
-      return;
-    }
-    if (!receipt.admissionNo) {
-      alert("Please fill in the Admission Number");
+    if (!receipt.buyerName) {
+      alert("Please fill in the Buyer Name");
       return;
     }
     if (receipt.items.length === 0) {
@@ -455,155 +451,21 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
           <div className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm space-y-4">
             <h3 className="text-sm font-bold text-gray-900 border-b border-gray-100 pb-2 flex items-center gap-2">
               <User className="h-4 w-4 text-primary-500" />
-              Student Profile Information
+              Buyer Demographics & Profile Information
             </h3>
 
+            {/* Corporate Buyer Details section representing default */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
-                  Full Student Name *
-                </label>
-                <input
-                  type="text"
-                  placeholder="e.g. Joy Muthoni"
-                  value={receipt.studentName}
-                  onChange={(e) => setReceipt(prev => ({ ...prev, studentName: e.target.value }))}
-                  className="w-full text-xs px-3.5 py-2.5 bg-gray-50 rounded-xl border border-gray-200 focus:bg-white focus:outline-primary-500 focus:border-primary-500"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
-                  Admission Number *
-                </label>
-                <input
-                  type="text"
-                  placeholder="e.g. RA/C/2025/1210"
-                  value={receipt.admissionNo}
-                  onChange={(e) => setReceipt(prev => ({ ...prev, admissionNo: e.target.value }))}
-                  className="w-full text-xs px-3.5 py-2.5 bg-gray-50 rounded-xl border border-gray-200 focus:bg-white focus:outline-primary-500 focus:border-primary-500 font-mono uppercase"
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-3 gap-2">
-              <div>
-                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
-                  Grade Level
-                </label>
-                <select
-                  value={receipt.studentGrade}
-                  onChange={(e) => {
-                    const gr = e.target.value;
-                    setReceipt(prev => ({ 
-                      ...prev, 
-                      studentGrade: gr,
-                      studentClass: prev.studentStream === 'N/A' ? gr : `${gr} ${prev.studentStream}`
-                    }));
-                  }}
-                  className="w-full text-xs px-3 py-2 bg-gray-50 rounded-xl border border-gray-200 focus:bg-white"
-                >
-                  <option value="Grade 2">Grade 2</option>
-                  <option value="Grade 5">Grade 5</option>
-                  <option value="Grade 1">Grade 1</option>
-                  <option value="Grade 3">Grade 3</option>
-                  <option value="Grade 4">Grade 4</option>
-                  <option value="Grade 6">Grade 6</option>
-                  <option value="PP1">PP1</option>
-                  <option value="PP2">PP2</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
-                  Stream
-                </label>
-                <select
-                  value={receipt.studentStream}
-                  onChange={(e) => {
-                    const st = e.target.value;
-                    setReceipt(prev => ({ 
-                      ...prev, 
-                      studentStream: st,
-                      studentClass: st === 'N/A' ? prev.studentGrade : `${prev.studentGrade} ${st}`
-                    }));
-                  }}
-                  className="w-full text-xs px-3 py-2 bg-gray-50 rounded-xl border border-gray-200 focus:bg-white"
-                >
-                  <option value="West">West</option>
-                  <option value="East">East</option>
-                  <option value="North">North</option>
-                  <option value="South">South</option>
-                  <option value="N/A">N/A</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
-                  Computed Class
-                </label>
-                <input
-                  type="text"
-                  disabled
-                  value={receipt.studentClass}
-                  className="w-full text-xs px-3.5 py-2.5 bg-gray-100 rounded-xl border border-gray-200 text-gray-500 font-medium"
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <div>
-                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
-                  Parent / Guardian Name
-                </label>
-                <input
-                  type="text"
-                  placeholder="Parent Full Name"
-                  value={receipt.parentName}
-                  onChange={(e) => setReceipt(prev => ({ ...prev, parentName: e.target.value }))}
-                  className="w-full text-xs px-3 py-2 bg-gray-50 rounded-xl border border-gray-200 focus:bg-white"
-                />
-              </div>
-              
-              <div>
-                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
-                  Parent Phone
-                </label>
-                <input
-                  type="text"
-                  placeholder="+254 7..."
-                  value={receipt.parentPhone}
-                  onChange={(e) => setReceipt(prev => ({ ...prev, parentPhone: e.target.value }))}
-                  className="w-full text-xs px-3 py-2 bg-gray-50 rounded-xl border border-gray-200 focus:bg-white font-mono"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
-                  Parent Email
-                </label>
-                <input
-                  type="email"
-                  placeholder="parent@domain.com"
-                  value={receipt.parentEmail}
-                  onChange={(e) => setReceipt(prev => ({ ...prev, parentEmail: e.target.value }))}
-                  className="w-full text-xs px-3 py-2 bg-gray-50 rounded-xl border border-gray-200 focus:bg-white font-mono"
-                />
-              </div>
-            </div>
-
-            {/* Corporate Buyer Details section representing Rockside Academy default */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-gray-100 pt-4.5">
               <div>
                 <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5 flex items-center gap-1">
                   Corporate Buyer (Client Institution) *
                 </label>
                 <input
                   type="text"
-                  placeholder="e.g. Rockside Academy"
+                  placeholder="e.g. Corporate Client"
                   value={receipt.buyerName || ''}
                   onChange={(e) => setReceipt(prev => ({ ...prev, buyerName: e.target.value }))}
-                  className="w-full text-xs px-3.5 py-2.5 bg-gray-50 rounded-xl border border-gray-200 focus:bg-white focus:outline-primary-500"
+                  className="w-full text-xs px-3.5 py-2.5 bg-gray-50 rounded-xl border border-gray-200 focus:bg-white focus:outline-primary-500 focus:border-primary-500"
                 />
               </div>
 
@@ -616,7 +478,50 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
                   placeholder="e.g. P051647289B"
                   value={receipt.buyerPin || ''}
                   onChange={(e) => setReceipt(prev => ({ ...prev, buyerPin: e.target.value.toUpperCase() }))}
-                  className="w-full text-xs px-3.5 py-2.5 bg-gray-50 rounded-xl border border-gray-200 focus:bg-white focus:outline-primary-500 font-mono uppercase"
+                  className="w-full text-xs px-3.5 py-2.5 bg-gray-50 rounded-xl border border-gray-200 focus:bg-white focus:outline-primary-500 focus:border-primary-500 font-mono uppercase"
+                />
+              </div>
+            </div>
+
+
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div>
+                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
+                  Contact Person Full Name
+                </label>
+                <input
+                  type="text"
+                  placeholder="Full Name"
+                  value={receipt.parentName}
+                  onChange={(e) => setReceipt(prev => ({ ...prev, parentName: e.target.value }))}
+                  className="w-full text-xs px-3 py-2 bg-gray-50 rounded-xl border border-gray-200 focus:bg-white"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
+                  Contact Phone
+                </label>
+                <input
+                  type="text"
+                  placeholder="+254 7..."
+                  value={receipt.parentPhone}
+                  onChange={(e) => setReceipt(prev => ({ ...prev, parentPhone: e.target.value }))}
+                  className="w-full text-xs px-3 py-2 bg-gray-50 rounded-xl border border-gray-200 focus:bg-white font-mono"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
+                  Contact Email
+                </label>
+                <input
+                  type="email"
+                  placeholder="contact@domain.com"
+                  value={receipt.parentEmail}
+                  onChange={(e) => setReceipt(prev => ({ ...prev, parentEmail: e.target.value }))}
+                  className="w-full text-xs px-3 py-2 bg-gray-50 rounded-xl border border-gray-200 focus:bg-white font-mono"
                 />
               </div>
             </div>
@@ -1004,7 +909,7 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                       <div>
                         <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">Qty</label>
                         <input
@@ -1017,7 +922,7 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
                       </div>
 
                       <div>
-                        <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">KES Unit Price</label>
+                        <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">Price (KES)</label>
                         <input
                           type="number"
                           value={itm.unitPrice}
@@ -1027,18 +932,7 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
                       </div>
 
                       <div>
-                        <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">KES Discount</label>
-                        <input
-                          type="number"
-                          min="0"
-                          value={itm.discount}
-                          onChange={(e) => updateItemField(itm.id, 'discount', Math.max(0, parseFloat(e.target.value) || 0))}
-                          className="w-full text-xs px-2.5 py-1.5 bg-white border border-gray-200 rounded-lg font-mono text-right"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5 text-right">Computed Row Net</label>
+                        <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5 text-right">Amount (KES)</label>
                         <div className="font-mono text-xs font-semibold text-gray-900 text-right h-8 flex items-center justify-end px-1 border border-transparent">
                           KES {itm.total.toLocaleString()}
                           <span className="text-[9px] text-gray-400 font-normal ml-1">

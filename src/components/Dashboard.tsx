@@ -486,10 +486,10 @@ export const Dashboard: React.FC<DashboardProps> = ({
                           {formatDate(rec.date)} • {rec.time}
                         </span>
                       </td>
-                      <td className="py-3 px-5">
-                        <div className="font-medium text-gray-800">{rec.studentName}</div>
+                      <td className="py-3 px-5 font-sans">
+                        <div className="font-semibold text-gray-800 uppercase">{rec.buyerName || rec.studentName || "General Buyer"}</div>
                         <div className="text-[11px] text-gray-500 font-mono mt-0.5">
-                          {rec.admissionNo} • {rec.studentClass}
+                          {rec.buyerPin || rec.admissionNo || "N/A"} • {rec.studentClass}
                         </div>
                       </td>
                       <td className="py-3 px-5">

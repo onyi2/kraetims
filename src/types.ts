@@ -26,9 +26,9 @@ export interface Receipt {
   academicYear: string;
   term: string; // e.g., 'Term 1', 'Term 2', 'Term 3'
   
-  // Student Info
-  studentName: string;
-  admissionNo: string;
+  // Student Info (Optional / Hidden per user flow)
+  studentName?: string;
+  admissionNo?: string;
   studentClass: string; // e.g. 'Grade 2 West', 'Grade 5 East'
   studentGrade: string; // 'Grade 2', 'Grade 5', etc.
   studentStream: string; // 'East', 'West', 'North', 'South'

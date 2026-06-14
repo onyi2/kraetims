@@ -37,7 +37,7 @@ export const generateMpesaSvg = (amount: number, refNo: string, studentName: str
       <text x="40" y="55" fill="#4E6952" font-family="-apple-system, sans-serif" font-weight="bold" font-size="11">PAYMENT DATE</text>
       <text x="360" y="55" fill="#212121" font-family="-apple-system, sans-serif" font-weight="600" font-size="12" text-anchor="end">${dateStr} 11:24 AM</text>
       
-      <text x="40" y="90" fill="#4E6952" font-family="-apple-system, sans-serif" font-weight="bold" font-size="11">STUDENT NAME</text>
+      <text x="40" y="90" fill="#4E6952" font-family="-apple-system, sans-serif" font-weight="bold" font-size="11">BUYER NAME</text>
       <text x="360" y="90" fill="#212121" font-family="-apple-system, sans-serif" font-weight="bold" font-size="12" text-anchor="end">${cleanStudent}</text>
 
       <text x="40" y="125" fill="#4E6952" font-family="-apple-system, sans-serif" font-weight="bold" font-size="11">SYSTEM NODE</text>
@@ -81,7 +81,7 @@ export const generateBankSlipSvg = (amount: number, refNo: string, studentName: 
       <text x="40" y="55" fill="#78909C" font-family="sans-serif" font-weight="bold" font-size="10">SCHOOL BANK ACC NO</text>
       <text x="360" y="55" fill="#263238" font-family="sans-serif" font-weight="bold" font-size="12" text-anchor="end">01129487572900</text>
       
-      <text x="40" y="90" fill="#78909C" font-family="sans-serif" font-weight="bold" font-size="10">STUDENT / FEE LEDGER</text>
+      <text x="40" y="90" fill="#78909C" font-family="sans-serif" font-weight="bold" font-size="10">BUYER NAME</text>
       <text x="360" y="90" fill="#263238" font-family="sans-serif" font-weight="bold" font-size="12" text-anchor="end">${cleanStudent}</text>
 
       <text x="40" y="125" fill="#78909C" font-family="sans-serif" font-weight="bold" font-size="10">TRANSACTION DATE</text>
@@ -128,7 +128,7 @@ export const generateChequeSlipSvg = (amount: number, refNo: string, studentName
     
     <text x="365" y="85" fill="#3E2723" font-family="sans-serif" font-weight="900" font-size="13">KES **${balance}.00**</text>
     
-    <text x="30" y="130" fill="#546E7A" font-family="sans-serif" font-weight="bold" font-size="9" letter-spacing="0.5">FOR STUDENT/ADM </text>
+    <text x="30" y="130" fill="#546E7A" font-family="sans-serif" font-weight="bold" font-size="9" letter-spacing="0.5">FOR BUYER/PIN </text>
     <text x="145" y="130" fill="#1A237E" font-family="monospace" font-weight="bold" font-size="12">${cleanStudent}</text>
     <line x1="135" y1="134" x2="470" y2="134" stroke="#CFD8DC" stroke-dasharray="3 3"/>
     
@@ -159,9 +159,9 @@ export const generateClassicOfficialStamp = (
   email: string,
   dateStr: string = "06 MAY 2026"
 ): string => {
-  const cleanName = (schoolName || "KARONEY SCHOOL SUPPLIES").toUpperCase();
-  const cleanAddress = address || "P. O. Box 3735 - 00200, NAIROBI";
-  const cleanPhone = phone || "Tel: 0718 164141, 0734808355";
+  const cleanName = (schoolName || "KARONEY SUPPLIES").toUpperCase();
+  const cleanAddress = address || "P.O. Box 4589-00100, RUAI, NAIROBI";
+  const cleanPhone = phone || "Tel: 0794 431355, 0114 58963";
   const cleanEmail = email || "info@karoneyschoolsupplies.co.ke";
   
   // Format the date parameter beautifully for dater stamp look (e.g., "13 JUN 2026")
@@ -279,8 +279,8 @@ export const generateUniformPriceListSlipSvg = (): string => {
     </g>
 
     <!-- Header Text -->
-    <text x="290" y="32" font-family="-apple-system, sans-serif" font-weight="900" font-size="16" fill="#1E3A8A" text-anchor="middle" letter-spacing="1">KARONEY SCHOOL SUPPLIES</text>
-    <text x="290" y="47" font-family="-apple-system, sans-serif" font-weight="bold" font-size="8.5" fill="#1E40AF" text-anchor="middle" letter-spacing="0.2">P. O. Box 3735 - 00200 NAIROBI  TEL: 0718164141/0734808355</text>
+    <text x="290" y="32" font-family="-apple-system, sans-serif" font-weight="900" font-size="16" fill="#1E3A8A" text-anchor="middle" letter-spacing="1">KARONEY SUPPLIES</text>
+    <text x="290" y="47" font-family="-apple-system, sans-serif" font-weight="bold" font-size="8.5" fill="#1E40AF" text-anchor="middle" letter-spacing="0.2">P.O. Box 4589-00100, RUAI  TEL: 0794431355/011458963</text>
 
     <!-- Underline divider -->
     <line x1="20" y1="62" x2="520" y2="62" stroke="#CBD5E1" stroke-width="1.5"/>
@@ -343,9 +343,9 @@ export const generateUniformPriceListSlipSvg = (): string => {
 
       <!-- Stamp Texts -->
       <g font-family="-apple-system, sans-serif" text-anchor="middle" fill="#2563EB">
-        <text x="210" y="44" font-size="12" font-weight="900" letter-spacing="0.5">KARONEY SCHOOL SUPPLIES</text>
-        <text x="210" y="59" font-size="9" font-weight="bold">P. O. Box 3735 - 00200, NAIROBI</text>
-        <text x="210" y="72" font-size="8.5" font-weight="bold">Tel: 0718 164141, 0734808355</text>
+        <text x="210" y="44" font-size="12" font-weight="900" letter-spacing="0.5">KARONEY SUPPLIES</text>
+        <text x="210" y="59" font-size="9" font-weight="bold">P.O. Box 4589-00100, RUAI</text>
+        <text x="210" y="72" font-size="8.5" font-weight="bold">Tel: 0794 431355, 0114 58963</text>
       </g>
 
       <!-- Ink Date -->

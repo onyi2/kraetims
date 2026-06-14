@@ -5,15 +5,15 @@
 
 import { ProductPreset, SchoolConfig, Receipt, ReceiptItem } from '../types';
 
-// Karoney School Supplies default configuration
+// Karoney Supplies default configuration
 export const defaultSchoolConfig: SchoolConfig = {
-  name: "KARONEY SCHOOL SUPPLIES",
+  name: "KARONEY SUPPLIES",
   motto: "Quality Educational Aids and Excellence in Supplies",
   logoUrl: null, // We will render a stunning SVG-based brand logo
-  address: "P.O. BOX 3735-00200 NAIROBI",
-  postalAddress: "Off Kikuyu Road, Nairobi, Kenya",
-  phone1: "0718164141",
-  phone2: "0734808355",
+  address: "P.O. Box 4589-00100, Ruai, Nairobi",
+  postalAddress: "off eastern bypass, Nairobi, Kenya",
+  phone1: "0794431355",
+  phone2: "011458963",
   email: "info@karoneyschoolsupplies.co.ke",
   website: "www.karoneyschoolsupplies.co.ke",
   kraPin: "P051238491A",
@@ -143,7 +143,7 @@ export const getInitialMockReceipts = (): Receipt[] => {
       parentName: "Mercy Mwangi",
       parentPhone: "+254 712 345678",
       parentEmail: "mercy.m@gmail.com",
-      buyerName: "Rockside Academy",
+      buyerName: "General Buyer",
       buyerPin: "P051647289B",
       paymentRef: "MPESA: RGK92HD7S1",
       paymentMode: "M-Pesa",
@@ -227,7 +227,7 @@ export const getInitialMockReceipts = (): Receipt[] => {
       parentName: "Nicholas Kiprop",
       parentPhone: "+254 722 890123",
       parentEmail: "nkiprop@outlook.com",
-      buyerName: "Rockside Academy",
+      buyerName: "General Buyer",
       buyerPin: "P051647289B",
       paymentRef: "KCB Bank: EQ-094852",
       paymentMode: "Bank Transfer",
@@ -299,7 +299,7 @@ export const getInitialMockReceipts = (): Receipt[] => {
       parentName: "Sylvia Omwamba",
       parentPhone: "+254 733 456123",
       parentEmail: "sylvia_omw@yahoo.com",
-      buyerName: "Rockside Academy",
+      buyerName: "General Buyer",
       buyerPin: "P051647289B",
       paymentRef: "Bank Deposit: CBK-9902",
       paymentMode: "Cheque",
@@ -383,7 +383,7 @@ export const getInitialMockReceipts = (): Receipt[] => {
       parentName: "David Wanjiku",
       parentPhone: "+254 705 918374",
       parentEmail: "d.wanjiku@outlook.com",
-      buyerName: "Rockside Academy",
+      buyerName: "General Buyer",
       buyerPin: "P051647289B",
       paymentRef: "MPESA: RHM89JD3Y1",
       paymentMode: "M-Pesa",

@@ -36,7 +36,7 @@ import { ReceiptForm } from './components/ReceiptForm';
 import { ReceiptView } from './components/ReceiptView';
 import { ReceiptHistory } from './components/ReceiptHistory';
 import { PrintWindow } from './components/PrintWindow';
-import { RocksideLogo } from './components/RocksideLogo';
+import { KaroneyLogo } from './components/KaroneyLogo';
 
 export default function App() {
   // Navigation & Workspace State tethers
@@ -61,7 +61,7 @@ export default function App() {
     const cachedConfig = localStorage.getItem('aistudio_school_config');
     if (cachedConfig) {
       const parsed = JSON.parse(cachedConfig);
-      if (parsed && (!parsed.name || parsed.name.toUpperCase().includes("ROCKSIDE"))) {
+      if (parsed && (!parsed.name || parsed.name.toUpperCase().includes("ROCKSIDE") || (parsed.address && (parsed.address.includes("3735") || parsed.address.toUpperCase().includes("3735"))))) {
         localStorage.setItem('aistudio_school_config', JSON.stringify(defaultSchoolConfig));
         setSchoolConfig(defaultSchoolConfig);
       } else {
@@ -137,14 +137,14 @@ export default function App() {
       newReceiptsList = receipts.map(r => r.id === updatedReceipt.id ? updatedReceipt : r);
       appendAuditLog(
         'Receipt Modified', 
-        `Updated billing statement for ${updatedReceipt.studentName} (${updatedReceipt.studentClass}). Grand Total: KES ${updatedReceipt.grandTotal.toLocaleString()}`,
+        `Updated billing statement for ${updatedReceipt.buyerName || updatedReceipt.studentName || 'Buyer'} (${updatedReceipt.studentClass}). Grand Total: KES ${updatedReceipt.grandTotal.toLocaleString()}`,
         updatedReceipt.receiptNo
       );
     } else {
       newReceiptsList = [updatedReceipt, ...receipts];
       appendAuditLog(
         'Receipt Created', 
-        `Generated tax-compliant receipt for student ${updatedReceipt.studentName} (${updatedReceipt.admissionNo}). Amount paid: KES ${updatedReceipt.amountPaid.toLocaleString()}`,
+        `Generated tax-compliant receipt for buyer ${updatedReceipt.buyerName || updatedReceipt.studentName || 'Buyer'} (${updatedReceipt.buyerPin || updatedReceipt.admissionNo || 'N/A'}). Amount paid: KES ${updatedReceipt.amountPaid.toLocaleString()}`,
         updatedReceipt.receiptNo
       );
     }
@@ -158,7 +158,7 @@ export default function App() {
     const recToDelete = receipts.find(r => r.id === id);
     if (!recToDelete) return;
 
-    if (confirm(`⚠️ Extreme Notice: Are you sure you want to void/cancel Receipt ${recToDelete.receiptNo} for ${recToDelete.studentName}?\nThis cancels the linked KRA tax billing statement.`)) {
+    if (confirm(`⚠️ Extreme Notice: Are you sure you want to void/cancel Receipt ${recToDelete.receiptNo} for ${recToDelete.buyerName || recToDelete.studentName || 'Buyer'}?\nThis cancels the linked KRA tax billing statement.`)) {
       const updated = receipts.map(r => {
         if (r.id === id) {
           return { ...r, status: 'Cancelled' as const, balance: 0, amountPaid: 0 };
@@ -169,7 +169,7 @@ export default function App() {
       saveToStorage(updated);
       appendAuditLog(
         'Receipt Cancelled', 
-        `Cancelled transaction receipt and reversed tax billing records on server databases for student ${recToDelete.studentName}`,
+        `Cancelled transaction receipt and reversed tax billing records on server databases for buyer ${recToDelete.buyerName || recToDelete.studentName || 'Buyer'}`,
         recToDelete.receiptNo
       );
       
@@ -205,7 +205,7 @@ export default function App() {
     saveToStorage(newReceiptsList);
     appendAuditLog(
       'Receipt Duplicated', 
-      `Duplicated previous ledger parameters for student ${original.studentName} into new compliant receipt ${newRNo}`,
+      `Duplicated previous ledger parameters for buyer ${original.buyerName || original.studentName || 'Buyer'} into new compliant receipt ${newRNo}`,
       newRNo
     );
 
@@ -608,7 +608,7 @@ export default function App() {
                       </div>
                     ) : (
                       <div className="space-y-2 flex flex-col items-center justify-center text-center">
-                        <RocksideLogo size={64} className="hover:scale-105 transition-transform duration-200" />
+                        <KaroneyLogo size={64} className="hover:scale-105 transition-transform duration-200" />
                         <div>
                           <p className="text-[10.5px] font-bold text-emerald-600 dark:text-emerald-400">Official Crest Loaded</p>
                           <span className="text-[9px] text-gray-400 block">Click or drag file to replace with custom</span>

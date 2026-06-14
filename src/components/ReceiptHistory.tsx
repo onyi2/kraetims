@@ -111,10 +111,10 @@ const ReceiptMiniThumbnail: React.FC<ReceiptMiniThumbnailProps> = ({
             <div className="absolute top-0 left-0 right-0 h-[4px] bg-linear-to-b from-gray-200 to-transparent" />
             
             <div className="text-center font-bold text-[11px] tracking-tight uppercase text-gray-900">
-              {schoolConfig.name || "KARONEY SCHOOL SUPPLIES"}
+              {schoolConfig.name || "KARONEY SUPPLIES"}
             </div>
             <div className="text-center text-[8px] text-gray-500 mt-0.5">
-              {schoolConfig.address || "P.O. Box 3735-00200, Nairobi"}
+              {schoolConfig.address || "P.O. Box 4589-00100, Ruai, Nairobi"}
             </div>
             <div className="text-center text-[8px] text-gray-500">
               TEL: {schoolConfig.phone1}
@@ -132,9 +132,9 @@ const ReceiptMiniThumbnail: React.FC<ReceiptMiniThumbnailProps> = ({
               </div>
               <div className="flex justify-between">
                 <span>TIME: {receipt.time}</span>
-                <span className="text-right truncate max-w-[140px]">ADM: {receipt.admissionNo}</span>
+                <span className="text-right truncate max-w-[140px]">KRA PIN: {receipt.buyerPin || "N/A"}</span>
               </div>
-              <div>STUDENT: <span className="font-bold text-gray-850">{receipt.studentName}</span></div>
+              <div>BUYER: <span className="font-bold text-gray-850 uppercase">{receipt.buyerName || receipt.studentName || "General Buyer"}</span></div>
             </div>
 
             <div className="border-t border-dashed border-gray-300 my-2" />
@@ -187,11 +187,8 @@ const ReceiptMiniThumbnail: React.FC<ReceiptMiniThumbnailProps> = ({
             {/* Mini QR verified area */}
             <div className="mt-3 flex flex-col items-center justify-center p-2 bg-slate-50 border border-dashed border-gray-200 rounded-lg">
               <QRCodeSVG value={receipt.verificationCode || "VERIFIED-E-INVOICE"} size={65} />
-              <div className="text-[7px] text-gray-400 font-bold tracking-tight uppercase mt-1.5">
-                KRA VERIFICATION CODE:
-              </div>
-              <div className="text-[8px] font-bold text-gray-800 font-mono text-center truncate w-full px-1">
-                {receipt.verificationCode}
+              <div className="text-[7px] text-gray-500 font-bold tracking-tight uppercase mt-1.5">
+                END OF FISCAL RECEIPT
               </div>
             </div>
             
@@ -231,8 +228,8 @@ const ReceiptMiniThumbnail: React.FC<ReceiptMiniThumbnailProps> = ({
             <div className="grid grid-cols-2 gap-2 text-[7px] text-gray-600 bg-gray-50 p-1.5 rounded mb-2 font-sans">
               <div className="space-y-0.5">
                 <div><span className="font-bold text-gray-400 uppercase text-[6px]">Receipt:</span> <span className="font-mono text-gray-800 font-bold">{receipt.receiptNo}</span></div>
-                <div><span className="font-bold text-gray-400 uppercase text-[6px]">Student:</span> <span className="text-gray-800 font-bold truncate max-w-[100px] inline-block align-bottom">{receipt.studentName}</span></div>
-                <div><span className="font-bold text-gray-400 uppercase text-[6px]">Adm:</span> <span className="font-mono text-gray-800 font-semibold">{receipt.admissionNo}</span></div>
+                <div><span className="font-bold text-gray-400 uppercase text-[6px]">Buyer Name:</span> <span className="text-gray-800 font-bold truncate max-w-[100px] inline-block align-bottom uppercase">{receipt.buyerName || receipt.studentName || "General Buyer"}</span></div>
+                <div><span className="font-bold text-gray-400 uppercase text-[6px]">KRA PIN:</span> <span className="font-mono text-gray-800 font-semibold">{receipt.buyerPin || "N/A"}</span></div>
               </div>
               <div className="space-y-0.5 text-right">
                 <div><span className="font-bold text-gray-400 uppercase text-[6px]">Date:</span> <span className="text-gray-800 font-semibold">{receipt.date}</span></div>
@@ -319,14 +316,14 @@ export const ReceiptHistory: React.FC<ReceiptHistoryProps> = ({
   onDuplicateReceipt,
   userRole,
   schoolConfig = {
-    name: "KARONEY SCHOOL SUPPLIES",
+    name: "KARONEY SUPPLIES",
     motto: "Quality Educational Aids and Excellence in Supplies",
-    address: "P.O. Box 3735-00200, Nairobi, Kenya",
-    postalAddress: "3735-00200",
-    phone1: "+254 725 000 000",
-    phone2: "+254 733 000 000",
+    address: "P.O. Box 4589-00100, Ruai, Nairobi, Kenya",
+    postalAddress: "4589-00100",
+    phone1: "0794431355",
+    phone2: "011458963",
     email: "info@karoneyschoolsupplies.co.ke",
-    kraPin: "P000000000E",
+    kraPin: "P051238491A",
     logoUrl: "",
     schoolStampUrl: ""
   }
@@ -401,8 +398,10 @@ export const ReceiptHistory: React.FC<ReceiptHistoryProps> = ({
   const filteredReceipts = receipts.filter(rec => {
     const sTerm = searchTerm.toLowerCase();
     const matchesSearch = 
-      rec.studentName.toLowerCase().includes(sTerm) ||
-      rec.admissionNo.toLowerCase().includes(sTerm) ||
+      (rec.studentName || '').toLowerCase().includes(sTerm) ||
+      (rec.admissionNo || '').toLowerCase().includes(sTerm) ||
+      (rec.buyerName || '').toLowerCase().includes(sTerm) ||
+      (rec.buyerPin || '').toLowerCase().includes(sTerm) ||
       rec.receiptNo.toLowerCase().includes(sTerm) ||
       rec.invoiceNo.toLowerCase().includes(sTerm) ||
       rec.parentName.toLowerCase().includes(sTerm) ||
@@ -422,11 +421,11 @@ export const ReceiptHistory: React.FC<ReceiptHistoryProps> = ({
     
     if (type === 'email') {
       setDispatchDestination(rec.parentEmail || '');
-      setDispatchSubject(`Official KRA eTIMS School Receipt Statement: ${rec.receiptNo}`);
-      setDispatchMessage(`Dear ${rec.parentName || 'Parent / Guardian'},\n\nPlease find attached the official KRA eTIMS-secure electronic receipt ${rec.receiptNo} for ${rec.studentName} (Admission No: ${rec.admissionNo}) representing funds captured for ${rec.term}, ${rec.academicYear}.\n\nTotal Paid: ${formatKES(rec.grandTotal)}\nOutstanding Statement Balance: ${formatKES(rec.balance)}\n\nThank you for choosing Karoney School Supplies.\n\nWarm regards,\nCash Office Billing Team`);
+      setDispatchSubject(`Official KRA eTIMS Receipt Statement: ${rec.receiptNo}`);
+      setDispatchMessage(`Dear ${rec.parentName || 'Client'},\n\nPlease find attached the official KRA eTIMS-secure electronic receipt ${rec.receiptNo} representing funds captured for ${rec.buyerName || 'General Buyer'} (KRA PIN: ${rec.buyerPin || 'N/A'}) for ${rec.term}, ${rec.academicYear}.\n\nTotal Paid: ${formatKES(rec.grandTotal)}\nOutstanding Statement Balance: ${formatKES(rec.balance)}\n\nThank you for choosing Karoney Supplies.\n\nWarm regards,\nBilling Team`);
     } else {
       setDispatchDestination(rec.parentPhone || '');
-      setDispatchMessage(`*KARONEY SCHOOL SUPPLIES OFFICIAL BILLING*\n\nHello ${rec.parentName || 'Parent'},\nWe have compiled your digitally verified eTIMS invoice receipt *${rec.receiptNo}* for student *${rec.studentName}*.\n\n*Term:* ${rec.term}\n*Total Fee Paid:* ${formatKES(rec.grandTotal)}\n*Control Unit ID:* ${rec.controlUnitNo}\n*KRA Verification PIN:* ${rec.verificationCode}\n\nDownload full statement PDF here: https://karoneyschoolsupplies.co.ke/receipts/${rec.id}`);
+      setDispatchMessage(`*KARONEY SUPPLIES OFFICIAL BILLING*\n\nHello ${rec.parentName || 'Client'},\nWe have compiled your digitally verified eTIMS invoice receipt *${rec.receiptNo}* for *${rec.buyerName || 'General Buyer'}*.\n\n*Term:* ${rec.term}\n*Total Fee Paid:* ${formatKES(rec.grandTotal)}\n*Control Unit ID:* ${rec.controlUnitNo}\n*KRA Verification PIN:* ${rec.verificationCode}\n\nDownload full statement PDF here: https://karoneysupplies.co.ke/receipts/${rec.id}`);
     }
   };
 
@@ -612,11 +611,11 @@ export const ReceiptHistory: React.FC<ReceiptHistoryProps> = ({
                         </div>
                       </td>
 
-                      {/* Column 2: Student */}
-                      <td className="py-4 px-4">
-                        <div className="font-bold text-gray-800 tracking-tight">{rec.studentName}</div>
+                      {/* Column 2: Buyer / Client */}
+                      <td className="py-4 px-4 font-sans">
+                        <div className="font-bold text-gray-800 tracking-tight uppercase">{rec.buyerName || rec.studentName || "General Buyer"}</div>
                         <div className="text-[11px] text-gray-500 font-mono mt-0.5">
-                          ADM: {rec.admissionNo}
+                          KRA PIN: {rec.buyerPin || "N/A"}
                         </div>
                         <div className="text-[10px] bg-slate-100 text-slate-700 px-1.5 py-0.2 rounded mt-1.5 inline-block font-sans font-medium">
                           {rec.studentClass}
