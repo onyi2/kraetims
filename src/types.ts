@@ -35,6 +35,8 @@ export interface Receipt {
   parentName: string;
   parentPhone: string;
   parentEmail: string;
+  buyerName?: string;
+  buyerPin?: string;
   paymentRef: string; // e.g. M-PESA Ref: QRF84HD7SF
   paymentMode: 'M-Pesa' | 'Bank Transfer' | 'Cash' | 'Cheque';
   generatedBy: string; // The username or role responsible

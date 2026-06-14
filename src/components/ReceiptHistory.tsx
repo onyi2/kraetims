@@ -111,7 +111,7 @@ const ReceiptMiniThumbnail: React.FC<ReceiptMiniThumbnailProps> = ({
             <div className="absolute top-0 left-0 right-0 h-[4px] bg-linear-to-b from-gray-200 to-transparent" />
             
             <div className="text-center font-bold text-[11px] tracking-tight uppercase text-gray-900">
-              {schoolConfig.name || "ROCKSIDE ACADEMY"}
+              {schoolConfig.name || "KARONEY SCHOOL SUPPLIES"}
             </div>
             <div className="text-center text-[8px] text-gray-500 mt-0.5">
               {schoolConfig.address || "P.O. Box 3735-00200, Nairobi"}
@@ -206,7 +206,7 @@ const ReceiptMiniThumbnail: React.FC<ReceiptMiniThumbnailProps> = ({
             <div className="flex justify-between items-start gap-2 border-b pb-2 mb-2">
               <div>
                 <div className="font-bold text-[10px] text-gray-950 uppercase leading-none tracking-tight">
-                  {schoolConfig.name || "ROCKSIDE ACADEMY"}
+                  {schoolConfig.name || "KARONEY SCHOOL SUPPLIES"}
                 </div>
                 {schoolConfig.motto && (
                   <div className="text-[7px] text-gray-500 leading-none mt-1">
@@ -319,13 +319,13 @@ export const ReceiptHistory: React.FC<ReceiptHistoryProps> = ({
   onDuplicateReceipt,
   userRole,
   schoolConfig = {
-    name: "ROCKSIDE ACADEMY",
-    motto: "Shaping the Future",
+    name: "KARONEY SCHOOL SUPPLIES",
+    motto: "Quality Educational Aids and Excellence in Supplies",
     address: "P.O. Box 3735-00200, Nairobi, Kenya",
     postalAddress: "3735-00200",
     phone1: "+254 725 000 000",
     phone2: "+254 733 000 000",
-    email: "info@rocksideacademy.ac.ke",
+    email: "info@karoneyschoolsupplies.co.ke",
     kraPin: "P000000000E",
     logoUrl: "",
     schoolStampUrl: ""
@@ -423,10 +423,10 @@ export const ReceiptHistory: React.FC<ReceiptHistoryProps> = ({
     if (type === 'email') {
       setDispatchDestination(rec.parentEmail || '');
       setDispatchSubject(`Official KRA eTIMS School Receipt Statement: ${rec.receiptNo}`);
-      setDispatchMessage(`Dear ${rec.parentName || 'Parent / Guardian'},\n\nPlease find attached the official KRA eTIMS-secure electronic receipt ${rec.receiptNo} for ${rec.studentName} (Admission No: ${rec.admissionNo}) representing funds captured for ${rec.term}, ${rec.academicYear}.\n\nTotal Paid: ${formatKES(rec.grandTotal)}\nOutstanding Statement Balance: ${formatKES(rec.balance)}\n\nThank you for choosing Rockside Academy.\n\nWarm regards,\nCash Office Billing Team`);
+      setDispatchMessage(`Dear ${rec.parentName || 'Parent / Guardian'},\n\nPlease find attached the official KRA eTIMS-secure electronic receipt ${rec.receiptNo} for ${rec.studentName} (Admission No: ${rec.admissionNo}) representing funds captured for ${rec.term}, ${rec.academicYear}.\n\nTotal Paid: ${formatKES(rec.grandTotal)}\nOutstanding Statement Balance: ${formatKES(rec.balance)}\n\nThank you for choosing Karoney School Supplies.\n\nWarm regards,\nCash Office Billing Team`);
     } else {
       setDispatchDestination(rec.parentPhone || '');
-      setDispatchMessage(`*ROCKSIDE ACADEMY OFFICIAL BILLING*\n\nHello ${rec.parentName || 'Parent'},\nWe have compiled your digitally verified eTIMS invoice receipt *${rec.receiptNo}* for student *${rec.studentName}*.\n\n*Term:* ${rec.term}\n*Total Fee Paid:* ${formatKES(rec.grandTotal)}\n*Control Unit ID:* ${rec.controlUnitNo}\n*KRA Verification PIN:* ${rec.verificationCode}\n\nDownload full statement PDF here: https://rocksideacademy.ac.ke/receipts/${rec.id}`);
+      setDispatchMessage(`*KARONEY SCHOOL SUPPLIES OFFICIAL BILLING*\n\nHello ${rec.parentName || 'Parent'},\nWe have compiled your digitally verified eTIMS invoice receipt *${rec.receiptNo}* for student *${rec.studentName}*.\n\n*Term:* ${rec.term}\n*Total Fee Paid:* ${formatKES(rec.grandTotal)}\n*Control Unit ID:* ${rec.controlUnitNo}\n*KRA Verification PIN:* ${rec.verificationCode}\n\nDownload full statement PDF here: https://karoneyschoolsupplies.co.ke/receipts/${rec.id}`);
     }
   };
 
@@ -787,7 +787,7 @@ export const ReceiptHistory: React.FC<ReceiptHistoryProps> = ({
                   Send securely via {dispatchType === 'email' ? 'Electronic Mail' : 'SMS KRA Relay'}
                 </h3>
                 <p className="text-xs text-gray-500 font-sans">
-                  Simulating Rockside Academy institutional outbound communications.
+                  Simulating Karoney School Supplies institutional outbound communications.
                 </p>
               </div>
             </div>

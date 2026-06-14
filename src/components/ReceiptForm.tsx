@@ -77,6 +77,8 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
       parentName: '',
       parentPhone: '',
       parentEmail: '',
+      buyerName: 'Rockside Academy',
+      buyerPin: 'P051647289B',
       paymentRef: '',
       paymentMode: 'M-Pesa',
       generatedBy: `${userRole} (Auto-Sign)`,
@@ -429,7 +431,7 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
           <div className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm">
             <h3 className="text-sm font-semibold text-gray-800 flex items-center gap-2 mb-3">
               <Sparkles className="h-4 w-4 text-amber-500 animate-pulse" />
-              Preload Student Presets (Rockside Academy)
+              Preload Student Presets (Karoney School Supplies)
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
               {studentPresetsList.map((preset) => (
@@ -586,6 +588,35 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
                   value={receipt.parentEmail}
                   onChange={(e) => setReceipt(prev => ({ ...prev, parentEmail: e.target.value }))}
                   className="w-full text-xs px-3 py-2 bg-gray-50 rounded-xl border border-gray-200 focus:bg-white font-mono"
+                />
+              </div>
+            </div>
+
+            {/* Corporate Buyer Details section representing Rockside Academy default */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-gray-100 pt-4.5">
+              <div>
+                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5 flex items-center gap-1">
+                  Corporate Buyer (Client Institution) *
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g. Rockside Academy"
+                  value={receipt.buyerName || ''}
+                  onChange={(e) => setReceipt(prev => ({ ...prev, buyerName: e.target.value }))}
+                  className="w-full text-xs px-3.5 py-2.5 bg-gray-50 rounded-xl border border-gray-200 focus:bg-white focus:outline-primary-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
+                  Buyer KRA PIN (eTIMS Verified) *
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g. P051647289B"
+                  value={receipt.buyerPin || ''}
+                  onChange={(e) => setReceipt(prev => ({ ...prev, buyerPin: e.target.value.toUpperCase() }))}
+                  className="w-full text-xs px-3.5 py-2.5 bg-gray-50 rounded-xl border border-gray-200 focus:bg-white focus:outline-primary-500 font-mono uppercase"
                 />
               </div>
             </div>
@@ -780,7 +811,7 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
             <div className="flex justify-between items-center border-b border-gray-100 pb-2">
               <h3 className="text-sm font-bold text-gray-900 flex items-center gap-2">
                 <BookOpen className="h-4 w-4 text-primary-500" />
-                Rockside Academy Product Catalog
+                Karoney School Supplies Product Catalog
               </h3>
               <span className="text-[10px] font-semibold bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">
                 1-Click Quick Add

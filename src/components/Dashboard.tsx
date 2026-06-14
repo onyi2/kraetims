@@ -143,7 +143,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
             Kenya eTIMS Invoicing Dashboard
           </h1>
           <p className="text-sm text-gray-500 mt-1">
-            Real-time compliance monitoring, student receipt history, and tax auditing for <span className="font-semibold text-primary-600">Rockside Academy</span>.
+            Real-time compliance monitoring, student receipt history, and tax auditing for <span className="font-semibold text-primary-600">Karoney School Supplies</span>.
           </p>
         </div>
         

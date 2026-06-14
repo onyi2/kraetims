@@ -339,13 +339,23 @@ export const ReceiptView: React.FC<ReceiptViewProps> = ({
         {/* Right Side: Student metadata details */}
         <div className="space-y-2 bg-gray-50 p-4 rounded-xl border border-gray-100">
           <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5 border-b pb-1">
-            Student / Parent Profile
+            Buyer / Client Profile
           </h3>
           <div className="grid grid-cols-3 gap-y-1.5 gap-x-2">
+            <span className="font-semibold text-gray-500">Buyer Name:</span>
+            <span className="col-span-2 font-bold text-gray-900 uppercase">
+              {receipt.buyerName || "Rockside Academy"}
+            </span>
+
+            <span className="font-semibold text-gray-500">Buyer PIN:</span>
+            <span className="col-span-2 font-mono text-xs text-gray-700">
+              {receipt.buyerPin || "P051647289B"}
+            </span>
+
             {receipt.studentName && (
               <>
-                <span className="font-semibold text-gray-500">Student:</span>
-                <span className="col-span-2 font-bold text-gray-900">{receipt.studentName}</span>
+                <span className="font-semibold text-gray-500 border-t border-gray-200/60 pt-1.5 mt-0.5">Student:</span>
+                <span className="col-span-2 font-semibold text-gray-900 border-t border-gray-200/60 pt-1.5 mt-0.5">{receipt.studentName}</span>
               </>
             )}
 
@@ -584,7 +594,7 @@ export const ReceiptView: React.FC<ReceiptViewProps> = ({
 
                       {/* Header lines inside rubber seal */}
                       <g fontFamily="system-ui, -apple-system, sans-serif" textAnchor="middle" fill="#2563EB">
-                        <text x="150" y="28" fontSize="12.5" fontWeight="950" letterSpacing="0.4">ROCKSIDE ACADEMY</text>
+                        <text x="150" y="28" fontSize="11" fontWeight="950" letterSpacing="0.4">KARONEY SCHOOL SUPPLIES</text>
                         <text x="150" y="42" fontSize="7.5" fontWeight="bold" letterSpacing="0.1">P.O. Box 3735 - 00200, NAIROBI</text>
                         <text x="150" y="52" fontSize="7" fontWeight="bold" letterSpacing="0.05">Tel: 0718 164141, 0734 808355</text>
                       </g>
@@ -599,7 +609,7 @@ export const ReceiptView: React.FC<ReceiptViewProps> = ({
                       {/* Bottom designation credentials */}
                       <g fontFamily="system-ui, -apple-system, sans-serif" textAnchor="middle" fill="#2563EB">
                         <text x="140" y="118" fontSize="10" fontWeight="900" letterSpacing="0.4">ADMINISTRATION MANAGER</text>
-                        <text x="140" y="130" fontSize="7.5" fontWeight="bold">info@rocksideacademy.sc.ke</text>
+                        <text x="140" y="130" fontSize="7.5" fontWeight="bold">info@karoneyschoolsupplies.co.ke</text>
                       </g>
                     </g>
                   )}

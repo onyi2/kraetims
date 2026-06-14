@@ -60,7 +60,13 @@ export default function App() {
     // 1. Fetch school metadata configuration
     const cachedConfig = localStorage.getItem('aistudio_school_config');
     if (cachedConfig) {
-      setSchoolConfig(JSON.parse(cachedConfig));
+      const parsed = JSON.parse(cachedConfig);
+      if (parsed && (!parsed.name || parsed.name.toUpperCase().includes("ROCKSIDE"))) {
+        localStorage.setItem('aistudio_school_config', JSON.stringify(defaultSchoolConfig));
+        setSchoolConfig(defaultSchoolConfig);
+      } else {
+        setSchoolConfig(parsed);
+      }
     } else {
       localStorage.setItem('aistudio_school_config', JSON.stringify(defaultSchoolConfig));
       setSchoolConfig(defaultSchoolConfig);
@@ -85,9 +91,9 @@ export default function App() {
         id: `aud-${Date.now()}`,
         timestamp: new Date().toISOString(),
         role: 'Super Admin',
-        userEmail: 'admin@rocksideacademy.ac.ke',
+        userEmail: 'admin@karoneyschoolsupplies.co.ke',
         action: 'System Initialized',
-        details: 'Preloaded ROCKSIDE ACADEMY default settings, books catalog & uniforms matrices. Setup KRA eTIMS cryptographic nodes.'
+        details: 'Preloaded KARONEY SCHOOL SUPPLIES default settings, books catalog & uniforms matrices. Setup KRA eTIMS cryptographic nodes.'
       };
       localStorage.setItem('aistudio_school_audits', JSON.stringify([initAudit]));
       setAuditLogs([initAudit]);
@@ -110,7 +116,7 @@ export default function App() {
       id: `aud-${Date.now()}`,
       timestamp: new Date().toISOString(),
       role: userRole,
-      userEmail: 'bursar.office@rocksideacademy.ac.ke',
+      userEmail: 'bursar.office@karoneyschoolsupplies.co.ke',
       action,
       details,
       receiptNo: docNo
@@ -260,7 +266,7 @@ export default function App() {
                 </span>
               </div>
               <p className="text-[11px] text-gray-400 font-sans leading-none mt-1">
-                Rockside Academy Billing System
+                Karoney School Supplies Billing System
               </p>
             </div>
           </div>
@@ -440,7 +446,7 @@ export default function App() {
             <div className="border-b border-gray-100 dark:border-slate-800 pb-4">
               <h2 className="text-lg font-display font-semibold text-gray-950 dark:text-white flex items-center gap-2">
                 <Settings className="h-5 w-5 text-primary-500" />
-                Rockside Academy Settings
+                Karoney School Supplies Settings
               </h2>
               <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                 Customize general school headers, KRA registration parameters, and communication tethers.
@@ -728,7 +734,7 @@ export default function App() {
       {/* --- FOOTER COPYRIGHT RAIL --- */}
       <footer className="no-print mt-12 py-6 border-t border-gray-200 dark:border-slate-900 text-center text-xs text-gray-400">
         <div>
-          © 2026 Rockside Academy eTIMS Hub. All rights reserved. Powered by Kenya Revenue Authority Compliant API Terminals.
+          © 2026 Karoney School Supplies eTIMS Hub. All rights reserved. Powered by Kenya Revenue Authority Compliant API Terminals.
         </div>
       </footer>
 

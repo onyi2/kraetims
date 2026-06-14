@@ -5,23 +5,23 @@
 
 import { ProductPreset, SchoolConfig, Receipt, ReceiptItem } from '../types';
 
-// Rockside Academy default configuration
+// Karoney School Supplies default configuration
 export const defaultSchoolConfig: SchoolConfig = {
-  name: "ROCKSIDE ACADEMY",
-  motto: "Excellence in Foundation, Character and Knowledge",
+  name: "KARONEY SCHOOL SUPPLIES",
+  motto: "Quality Educational Aids and Excellence in Supplies",
   logoUrl: null, // We will render a stunning SVG-based brand logo
   address: "P.O. BOX 3735-00200 NAIROBI",
   postalAddress: "Off Kikuyu Road, Nairobi, Kenya",
   phone1: "0718164141",
   phone2: "0734808355",
-  email: "info@rocksideacademy.ac.ke",
-  website: "www.rocksideacademy.ac.ke",
+  email: "info@karoneyschoolsupplies.co.ke",
+  website: "www.karoneyschoolsupplies.co.ke",
   kraPin: "P051238491A",
   etimsRegNo: "ETIMS-109485721",
   schoolRegNo: "MOE/PE/0984/2018"
 };
 
-// Complete product and fees catalogs loaded from Rockside Academy specs
+// Complete product and fees catalogs loaded from Karoney School Supplies specs
 export const productPresets: ProductPreset[] = [
   // --- GRADE 2 UNIFORMS ---
   { id: 'g2u-dress', description: 'Uniform Dress', category: 'Uniforms', unitPrice: 700, grade: 'Grade 2' },
@@ -31,7 +31,7 @@ export const productPresets: ProductPreset[] = [
   { id: 'g2u-fleece', description: 'Fleece Jacket', category: 'Uniforms', unitPrice: 2000, grade: 'Grade 2' },
   { id: 'g2u-tracksuit', description: 'Sports Tracksuit', category: 'Uniforms', unitPrice: 1500, grade: 'Grade 2' },
   { id: 'g2u-tshirt', description: 'Sports T-Shirt', category: 'Uniforms', unitPrice: 600, grade: 'Grade 2' },
-  { id: 'g2u-bag', description: 'Rockside Branded School Bag', category: 'Uniforms', unitPrice: 2500, grade: 'Grade 2' },
+  { id: 'g2u-bag', description: 'Karoney Branded School Bag', category: 'Uniforms', unitPrice: 2500, grade: 'Grade 2' },
   { id: 'g2u-shoes', description: 'Bata School Shoes Black', category: 'Uniforms', unitPrice: 2499, grade: 'Grade 2' },
 
   // --- GRADE 5 UNIFORMS ---
@@ -42,7 +42,7 @@ export const productPresets: ProductPreset[] = [
   { id: 'g5u-fleece', description: 'Fleece Jacket', category: 'Uniforms', unitPrice: 2000, grade: 'Grade 5' },
   { id: 'g5u-tracksuit', description: 'Sports Tracksuit', category: 'Uniforms', unitPrice: 1500, grade: 'Grade 5' },
   { id: 'g5u-tshirt', description: 'Sports T-Shirt', category: 'Uniforms', unitPrice: 600, grade: 'Grade 5' },
-  { id: 'g5u-bag', description: 'Rockside Branded School Bag L', category: 'Uniforms', unitPrice: 2500, grade: 'Grade 5' },
+  { id: 'g5u-bag', description: 'Karoney Branded School Bag L', category: 'Uniforms', unitPrice: 2500, grade: 'Grade 5' },
   { id: 'g5u-shoes', description: 'Bata School Shoes Premium', category: 'Uniforms', unitPrice: 2799, grade: 'Grade 5' },
 
   // --- GRADE 2 BOOKS ---
@@ -143,6 +143,8 @@ export const getInitialMockReceipts = (): Receipt[] => {
       parentName: "Mercy Mwangi",
       parentPhone: "+254 712 345678",
       parentEmail: "mercy.m@gmail.com",
+      buyerName: "Rockside Academy",
+      buyerPin: "P051647289B",
       paymentRef: "MPESA: RGK92HD7S1",
       paymentMode: "M-Pesa",
       generatedBy: "Bursar (Lillian)",
@@ -225,6 +227,8 @@ export const getInitialMockReceipts = (): Receipt[] => {
       parentName: "Nicholas Kiprop",
       parentPhone: "+254 722 890123",
       parentEmail: "nkiprop@outlook.com",
+      buyerName: "Rockside Academy",
+      buyerPin: "P051647289B",
       paymentRef: "KCB Bank: EQ-094852",
       paymentMode: "Bank Transfer",
       generatedBy: "Accountant (Patrick)",
@@ -295,6 +299,8 @@ export const getInitialMockReceipts = (): Receipt[] => {
       parentName: "Sylvia Omwamba",
       parentPhone: "+254 733 456123",
       parentEmail: "sylvia_omw@yahoo.com",
+      buyerName: "Rockside Academy",
+      buyerPin: "P051647289B",
       paymentRef: "Bank Deposit: CBK-9902",
       paymentMode: "Cheque",
       generatedBy: "Admin Principal (Sandra)",
@@ -377,6 +383,8 @@ export const getInitialMockReceipts = (): Receipt[] => {
       parentName: "David Wanjiku",
       parentPhone: "+254 705 918374",
       parentEmail: "d.wanjiku@outlook.com",
+      buyerName: "Rockside Academy",
+      buyerPin: "P051647289B",
       paymentRef: "MPESA: RHM89JD3Y1",
       paymentMode: "M-Pesa",
       generatedBy: "Bursar (Lillian)",

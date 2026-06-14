@@ -110,7 +110,7 @@ export const PrintWindow: React.FC<PrintWindowProps> = ({
   const doubleSeparator = "============================================";
   const singleSeparator = "--------------------------------------------";
 
-  const schoolNameLine = centerText((schoolConfig.name || "ROCKSIDE ACADEMY").toUpperCase(), 44);
+  const schoolNameLine = centerText((schoolConfig.name || "KARONEY SCHOOL SUPPLIES").toUpperCase(), 44);
   
   let schoolBoxAddress = schoolConfig.address;
   if (!schoolBoxAddress.toUpperCase().includes("BOX")) {
@@ -142,6 +142,8 @@ export const PrintWindow: React.FC<PrintWindowProps> = ({
   const totalVATLine = formatTotalLine("TOTAL VAT (16%):", receipt.taxTotal);
   const totalAmountLine = formatTotalLine("TOTAL AMOUNT:", receipt.grandTotal);
 
+  const buyerNameLine = `BUYER: ${(receipt.buyerName || "Rockside Academy").toUpperCase()}`;
+  const buyerPinLine = `BUYER PIN: ${(receipt.buyerPin || "P051647289B").toUpperCase()}`;
   const paymentMethodLine = `PAYMENT METHOD: ${receipt.paymentMode.toUpperCase()}`;
   const paymentTxLabel = receipt.paymentMode.toUpperCase() === 'M-PESA' ? 'M-PESA TRANS ID' : 'TRANS ID';
   const paymentTxLine = receipt.paymentRef ? `${paymentTxLabel}: ${receipt.paymentRef.toUpperCase()}` : null;
@@ -149,6 +151,9 @@ export const PrintWindow: React.FC<PrintWindowProps> = ({
   const studentLine = receipt.studentName ? `STUDENT NAME: ${receipt.studentName}` : null;
 
   const paymentSection = [
+    buyerNameLine,
+    buyerPinLine,
+    "--------------------------------------------",
     paymentMethodLine,
     ...(paymentTxLine ? [paymentTxLine] : []),
     ...(accountLine ? [accountLine] : []),
@@ -248,7 +253,7 @@ ${docFooterLine2}`;
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Receipt ${receipt.receiptNo} - Rockside Academy</title>
+  <title>Receipt ${receipt.receiptNo} - Karoney School Supplies</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
     body {
@@ -355,7 +360,7 @@ To verify:
 Scan the QR code using KRA eTIMS App
 or verify through KRA taxpayer portal.
 
-THANK YOU FOR SUPPORTING ${(schoolConfig.name || "ROCKSIDE ACADEMY").toUpperCase()}
+THANK YOU FOR SUPPORTING ${(schoolConfig.name || "KARONEY SCHOOL SUPPLIES").toUpperCase()}
 ============================================</pre>
 
     <a href="#" class="print-btn" onclick="window.print(); return false;">Print Action</a>
@@ -369,7 +374,7 @@ THANK YOU FOR SUPPORTING ${(schoolConfig.name || "ROCKSIDE ACADEMY").toUpperCase
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>${receipt.receiptNo} - Rockside Academy Receipt</title>
+  <title>${receipt.receiptNo} - Karoney School Supplies Receipt</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
     body {
@@ -639,8 +644,10 @@ THANK YOU FOR SUPPORTING ${(schoolConfig.name || "ROCKSIDE ACADEMY").toUpperCase
       </div>
       
       <div class="meta-card">
-        <div class="meta-title">Student Profile</div>
-        ${receipt.studentName ? `<div class="meta-row"><span class="meta-label">Student:</span><span class="meta-val">${receipt.studentName}</span></div>` : ''}
+        <div class="meta-title">Buyer & Student Profile</div>
+        <div class="meta-row"><span class="meta-label">Buyer Name:</span><span class="meta-val" style="text-transform: uppercase; font-weight: bold;">${receipt.buyerName || 'Rockside Academy'}</span></div>
+        <div class="meta-row"><span class="meta-label">Buyer PIN:</span><span class="meta-val" style="font-family: monospace;">${receipt.buyerPin || 'P051647289B'}</span></div>
+        ${receipt.studentName ? `<div class="meta-row" style="border-top: 1px dashed #cbd5e1; padding-top: 4px; margin-top: 4px;"><span class="meta-label">Student:</span><span class="meta-val" style="font-weight: 600;">${receipt.studentName}</span></div>` : ''}
         ${receipt.admissionNo ? `<div class="meta-row"><span class="meta-label">Adm No:</span><span class="meta-val">${receipt.admissionNo}</span></div>` : ''}
         <div class="meta-row"><span class="meta-label">Class:</span><span class="meta-val">${receipt.studentClass}</span></div>
         <div class="meta-row"><span class="meta-label">Payment:</span><span class="meta-val">${receipt.paymentMode} (${receipt.paymentRef || 'N/A'})</span></div>
@@ -930,7 +937,7 @@ To verify:
 Scan the QR code using KRA eTIMS App
 or verify through KRA taxpayer portal.
 
-THANK YOU FOR SUPPORTING ${(schoolConfig.name || "ROCKSIDE ACADEMY").toUpperCase()}
+THANK YOU FOR SUPPORTING ${(schoolConfig.name || "KARONEY SCHOOL SUPPLIES").toUpperCase()}
 ============================================`}
             </pre>
           </div>
