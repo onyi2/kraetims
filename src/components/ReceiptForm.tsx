@@ -423,11 +423,11 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
           activeWorkspaceTab === 'edit' ? 'block' : 'hidden md:block'
         }`}>
           
-          {/* Quick Select Student preset box */}
+          {/* Quick Select Client preset box */}
           <div className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm">
             <h3 className="text-sm font-semibold text-gray-800 flex items-center gap-2 mb-3">
               <Sparkles className="h-4 w-4 text-amber-500 animate-pulse" />
-              Preload Student Presets (Gika Bookshop)
+              Preload Client Presets ({schoolConfig.name || 'Shop Owner'})
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
               {studentPresetsList.map((preset) => (
@@ -441,7 +441,7 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
                     {preset.name}
                   </div>
                   <div className="text-[10px] text-gray-400 font-mono mt-0.5">
-                    {preset.adm} ({preset.grade})
+                    {preset.adm}
                   </div>
                 </button>
               ))}
@@ -716,7 +716,7 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
             <div className="flex justify-between items-center border-b border-gray-100 pb-2">
               <h3 className="text-sm font-bold text-gray-900 flex items-center gap-2">
                 <BookOpen className="h-4 w-4 text-primary-500" />
-                Gika Bookshop Product Catalog
+                {schoolConfig.name || 'Shop Owner'} Product Catalog
               </h3>
               <span className="text-[10px] font-semibold bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">
                 1-Click Quick Add

@@ -303,7 +303,7 @@ export const ReceiptView: React.FC<ReceiptViewProps> = ({
         <div className="flex items-center gap-1.5">
           <span className={`w-1.5 h-1.5 rounded-full ${layoutMode === 'receipt' ? 'bg-emerald-500' : 'bg-indigo-500'}`}></span>
           <span className="text-xs font-black uppercase tracking-widest">
-            {layoutMode === 'receipt' ? 'OFFICIAL eTIMS TAX RECEIPT' : 'STUDENT FEE INVOICE'}
+            {layoutMode === 'receipt' ? 'OFFICIAL eTIMS TAX RECEIPT' : 'COMMERCIAL INVOICE'}
           </span>
         </div>
       </div>
@@ -354,19 +354,19 @@ export const ReceiptView: React.FC<ReceiptViewProps> = ({
 
             {receipt.studentName && (
               <>
-                <span className="font-semibold text-gray-500 border-t border-gray-200/60 pt-1.5 mt-0.5">Student:</span>
+                <span className="font-semibold text-gray-500 border-t border-gray-200/60 pt-1.5 mt-0.5">Purchaser:</span>
                 <span className="col-span-2 font-semibold text-gray-900 border-t border-gray-200/60 pt-1.5 mt-0.5">{receipt.studentName}</span>
               </>
             )}
 
             {receipt.admissionNo && (
               <>
-                <span className="font-semibold text-gray-500">Adm No:</span>
+                <span className="font-semibold text-gray-500">Ref No:</span>
                 <span className="col-span-2 font-semibold font-mono text-primary-600">{receipt.admissionNo}</span>
               </>
             )}
 
-            <span className="font-semibold text-gray-500">Class Block:</span>
+            <span className="font-semibold text-gray-500">Category:</span>
             <span className="col-span-2 font-semibold text-gray-800">{receipt.studentClass}</span>
 
             {receipt.parentName && (
@@ -592,7 +592,7 @@ export const ReceiptView: React.FC<ReceiptViewProps> = ({
 
                       {/* Header lines inside rubber seal */}
                       <g fontFamily="system-ui, -apple-system, sans-serif" textAnchor="middle" fill="#2563EB">
-                        <text x="150" y="28" fontSize="11" fontWeight="950" letterSpacing="0.4">GIKA BOOKSHOP</text>
+                        <text x="150" y="28" fontSize="11" fontWeight="950" letterSpacing="0.4">SHOP OWNER</text>
                         <text x="150" y="42" fontSize="7.5" fontWeight="bold" letterSpacing="0.1">P.O. Box 4545-00100, CBD</text>
                         <text x="150" y="52" fontSize="7" fontWeight="bold" letterSpacing="0.05">Tel: 0721223731, 079845465</text>
                       </g>
@@ -607,7 +607,7 @@ export const ReceiptView: React.FC<ReceiptViewProps> = ({
                       {/* Bottom designation credentials */}
                       <g fontFamily="system-ui, -apple-system, sans-serif" textAnchor="middle" fill="#2563EB">
                         <text x="140" y="118" fontSize="10" fontWeight="900" letterSpacing="0.4">ADMINISTRATION MANAGER</text>
-                        <text x="140" y="130" fontSize="7.5" fontWeight="bold">info@gikabookshop.co.ke</text>
+                        <text x="140" y="130" fontSize="7.5" fontWeight="bold">info@shopowner.co.ke</text>
                       </g>
                     </g>
                   )}

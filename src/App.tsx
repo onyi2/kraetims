@@ -91,9 +91,9 @@ export default function App() {
         id: `aud-${Date.now()}`,
         timestamp: new Date().toISOString(),
         role: 'Super Admin',
-        userEmail: 'admin@gikabookshop.co.ke',
+        userEmail: 'admin@shopowner.co.ke',
         action: 'System Initialized',
-        details: 'Preloaded GIKA BOOKSHOP default settings, books catalog & uniforms matrices. Setup KRA eTIMS cryptographic nodes.'
+        details: 'Preloaded SHOP OWNER default settings, products catalog & stock matrices. Setup KRA eTIMS cryptographic nodes.'
       };
       localStorage.setItem('aistudio_school_audits', JSON.stringify([initAudit]));
       setAuditLogs([initAudit]);
@@ -116,7 +116,7 @@ export default function App() {
       id: `aud-${Date.now()}`,
       timestamp: new Date().toISOString(),
       role: userRole,
-      userEmail: 'office@gikabookshop.co.ke',
+      userEmail: 'office@shopowner.co.ke',
       action,
       details,
       receiptNo: docNo
@@ -266,7 +266,7 @@ export default function App() {
                 </span>
               </div>
               <p className="text-[11px] text-gray-400 font-sans leading-none mt-1">
-                Gika Bookshop Billing System
+                Shop Owner Billing System
               </p>
             </div>
           </div>
@@ -446,10 +446,10 @@ export default function App() {
             <div className="border-b border-gray-100 dark:border-slate-800 pb-4">
               <h2 className="text-lg font-display font-semibold text-gray-950 dark:text-white flex items-center gap-2">
                 <Settings className="h-5 w-5 text-primary-500" />
-                Gika Bookshop Settings
+                Shop Owner Settings
               </h2>
               <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                Customize general school headers, KRA registration parameters, and communication tethers.
+                Customize general business headers, KRA registration parameters, and communication tethers.
               </p>
             </div>
 
@@ -457,7 +457,7 @@ export default function App() {
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[10px] font-bold text-gray-400 uppercase mb-1.5">Official School Name</label>
+                  <label className="block text-[10px] font-bold text-gray-400 uppercase mb-1.5">Official Business Name</label>
                   <input
                     type="text"
                     value={schoolConfig.name}
@@ -467,7 +467,7 @@ export default function App() {
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-bold text-gray-400 uppercase mb-1.5">School Motto / Vision</label>
+                  <label className="block text-[10px] font-bold text-gray-400 uppercase mb-1.5">Business Motto / Vision</label>
                   <input
                     type="text"
                     value={schoolConfig.motto}
@@ -554,11 +554,11 @@ export default function App() {
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-3 border-t border-gray-100 dark:border-slate-800">
-                {/* --- SCHOOL LOGO UPLOADER --- */}
+                {/* --- BUSINESS LOGO UPLOADER --- */}
                 <div className="space-y-2">
-                  <label className="block text-[10px] font-bold text-gray-400 uppercase">School Logo Brand</label>
+                  <label className="block text-[10px] font-bold text-gray-400 uppercase">Business Logo Brand</label>
                   <p className="text-[10px] text-gray-400 leading-normal">
-                    Upload your school emblem/shield. This appears dynamically in client-facing invoices and tax statements.
+                    Upload your business emblem/logo. This appears dynamically in client-facing invoices and tax statements.
                   </p>
                   
                   <div className="border border-dashed border-gray-200 dark:border-slate-800 hover:border-primary-400 rounded-xl p-4 bg-gray-50/50 dark:bg-slate-950/30 text-center relative group min-h-[140px] flex flex-col justify-center items-center">
@@ -734,7 +734,7 @@ export default function App() {
       {/* --- FOOTER COPYRIGHT RAIL --- */}
       <footer className="no-print mt-12 py-6 border-t border-gray-200 dark:border-slate-900 text-center text-xs text-gray-400">
         <div>
-          © 2026 Gika Bookshop eTIMS Hub. All rights reserved. Powered by Kenya Revenue Authority Compliant API Terminals.
+          © {new Date().getFullYear()} Shop Owner eTIMS Hub. All rights reserved. Powered by Kenya Revenue Authority Compliant API Terminals.
         </div>
       </footer>
 

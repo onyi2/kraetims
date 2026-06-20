@@ -143,7 +143,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
             Kenya eTIMS Invoicing Dashboard
           </h1>
           <p className="text-sm text-gray-500 mt-1">
-            Real-time compliance monitoring, student receipt history, and tax auditing for <span className="font-semibold text-primary-600">Gika Bookshop</span>.
+            Real-time compliance monitoring, client receipt history, and tax auditing for <span className="font-semibold text-primary-600">Shop Owner</span>.
           </p>
         </div>
         
@@ -235,7 +235,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
             </h3>
             <div className="flex items-center gap-1.5 mt-2">
               <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800">
-                {receipts.filter(r => r.balance > 0).length} Students Pending
+                {receipts.filter(r => r.balance > 0).length} Clients Pending
               </span>
             </div>
           </div>
@@ -245,7 +245,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
         <div className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider font-sans">
-              Fee Compliance Index
+              Payment Compliance Index
             </span>
             <div className="p-2 bg-primary-50 text-primary-600 rounded-xl">
               <Users className="h-5 w-5" />
@@ -469,7 +469,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
               <thead>
                 <tr className="border-b border-gray-100 text-xs text-gray-400 font-semibold uppercase tracking-wider bg-gray-50 md:bg-white">
                   <th className="py-3 px-5">Receipt No</th>
-                  <th className="py-3 px-5">Student</th>
+                  <th className="py-3 px-5">Client / Buyer</th>
                   <th className="py-3 px-5">Category Sum</th>
                   <th className="py-3 px-5 text-center">eTIMS Sync</th>
                   <th className="py-3 px-5 text-right">Actions</th>

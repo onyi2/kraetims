@@ -110,7 +110,7 @@ export const PrintWindow: React.FC<PrintWindowProps> = ({
   const doubleSeparator = "============================================";
   const singleSeparator = "--------------------------------------------";
 
-  const schoolNameLine = centerText((schoolConfig.name || "GIKA BOOKSHOP").toUpperCase(), 44);
+  const schoolNameLine = centerText((schoolConfig.name || "SHOP OWNER").toUpperCase(), 44);
   
   let schoolBoxAddress = schoolConfig.address;
   if (!schoolBoxAddress.toUpperCase().includes("BOX")) {
@@ -251,7 +251,7 @@ ${docFooterLine2}`;
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Receipt ${receipt.receiptNo} - Gika Bookshop</title>
+  <title>Receipt ${receipt.receiptNo} - Shop Owner</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
     body {
@@ -358,7 +358,7 @@ To verify:
 Scan the QR code using KRA eTIMS App
 or verify through KRA taxpayer portal.
 
-THANK YOU FOR SUPPORTING ${(schoolConfig.name || "GIKA BOOKSHOP").toUpperCase()}
+THANK YOU FOR SUPPORTING ${(schoolConfig.name || "SHOP OWNER").toUpperCase()}
 ============================================</pre>
 
     <a href="#" class="print-btn" onclick="window.print(); return false;">Print Action</a>
@@ -372,7 +372,7 @@ THANK YOU FOR SUPPORTING ${(schoolConfig.name || "GIKA BOOKSHOP").toUpperCase()}
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>${receipt.receiptNo} - Gika Bookshop Receipt</title>
+  <title>${receipt.receiptNo} - Shop Owner Receipt</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
     body {
@@ -628,7 +628,7 @@ THANK YOU FOR SUPPORTING ${(schoolConfig.name || "GIKA BOOKSHOP").toUpperCase()}
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding: 10px 16px; border-radius: 8px; border: 1px solid ${layoutMode === 'receipt' ? '#a7f3d0' : '#c7d2fe'}; background-color: ${layoutMode === 'receipt' ? '#f0fdf4' : '#f5f3ff'}; font-size: 11px;">
       <span style="font-weight: bold; color: #6b7280; font-family: 'JetBrains Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.05em;">Document Classification</span>
       <span style="font-weight: 800; color: ${layoutMode === 'receipt' ? '#065f46' : '#3730a3'}; font-family: sans-serif; text-transform: uppercase; letter-spacing: 0.05em;">
-        ${layoutMode === 'receipt' ? 'OFFICIAL eTIMS TAX RECEIPT' : 'STUDENT FEE INVOICE / STATEMENT'}
+        ${layoutMode === 'receipt' ? 'OFFICIAL eTIMS TAX RECEIPT' : 'COMMERCIAL INVOICE / STATEMENT'}
       </span>
     </div>
 
@@ -807,10 +807,10 @@ THANK YOU FOR SUPPORTING ${(schoolConfig.name || "GIKA BOOKSHOP").toUpperCase()}
                   ? 'bg-white text-gray-950 font-bold shadow-xs' 
                   : 'text-gray-500 hover:text-gray-900'
               }`}
-              title="Student Fee Invoice template layout"
+              title="Commercial Invoice template layout"
             >
               <AlertCircle className="h-3.5 w-3.5 text-indigo-600" />
-              Student Invoice
+              Commercial Invoice
             </button>
           </div>
 
@@ -933,7 +933,7 @@ To verify:
 Scan the QR code using KRA eTIMS App
 or verify through KRA taxpayer portal.
 
-THANK YOU FOR SUPPORTING ${(schoolConfig.name || "GIKA BOOKSHOP").toUpperCase()}
+THANK YOU FOR SUPPORTING ${(schoolConfig.name || "SHOP OWNER").toUpperCase()}
 ============================================`}
             </pre>
           </div>

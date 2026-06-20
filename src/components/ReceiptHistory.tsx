@@ -111,7 +111,7 @@ const ReceiptMiniThumbnail: React.FC<ReceiptMiniThumbnailProps> = ({
             <div className="absolute top-0 left-0 right-0 h-[4px] bg-linear-to-b from-gray-200 to-transparent" />
             
             <div className="text-center font-bold text-[11px] tracking-tight uppercase text-gray-900">
-              {schoolConfig.name || "GIKA BOOKSHOP"}
+              {schoolConfig.name || "SHOP OWNER"}
             </div>
             <div className="text-center text-[8px] text-gray-500 mt-0.5">
               {schoolConfig.address || "P.O. Box 4589-00100, Ruai, Nairobi"}
@@ -203,7 +203,7 @@ const ReceiptMiniThumbnail: React.FC<ReceiptMiniThumbnailProps> = ({
             <div className="flex justify-between items-start gap-2 border-b pb-2 mb-2">
               <div>
                 <div className="font-bold text-[10px] text-gray-950 uppercase leading-none tracking-tight">
-                  {schoolConfig.name || "GIKA BOOKSHOP"}
+                  {schoolConfig.name || "SHOP OWNER"}
                 </div>
                 {schoolConfig.motto && (
                   <div className="text-[7px] text-gray-500 leading-none mt-1">
@@ -233,8 +233,8 @@ const ReceiptMiniThumbnail: React.FC<ReceiptMiniThumbnailProps> = ({
               </div>
               <div className="space-y-0.5 text-right">
                 <div><span className="font-bold text-gray-400 uppercase text-[6px]">Date:</span> <span className="text-gray-800 font-semibold">{receipt.date}</span></div>
-                <div><span className="font-bold text-gray-400 uppercase text-[6px]">Grade:</span> <span className="text-gray-800 font-semibold">{receipt.studentClass}</span></div>
-                <div><span className="font-bold text-gray-400 uppercase text-[6px]">Term:</span> <span className="text-gray-800">{receipt.term}</span></div>
+                <div><span className="font-bold text-gray-400 uppercase text-[6px]">Category:</span> <span className="text-gray-800 font-semibold">{receipt.studentClass}</span></div>
+                <div><span className="font-bold text-gray-400 uppercase text-[6px]">Period:</span> <span className="text-gray-800">{receipt.term}</span></div>
               </div>
             </div>
 
@@ -316,13 +316,13 @@ export const ReceiptHistory: React.FC<ReceiptHistoryProps> = ({
   onDuplicateReceipt,
   userRole,
   schoolConfig = {
-    name: "GIKA BOOKSHOP",
-    motto: "Quality Books, Stationery & Professional School Supplies",
+    name: "SHOP OWNER",
+    motto: "Quality Products & Professional Services",
     address: "P.O. Box 4545-00100 CBD",
     postalAddress: "CBD, Nairobi, Kenya",
     phone1: "0721223731",
     phone2: "079845465",
-    email: "info@gikabookshop.co.ke",
+    email: "info@shopowner.co.ke",
     kraPin: "P051238491A",
     logoUrl: "",
     schoolStampUrl: ""
@@ -422,10 +422,10 @@ export const ReceiptHistory: React.FC<ReceiptHistoryProps> = ({
     if (type === 'email') {
       setDispatchDestination(rec.parentEmail || '');
       setDispatchSubject(`Official KRA eTIMS Receipt Statement: ${rec.receiptNo}`);
-      setDispatchMessage(`Dear ${rec.parentName || 'Client'},\n\nPlease find attached the official KRA eTIMS-secure electronic receipt ${rec.receiptNo} representing funds captured for ${rec.buyerName || 'General Buyer'} (KRA PIN: ${rec.buyerPin || 'N/A'}) for ${rec.term}, ${rec.academicYear}.\n\nTotal Paid: ${formatKES(rec.grandTotal)}\nOutstanding Statement Balance: ${formatKES(rec.balance)}\n\nThank you for choosing Gika Bookshop.\n\nWarm regards,\nBilling Team`);
+      setDispatchMessage(`Dear ${rec.parentName || 'Client'},\n\nPlease find attached the official KRA eTIMS-secure electronic receipt ${rec.receiptNo} representing funds captured for ${rec.buyerName || 'General Buyer'} (KRA PIN: ${rec.buyerPin || 'N/A'}) for ${rec.term}, ${rec.academicYear}.\n\nTotal Paid: ${formatKES(rec.grandTotal)}\nOutstanding Statement Balance: ${formatKES(rec.balance)}\n\nThank you for choosing ${schoolConfig.name || 'Shop Owner'}.\n\nWarm regards,\nBilling Team`);
     } else {
       setDispatchDestination(rec.parentPhone || '');
-      setDispatchMessage(`*GIKA BOOKSHOP OFFICIAL BILLING*\n\nHello ${rec.parentName || 'Client'},\nWe have compiled your digitally verified eTIMS invoice receipt *${rec.receiptNo}* for *${rec.buyerName || 'General Buyer'}*.\n\n*Term:* ${rec.term}\n*Total Fee Paid:* ${formatKES(rec.grandTotal)}\n*Control Unit ID:* ${rec.controlUnitNo}\n*KRA Verification PIN:* ${rec.verificationCode}\n\nDownload full statement PDF here: https://gikabookshop.co.ke/receipts/${rec.id}`);
+      setDispatchMessage(`*${(schoolConfig.name || 'SHOP OWNER').toUpperCase()} OFFICIAL BILLING*\n\nHello ${rec.parentName || 'Client'},\nWe have compiled your digitally verified eTIMS invoice receipt *${rec.receiptNo}* for *${rec.buyerName || 'General Buyer'}*.\n\n*Term:* ${rec.term}\n*Total Fee Paid:* ${formatKES(rec.grandTotal)}\n*Control Unit ID:* ${rec.controlUnitNo}\n*KRA Verification PIN:* ${rec.verificationCode}\n\nDownload full statement PDF here: https://shopowner.co.ke/receipts/${rec.id}`);
     }
   };
 
@@ -572,7 +572,7 @@ export const ReceiptHistory: React.FC<ReceiptHistoryProps> = ({
               <thead>
                 <tr className="border-b border-gray-100 text-xs text-gray-400 font-semibold uppercase tracking-wider bg-gray-50">
                   <th className="py-3.5 px-6">Invoice & Receipt Code</th>
-                  <th className="py-3.5 px-4">Student Particulars</th>
+                  <th className="py-3.5 px-4">Client Particulars</th>
                   <th className="py-3.5 px-4">Ledger Terms</th>
                   <th className="py-3.5 px-4">Billed Financials</th>
                   <th className="py-3.5 px-4 text-center">Sync Stat</th>
@@ -786,7 +786,7 @@ export const ReceiptHistory: React.FC<ReceiptHistoryProps> = ({
                   Send securely via {dispatchType === 'email' ? 'Electronic Mail' : 'SMS KRA Relay'}
                 </h3>
                 <p className="text-xs text-gray-500 font-sans">
-                  Simulating Gika Bookshop institutional outbound communications.
+                  Simulating {schoolConfig.name || 'Shop Owner'} institutional outbound communications.
                 </p>
               </div>
             </div>
